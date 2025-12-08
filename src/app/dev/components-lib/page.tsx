@@ -1,5 +1,6 @@
 import ButtonSection from '@/app/dev/components-lib/_components/ButtonSection';
 import InputSection from '@/app/dev/components-lib/_components/InputSection';
+import TextSection from '@/app/dev/components-lib/_components/TextSection';
 
 export default function ComponentsDevPage() {
   return (
@@ -8,6 +9,7 @@ export default function ComponentsDevPage() {
       <div className="space-y-12">
         <ButtonSection />
         <InputSection />
+        <TextSection />
       </div>
     </div>
   );

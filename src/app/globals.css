@@ -6,9 +6,25 @@
   --background: #fefefe;
   --foreground: #0a0a0a;
 
-  /* Default colors */
-  --color-default-white: #fefefe;
-  --color-default-black: #1a1a1a;
+  /* Base colors */
+  --color-white: #fefefe;
+  --color-black: #1a1a1a;
+
+  /* Primary colors */
+  --color-primary: #3b82f6; /* blue-500 */
+  --color-primary-light: #93c5fd; /* blue-300 */
+
+  /* Danger colors */
+  --color-danger: #f43f5e; /* rose-500 */
+  --color-danger-light: #fda4af; /* rose-300 */
+
+  /* Muted colors */
+  --color-muted: #6b7280; /* gray-500 */
+  --color-muted-light: #d1d5db; /* gray-300 */
+
+  /* Border colors */
+  --color-border: #6b7280; /* gray-500 */
+  --color-border-light: #d1d5db; /* gray-300 */
 }
 
 :root.dark {

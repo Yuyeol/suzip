@@ -11,23 +11,23 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        white: "var(--color-default-white)",
-        black: "var(--color-default-black)",
+        white: "var(--color-white)",
+        black: "var(--color-black)",
         primary: {
-          DEFAULT: '#3b82f6', // blue-500
-          light: '#93c5fd',   // blue-300
+          DEFAULT: "var(--color-primary)",
+          light: "var(--color-primary-light)",
         },
         danger: {
-          DEFAULT: '#f43f5e', // rose-500
-          light: '#fda4af',   // rose-300
+          DEFAULT: "var(--color-danger)",
+          light: "var(--color-danger-light)",
         },
         muted: {
-          DEFAULT: '#6b7280', // gray-500
-          light: '#d1d5db',   // gray-300
+          DEFAULT: "var(--color-muted)",
+          light: "var(--color-muted-light)",
         },
         border: {
-          DEFAULT: '#6b7280', // gray-500
-          light: '#d1d5db',   // gray-300
+          DEFAULT: "var(--color-border)",
+          light: "var(--color-border-light)",
         },
       },
     },
