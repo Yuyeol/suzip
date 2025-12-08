@@ -7,7 +7,7 @@ export default function ButtonSection() {
 
       <div className="space-y-6">
         <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-3">Variants</h3>
+          <h3 className="text-sm font-medium mb-3">Variants</h3>
           <div className="flex gap-3 flex-wrap">
             <Button variant="primary">Primary</Button>
             <Button variant="primary-light">Primary Light</Button>
@@ -20,7 +20,7 @@ export default function ButtonSection() {
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-3">Sizes</h3>
+          <h3 className="text-sm font-medium mb-3">Sizes</h3>
           <div className="flex gap-3 items-center flex-wrap">
             <Button size="sm">Small</Button>
             <Button size="md">Medium</Button>

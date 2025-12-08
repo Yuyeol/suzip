@@ -21,7 +21,7 @@ export default function InputSection() {
 
       <div className="space-y-6 max-w-md">
         <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-3">Types</h3>
+          <h3 className="text-sm font-medium mb-3">Types</h3>
           <div className="space-y-3">
             <Input label="Text" type="text" placeholder="Text input" />
             <Input label="Email" type="email" placeholder="email@example.com" />
@@ -31,7 +31,7 @@ export default function InputSection() {
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-3">Error (React Hook Form)</h3>
+          <h3 className="text-sm font-medium mb-3">Error (React Hook Form)</h3>
           <Input
             label="Phone"
             placeholder="01012345678"
@@ -43,7 +43,7 @@ export default function InputSection() {
         </div>
 
         <div>
-          <h3 className="text-sm font-medium text-gray-600 mb-3">Disabled</h3>
+          <h3 className="text-sm font-medium mb-3">Disabled</h3>
           <Input label="Disabled" disabled placeholder="Cannot edit" />
         </div>
       </div>

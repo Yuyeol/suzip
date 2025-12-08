@@ -11,15 +11,9 @@
   --color-default-black: #1a1a1a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #fefefe;
-
-    /* Default colors (same in dark mode) */
-    --color-default-white: #fefefe;
-    --color-default-black: #1a1a1a;
-  }
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #fefefe;
 }
 
 body {

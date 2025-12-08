@@ -14,8 +14,8 @@ const config: Config = {
         white: "var(--color-default-white)",
         black: "var(--color-default-black)",
         primary: {
-          DEFAULT: '#14b8a6', // teal-500
-          light: '#5eead4',   // teal-300
+          DEFAULT: '#3b82f6', // blue-500
+          light: '#93c5fd',   // blue-300
         },
         danger: {
           DEFAULT: '#f43f5e', // rose-500
