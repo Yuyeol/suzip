@@ -1,4 +1,4 @@
-import Text from '@/components/ui/Text';
+import Text from '@/shared/components/core/text';
 
 export default function TextSection() {
   return (

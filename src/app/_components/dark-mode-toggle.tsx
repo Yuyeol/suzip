@@ -9,7 +9,7 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="fixed top-4 right-4 p-2 rounded-full border shadow-sm"
+      className="p-2 rounded-full"
     >
       {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
     </button>

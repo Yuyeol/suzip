@@ -1,4 +1,5 @@
-import Button from '@/components/ui/Button';
+
+import Button from '@/shared/components/core/button';
 
 export default function ButtonSection() {
   return (

@@ -5,6 +5,11 @@
 - **Shared components**: `/shared/components/` (reusable across the app)
 - **Page-specific components**: `/app/{route}/_component/` (colocated with routes)
 
+## Naming
+
+- **File**: kebab-case (`link-card.tsx`, `button.tsx`)
+- **Component**: PascalCase (`LinkCard`, `Button`)
+
 ## Component Conventions
 
 ### Export Pattern

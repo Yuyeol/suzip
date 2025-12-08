@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Input from '@/components/ui/Input';
+import Input from '@/shared/components/core/input';
 
 interface FormData {
   phone: string;
