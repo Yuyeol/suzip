@@ -1,6 +1,6 @@
 # Savvy 프로젝트 진행 상황
 
-## 📊 현재 단계: **Phase 1 완료** (Prototyping ✅ → Backend → Frontend Logic)
+## 📊 현재 단계: **Phase 1 완료** (Prototyping ✅ → **Backend 시작**)
 
 ---
 
@@ -8,27 +8,29 @@
 
 ### 완료된 작업
 - [x] 프로젝트 설정 (Next.js 14, TypeScript, Tailwind)
-- [x] UI 컴포넌트 11개 (Button, Input, Textarea, FormInput/Textarea)
-- [x] 레이아웃 (Header, BottomNav, ClientLayout)
-- [x] 테마 시스템 (다크모드, next-themes)
-- [x] 페이지 4개 (홈, 북마크 생성/수정, 폴더 관리)
+- [x] UI 컴포넌트 12개 (Button, Input, Textarea, FormInput/Textarea, Text, Dropdown)
+- [x] 레이아웃 (Header, BottomNav, ClientLayout, 다크모드)
+- [x] 페이지 5개 (홈, 북마크 생성/수정/상세, 폴더 관리)
 - [x] React Hook Form 통합 + 폼 유효성 검사
-- [x] 라우팅/네비게이션 (useRouter, useParams)
+- [x] 라우팅/네비게이션 (useRouter, useParams, Link)
 - [x] 기능 컴포넌트 (LinkCard, FolderCard, SearchBar, SortSelector 등)
+- [x] Dropdown 컴포넌트 (외부 클릭 감지, danger variant)
+- [x] 더보기 드롭다운 연결 (LinkCard, FolderCard, 북마크 상세)
 
 ### 작동하는 기능
 - ✅ 폼 입력/검증/제출 (console.log)
-- ✅ 페이지 간 이동
+- ✅ 페이지 간 이동 (모든 라우트 연결 완료)
 - ✅ 다크모드 토글
 - ✅ 모달 UI (폴더 선택, 정렬)
 - ✅ 뷰 탭 전환 (all/folders)
 - ✅ 폴더 CRUD (로컬 상태)
+- ✅ 드롭다운 메뉴 (수정/삭제 옵션)
 
-### UI만 있는 기능 (로직 없음)
-- ⚠️ 검색바 (입력만, 검색/디바운스 없음)
-- ⚠️ 정렬 (UI만, 실제 정렬 없음)
+### UI만 있는 기능 (API 연동 필요)
+- ⚠️ 검색 (입력 UI만, 디바운스/필터링 없음)
+- ⚠️ 정렬 (모달만, 실제 정렬 없음)
 - ⚠️ 즐겨찾기 (버튼만, 상태 변경 없음)
-- ⚠️ 더보기 (클릭만, 드롭다운 없음)
+- ⚠️ 삭제 (드롭다운 옵션만, 확인 모달 없음)
 
 ---
 
@@ -81,7 +83,7 @@
 - [ ] 더보기 - 드롭다운 메뉴 (수정/삭제)
 
 ### 3.3 추가 페이지
-- [ ] `/bookmark/[id]` - 북마크 상세 (선택사항)
+- [x] `/bookmark/[id]` - 북마크 상세
 - [ ] 프로필/마이페이지
 
 ### 3.4 서버 상태 관리 (선택)
