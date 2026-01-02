@@ -2,30 +2,23 @@
 
 ## 레이아웃
 
-**생성 모드**
 ```
 [폴더명 입력...                      ] [추가]
 ```
 
-**수정 모드**
-```
-[개발 자료                           ] [수정 완료]
-```
-
 ## Props
 
-- `value`: 입력 값
-- `onChange`: 입력 변경 핸들러
-- `onSubmit`: 제출 핸들러
-- `mode`: 'create' | 'edit'
+없음 (자체 상태 관리)
 
 ## 기능
 
-- 입력 필드: placeholder, maxLength
-- 버튼: mode에 따라 "추가" | "수정 완료"
+- 입력 필드: placeholder, maxLength(50)
+- 폴더 생성 전용 (수정 기능은 FolderList에서 인라인으로 처리)
 - Enter 키로 제출
+- 제출 후 입력 필드 자동 초기화
 
-## 특징
+## 내부 구현
 
-- React Hook Form 사용
-- 제출 후 입력 필드 초기화 (생성 모드)
+- `useState`로 입력 값 관리
+- `usePostFolder` hook으로 폴더 생성
+- 성공 시 입력 필드 초기화

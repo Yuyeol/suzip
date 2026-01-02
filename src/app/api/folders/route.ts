@@ -10,7 +10,8 @@ export const GET = withErrorHandler(async () => {
   const supabase = await createClient();
   const userId = getUserId();
 
-  const { data, error } = await supabase
+  // 폴더 조회
+  const { data: folders, error } = await supabase
     .from("folders")
     .select("*")
     .eq("user_id", userId)
@@ -20,7 +21,22 @@ export const GET = withErrorHandler(async () => {
     return handleSupabaseError(error, "Folders");
   }
 
-  return successResponse(data);
+  // 각 폴더별 북마크 개수 조회
+  const foldersWithCount = await Promise.all(
+    (folders || []).map(async (folder) => {
+      const { count } = await supabase
+        .from("bookmarks")
+        .select("*", { count: "exact", head: true })
+        .eq("folder_id", folder.id);
+
+      return {
+        ...folder,
+        bookmark_count: count || 0,
+      };
+    })
+  );
+
+  return successResponse(foldersWithCount);
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
