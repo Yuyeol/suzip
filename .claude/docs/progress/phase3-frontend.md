@@ -13,6 +13,13 @@
 - [ ] GET /api/bookmarks 호출
 - [ ] GET /api/folders 호출
 
+### 폴더 관리
+
+- [ ] GET /api/folders - 목록
+- [ ] POST /api/folders - 생성
+- [ ] PATCH /api/folders/[id] - 수정
+- [ ] DELETE /api/folders/[id] - 삭제
+
 ### 북마크 생성
 
 - [ ] POST /api/bookmarks 연동
@@ -22,13 +29,6 @@
 
 - [ ] GET /api/bookmarks/[id] - 데이터 로드
 - [ ] PATCH /api/bookmarks/[id] - 수정 저장
-
-### 폴더 관리
-
-- [ ] GET /api/folders - 목록
-- [ ] POST /api/folders - 생성
-- [ ] PATCH /api/folders/[id] - 수정
-- [ ] DELETE /api/folders/[id] - 삭제
 
 ---
 
