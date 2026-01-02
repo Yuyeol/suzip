@@ -4,7 +4,7 @@ import { folderKeys } from "@/shared/utils/queryKeyFactory";
 
 export function useGetFolders() {
   return useQuery({
-    queryKey: folderKeys.lists(),
+    queryKey: folderKeys.list(),
     queryFn: getFolders,
   });
 }

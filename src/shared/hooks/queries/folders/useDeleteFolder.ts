@@ -9,7 +9,7 @@ export function useDeleteFolder() {
     mutationFn: (id: string) => deleteFolder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: folderKeys.lists(),
+        queryKey: folderKeys.list(),
         refetchType: "active",
       });
     },

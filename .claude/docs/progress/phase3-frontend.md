@@ -1,6 +1,6 @@
 # Phase 3: Frontend 기능 구현
 
-## 상태: 대기 중 (Phase 2 완료 후 시작)
+## 상태: 진행 중
 
 ---
 
@@ -9,16 +9,16 @@
 ### 홈 페이지
 
 - [ ] MOCK_LINKS 제거
-- [ ] MOCK_FOLDERS 제거
+- [x] MOCK_FOLDERS 제거
 - [ ] GET /api/bookmarks 호출
-- [ ] GET /api/folders 호출
+- [x] GET /api/folders 호출
 
 ### 폴더 관리
 
-- [ ] GET /api/folders - 목록
-- [ ] POST /api/folders - 생성
-- [ ] PATCH /api/folders/[id] - 수정
-- [ ] DELETE /api/folders/[id] - 삭제
+- [x] GET /api/folders - 목록
+- [x] POST /api/folders - 생성
+- [x] PATCH /api/folders/[id] - 수정
+- [x] DELETE /api/folders/[id] - 삭제
 
 ### 북마크 생성
 
@@ -85,9 +85,9 @@
 
 ### React Query 설정
 
-- [ ] @tanstack/react-query 설치
-- [ ] QueryClient Provider 설정
-- [ ] DevTools 설정 (개발 환경)
+- [x] @tanstack/react-query 설치
+- [x] QueryClient Provider 설정
+- [x] DevTools 설정 (개발 환경)
 
 ### 커스텀 훅
 
@@ -96,10 +96,10 @@
 - [ ] useCreateBookmark
 - [ ] useUpdateBookmark
 - [ ] useDeleteBookmark
-- [ ] useFolders
-- [ ] useCreateFolder
-- [ ] useUpdateFolder
-- [ ] useDeleteFolder
+- [x] useGetFolders
+- [x] usePostFolder
+- [x] usePatchFolder
+- [x] useDeleteFolder
 - [ ] useToggleFavorite
 
 ### 고급 기능

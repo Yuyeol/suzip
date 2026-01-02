@@ -15,7 +15,7 @@ export function usePatchFolder() {
     }) => patchFolder(id, request),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: folderKeys.lists(),
+        queryKey: folderKeys.list(),
         refetchType: "active",
       });
     },
