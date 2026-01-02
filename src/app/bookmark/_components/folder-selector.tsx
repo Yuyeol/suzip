@@ -1,25 +1,31 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Controller, Control, FieldValues, Path, FieldError } from 'react-hook-form';
-import { ChevronDown } from 'lucide-react';
+import { useState } from "react";
+import {
+  Controller,
+  Control,
+  FieldValues,
+  Path,
+  FieldError,
+} from "react-hook-form";
+import { ChevronDown } from "lucide-react";
+import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
 
 interface Folder {
   id: string;
   name: string;
 }
 
-interface FolderSelectorProps<T extends FieldValues> {
+interface Props<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
-  folders: Folder[];
 }
 
 export default function FolderSelector<T extends FieldValues>({
   name,
   control,
-  folders,
-}: FolderSelectorProps<T>) {
+}: Props<T>) {
+  const { data: folders = [], isLoading } = useGetFolders();
   return (
     <Controller
       name={name}
@@ -27,10 +33,14 @@ export default function FolderSelector<T extends FieldValues>({
       rules={{ required: "폴더를 선택해주세요" }}
       render={({ field, fieldState }) => (
         <FolderSelectorContent
-          folders={folders}
+          folders={folders.map((folder) => ({
+            id: folder.id,
+            name: folder.name,
+          }))}
           selectedFolderId={field.value}
           onSelectFolder={field.onChange}
           error={fieldState.error}
+          isLoading={isLoading}
         />
       )}
     />
@@ -42,6 +52,7 @@ interface FolderSelectorContentProps {
   selectedFolderId?: string;
   onSelectFolder: (folderId: string | undefined) => void;
   error?: FieldError;
+  isLoading?: boolean;
 }
 
 function FolderSelectorContent({
@@ -49,6 +60,7 @@ function FolderSelectorContent({
   selectedFolderId,
   onSelectFolder,
   error,
+  isLoading,
 }: FolderSelectorContentProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -66,11 +78,11 @@ function FolderSelectorContent({
         type="button"
         onClick={() => setIsModalOpen(true)}
         className={`flex items-center justify-between w-full px-4 py-3 border rounded-lg bg-background text-foreground ${
-          error ? 'border-danger' : 'border-border-light'
+          error ? "border-danger" : "border-border-light"
         }`}
       >
         <span className="text-sm">
-          {selectedFolder ? `📁 ${selectedFolder.name}` : '폴더 없음'}
+          {selectedFolder ? `📁 ${selectedFolder.name}` : "폴더 없음"}
         </span>
         <ChevronDown size={16} className="text-muted" />
       </button>
@@ -94,36 +106,52 @@ function FolderSelectorContent({
               >
                 <span
                   className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                    !selectedFolderId ? 'border-primary bg-primary' : 'border-border-light'
+                    !selectedFolderId
+                      ? "border-primary bg-primary"
+                      : "border-border-light"
                   }`}
                 >
-                  {!selectedFolderId && <span className="w-2 h-2 rounded-full bg-white"></span>}
+                  {!selectedFolderId && (
+                    <span className="w-2 h-2 rounded-full bg-white"></span>
+                  )}
                 </span>
                 <span className="text-sm text-foreground">폴더 없음</span>
               </button>
 
               {/* 폴더 목록 */}
-              {folders.map((folder) => (
-                <button
-                  key={folder.id}
-                  type="button"
-                  onClick={() => handleSelectFolder(folder.id)}
-                  className="flex items-center gap-3 w-full text-left py-2"
-                >
-                  <span
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      selectedFolderId === folder.id
-                        ? 'border-primary bg-primary'
-                        : 'border-border-light'
-                    }`}
+              {isLoading ? (
+                <p className="text-sm text-muted text-center py-2">
+                  로딩 중...
+                </p>
+              ) : folders.length === 0 ? (
+                <p className="text-sm text-muted text-center py-2">
+                  폴더가 없습니다
+                </p>
+              ) : (
+                folders.map((folder) => (
+                  <button
+                    key={folder.id}
+                    type="button"
+                    onClick={() => handleSelectFolder(folder.id)}
+                    className="flex items-center gap-3 w-full text-left py-2"
                   >
-                    {selectedFolderId === folder.id && (
-                      <span className="w-2 h-2 rounded-full bg-white"></span>
-                    )}
-                  </span>
-                  <span className="text-sm text-foreground">{folder.name}</span>
-                </button>
-              ))}
+                    <span
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        selectedFolderId === folder.id
+                          ? "border-primary bg-primary"
+                          : "border-border-light"
+                      }`}
+                    >
+                      {selectedFolderId === folder.id && (
+                        <span className="w-2 h-2 rounded-full bg-white"></span>
+                      )}
+                    </span>
+                    <span className="text-sm text-foreground">
+                      {folder.name}
+                    </span>
+                  </button>
+                ))
+              )}
             </div>
 
             <button
@@ -136,7 +164,9 @@ function FolderSelectorContent({
           </div>
         </div>
       )}
-      {error?.message && <p className="mt-1 text-sm text-danger">{error.message}</p>}
+      {error?.message && (
+        <p className="mt-1 text-sm text-danger">{error.message}</p>
+      )}
     </div>
   );
 }

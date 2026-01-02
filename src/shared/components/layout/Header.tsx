@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "lucide-react";
-import DarkModeToggle from "@/app/_components/dark-mode-toggle";
+import DarkModeToggle from "@/shared/components/dark-mode-toggle";
 
 export default function Header() {
   return (

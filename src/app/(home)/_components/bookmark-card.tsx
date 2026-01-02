@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { Star, MoreVertical } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import Dropdown, { DropdownOption } from '@/shared/components/core/dropdown';
+import { Star, MoreVertical } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Dropdown, { DropdownOption } from "@/shared/components/core/dropdown";
+import Image from "next/image";
 
-type LinkCardProps = {
+interface Props {
   id: string;
   title: string;
   url: string;
@@ -13,9 +14,9 @@ type LinkCardProps = {
   platform: string;
   thumbnail?: string;
   isFavorite: boolean;
-};
+}
 
-export default function LinkCard({
+export default function BookmarkCard({
   id,
   title,
   description,
@@ -23,7 +24,7 @@ export default function LinkCard({
   platform,
   thumbnail,
   isFavorite,
-}: LinkCardProps) {
+}: Props) {
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -38,17 +39,17 @@ export default function LinkCard({
 
   const dropdownOptions: DropdownOption[] = [
     {
-      label: '수정',
-      value: 'edit',
+      label: "수정",
+      value: "edit",
       onClick: () => router.push(`/bookmark/${id}/edit`),
     },
     {
-      label: '삭제',
-      value: 'delete',
-      variant: 'danger',
+      label: "삭제",
+      value: "delete",
+      variant: "danger",
       onClick: () => {
         // TODO: 삭제 확인 모달 + API 호출
-        console.log('삭제:', id);
+        console.log("삭제:", id);
       },
     },
   ];
@@ -68,7 +69,9 @@ export default function LinkCard({
 
           {/* URL 미리보기/설명 */}
           {description && (
-            <p className="text-sm text-muted mb-2 line-clamp-1">{description}</p>
+            <p className="text-sm text-muted mb-2 line-clamp-1">
+              {description}
+            </p>
           )}
 
           {/* 날짜 | 플랫폼 */}
@@ -83,12 +86,12 @@ export default function LinkCard({
         <div className="flex flex-col items-end justify-between">
           {/* 상단: 별표 & 더보기 */}
           <div className="flex items-center gap-2">
-            <button
-              onClick={handleFavoriteToggle}
-            >
+            <button onClick={handleFavoriteToggle}>
               <Star
                 size={20}
-                className={isFavorite ? 'fill-yellow-400 text-yellow-400' : 'text-muted'}
+                className={
+                  isFavorite ? "fill-yellow-400 text-yellow-400" : "text-muted"
+                }
               />
             </button>
             <Dropdown
@@ -104,7 +107,11 @@ export default function LinkCard({
           {/* 하단: 썸네일 */}
           {thumbnail && (
             <div className="w-16 h-16 rounded-md overflow-hidden bg-muted-light">
-              <img src={thumbnail} alt={title} className="w-full h-full object-cover" />
+              <Image
+                src={thumbnail}
+                alt={title}
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
         </div>

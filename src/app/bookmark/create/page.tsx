@@ -7,13 +7,7 @@ import FormTextarea from "@/shared/components/core/form-textarea";
 import FolderSelector from "@/app/bookmark/_components/folder-selector";
 import CreateFolderButton from "@/app/bookmark/_components/create-folder-button";
 import Button from "@/shared/components/core/button";
-
-// TODO: API에서 가져오기
-const MOCK_FOLDERS = [
-  { id: "1", name: "개발 자료" },
-  { id: "2", name: "디자인 레퍼런스" },
-  { id: "3", name: "읽을거리" },
-];
+import { usePostBookmark } from "@/shared/hooks/queries/bookmarks/usePostBookmark";
 
 interface BookmarkFormData {
   url: string;
@@ -24,6 +18,8 @@ interface BookmarkFormData {
 
 export default function BookmarkCreatePage() {
   const router = useRouter();
+  const postBookmark = usePostBookmark();
+
   const { control, handleSubmit } = useForm<BookmarkFormData>({
     defaultValues: {
       url: "",
@@ -38,9 +34,24 @@ export default function BookmarkCreatePage() {
   };
 
   const onSubmit = async (data: BookmarkFormData) => {
-    // TODO: API 호출하여 북마크 저장
-    console.log(data);
-    router.push("/");
+    postBookmark.mutate(
+      {
+        url: data.url,
+        title: data.title,
+        description: data.description,
+        folder_id: data.folderId,
+        is_favorite: false,
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (error) => {
+          console.error("Failed to create bookmark:", error);
+          alert("북마크 저장에 실패했습니다.");
+        },
+      }
+    );
   };
 
   return (
@@ -76,11 +87,7 @@ export default function BookmarkCreatePage() {
             rows={3}
           />
 
-          <FolderSelector
-            name="folderId"
-            control={control}
-            folders={MOCK_FOLDERS}
-          />
+          <FolderSelector name="folderId" control={control} />
 
           <CreateFolderButton />
 
@@ -88,8 +95,12 @@ export default function BookmarkCreatePage() {
             <Button type="button" variant="neutral" onClick={handleCancel}>
               취소
             </Button>
-            <Button type="submit" variant="primary">
-              저장
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={postBookmark.isPending}
+            >
+              {postBookmark.isPending ? "저장 중..." : "저장"}
             </Button>
           </div>
         </form>

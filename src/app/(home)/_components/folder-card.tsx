@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import Dropdown, { DropdownOption } from "@/shared/components/core/dropdown";
 import { MoreVertical } from "lucide-react";
 
-type FolderCardProps = {
+interface Props {
   id: string;
   name: string;
   itemCount: number;
-};
+}
 
-export default function FolderCard({ id, name, itemCount }: FolderCardProps) {
+export default function FolderCard({ id, name, itemCount }: Props) {
   const router = useRouter();
 
   const handleCardClick = () => {
