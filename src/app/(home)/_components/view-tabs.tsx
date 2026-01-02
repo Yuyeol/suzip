@@ -1,16 +1,24 @@
 'use client';
 
+import { useRouter, useSearchParams } from 'next/navigation';
+
 type ViewType = 'all' | 'folders';
 
-type ViewTabsProps = {
-  currentView: ViewType;
-  onViewChange: (view: ViewType) => void;
-};
+export default function ViewTabs() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentView = (searchParams.get('view') as ViewType) || 'all';
 
-export default function ViewTabs({ currentView, onViewChange }: ViewTabsProps) {
   const handleViewChange = (view: ViewType) => {
-    onViewChange(view);
-    // TODO: URL state 업데이트 (?view=all / ?view=folders)
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (view === 'all') {
+      params.delete('view');
+    } else {
+      params.set('view', view);
+    }
+
+    router.push(`/?${params.toString()}`, { scroll: false });
   };
 
   return (

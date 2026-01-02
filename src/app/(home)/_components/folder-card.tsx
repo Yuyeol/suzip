@@ -14,8 +14,8 @@ export default function FolderCard({ id, name, itemCount }: Props) {
   const router = useRouter();
 
   const handleCardClick = () => {
-    // TODO: 해당 폴더로 필터링 (전체보기 탭으로 전환 + folder ID 파라미터)
-    router.push(`/?view=all&folder=${id}`);
+    // 전체보기 탭으로 전환 + 해당 폴더 필터링
+    router.push(`/?folder_id=${id}`);
   };
 
   const dropdownOptions: DropdownOption[] = [

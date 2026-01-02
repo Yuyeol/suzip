@@ -1,11 +1,39 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import BookmarkCard from "@/app/(home)/_components/bookmark-card";
 import { useGetBookmarks } from "@/shared/hooks/queries/bookmarks/useGetBookmarks";
 
 export default function BookmarksTab() {
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("search") || undefined;
+  const folderId = searchParams.get("folder_id") || undefined;
+  const sort = searchParams.get("sort") || undefined;
+
+  // Sort 값에 따라 sort, order 파라미터 결정
+  const getSortParams = () => {
+    switch (sort) {
+      case "latest":
+        return { sort: "created_at", order: "desc" as const };
+      case "oldest":
+        return { sort: "created_at", order: "asc" as const };
+      case "name":
+        return { sort: "title", order: "asc" as const };
+      default:
+        return { sort: "created_at", order: "desc" as const };
+    }
+  };
+
+  const sortParams = getSortParams();
+
   const { data: bookmarks = [], isLoading: isBookmarksLoading } =
-    useGetBookmarks();
+    useGetBookmarks({
+      search,
+      folder_id: folderId,
+      sort: sortParams.sort,
+      order: sortParams.order,
+    });
 
   return (
     <div className="space-y-3">

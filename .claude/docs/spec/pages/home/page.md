@@ -16,7 +16,7 @@
 ├────────────────────────────────────────────┤
 │ [View Tabs]                                │
 ├────────────────────────────────────────────┤
-│ [Sort Selector]                            │
+│ [Sort Selector] [Folder Selector]          │
 ├────────────────────────────────────────────┤
 │                                            │
 │ [Content Area]                             │
@@ -46,20 +46,27 @@
 
 **[View Tabs](./components/view-tabs.md)**
 - 전체보기 / 폴더보기 탭
-- URL state로 관리 (`?view=all` / `?view=folders`)
+- URL state로 관리 (`?view=folders`, 기본값은 all)
+- 자체적으로 searchParams 읽고 URL 업데이트
 
 ### 필터 & 정렬
 
 **[Search Bar](./components/search-bar.md)**
 - 헤더 바로 아래 위치
-- 전체보기: 링크 제목 검색
-- 폴더보기: 비활성화 또는 숨김
-- 500ms debounce
+- 검색 범위: 전체 / 제목만 / 제목+설명
+- 검색 버튼 클릭 또는 Enter 키로 실행
+- URL state: `?search=xxx&mode=xxx`
 
 **[Sort Selector](./components/sort-selector.md)**
-- 전체보기: 최신순 / 오래된순 / 가나다순 (링크 정렬)
-- 폴더보기: 가나다순 / 생성순 (폴더 정렬)
-- 모달 방식
+- 최신순 / 오래된순 / 가나다순 (북마크 정렬)
+- 모달 방식 (ModalSelector 컴포넌트 사용)
+- URL state: `?sort=xxx`
+
+**Folder Selector** (새로 추가)
+- 전체 폴더 / 개별 폴더 선택
+- 모달 방식 (ModalSelector 컴포넌트 사용)
+- URL state: `?folder_id=xxx`
+- 폴더 목록은 useGetFolders 훅으로 동적 로드
 
 ### 콘텐츠 영역
 
@@ -81,10 +88,12 @@
 - `view`: `all` | `folders` (기본: `all`)
 - `sort`: `latest` | `oldest` | `name` (기본: `latest`)
 - `search`: 검색어 (선택)
-- `folder`: 폴더 ID (선택)
+- `mode`: 검색 범위 `all` | `title` | `title_description` (기본: `all`)
+- `folder_id`: 폴더 ID (선택)
 
 ### Client State
-- 검색 입력값 (debounce 처리)
+- 검색 입력값 (검색 버튼 방식)
+- 검색 모드 선택값
 - 모달 열림/닫힘 상태
 
 ### Server State
@@ -97,13 +106,15 @@
 
 ### 기본 플로우
 1. 페이지 진입 → 전체보기 모드 (최신순)
-2. 검색 입력 → 500ms 후 API 호출 → 결과 필터링
-3. 정렬 변경 → 모달 오픈 → 옵션 선택 → 즉시 반영
+2. 검색 입력 → 검색 버튼 클릭 or Enter → API 호출 → 결과 필터링
+3. 정렬 변경 → 모달 오픈 → 옵션 선택 → URL 업데이트 → 즉시 반영
+4. 폴더 필터 → 모달 오픈 → 폴더 선택 → URL 업데이트 → 즉시 반영
 
 ### 폴더 플로우
-1. 폴더보기 탭 클릭 → 폴더 카드 그리드 표시
-2. 폴더 클릭 → 전체보기 탭으로 전환 + 해당 폴더 필터링
-3. 검색바 X 버튼 or 전체보기 재클릭 → 필터 해제
+1. 폴더보기 탭 클릭 → URL: `?view=folders` → 폴더 카드 그리드 표시
+2. 폴더 클릭 → URL: `/?folder_id=xxx` (view 파라미터 없음 = 전체보기로 자동 전환)
+3. 검색바 X 버튼 → 검색어 + 모드 초기화 → 홈으로 리다이렉트
+4. 폴더 셀렉터에서 "전체 폴더" 선택 → 폴더 필터 해제
 
 ### 추가 플로우
 1. 하단 추가 버튼 클릭 → `/items/new` 페이지 이동
@@ -115,6 +126,8 @@
 
 - 모바일 우선 디자인
 - URL 기반 상태 관리 (공유/북마크 지원)
-- 실시간 검색 (debounce)
+- 검색 버튼 방식 (Enter 키 지원)
 - 직관적인 탭 전환
-- 폴더 필터링 지원
+- 폴더 필터링 지원 (폴더 셀렉터)
+- 정렬 기능 (최신순/오래된순/가나다순)
+- ModalSelector 재사용 컴포넌트 활용

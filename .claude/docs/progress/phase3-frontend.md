@@ -8,9 +8,9 @@
 
 ### 홈 페이지
 
-- [ ] MOCK_LINKS 제거
+- [x] MOCK_LINKS 제거
 - [x] MOCK_FOLDERS 제거
-- [ ] GET /api/bookmarks 호출
+- [x] GET /api/bookmarks 호출
 - [x] GET /api/folders 호출
 
 ### 폴더 관리
@@ -22,13 +22,13 @@
 
 ### 북마크 생성
 
-- [ ] POST /api/bookmarks 연동
-- [ ] 성공 시 홈으로 리다이렉트
+- [x] POST /api/bookmarks 연동
+- [x] 성공 시 홈으로 리다이렉트
 
 ### 북마크 수정
 
-- [ ] GET /api/bookmarks/[id] - 데이터 로드
-- [ ] PATCH /api/bookmarks/[id] - 수정 저장
+- [x] GET /api/bookmarks/[id] - 데이터 로드
+- [x] PATCH /api/bookmarks/[id] - 수정 저장
 
 ---
 
@@ -36,20 +36,24 @@
 
 ### 검색
 
-- [ ] 디바운스 훅 구현 (useDebounce)
-- [ ] 검색어 입력 → API 호출
-- [ ] GET /api/bookmarks?search=xxx
+- [x] ~~디바운스 훅 구현~~ → 검색 버튼 방식으로 변경
+- [x] 검색어 입력 → 검색 버튼 클릭/Enter → API 호출
+- [x] GET /api/bookmarks?search=xxx
+- [x] 검색 모드 선택 (전체/제목만/제목+설명)
+- [x] URL state: `?search=xxx&mode=xxx`
 
 ### 정렬
 
-- [ ] URL searchParams로 상태 관리
-- [ ] 정렬 옵션 선택 → URL 업데이트
-- [ ] GET /api/bookmarks?sort=xxx&order=xxx
+- [x] URL searchParams로 상태 관리
+- [x] 정렬 옵션 선택 → URL 업데이트
+- [x] GET /api/bookmarks?sort=xxx&order=xxx
+- [x] 최신순/오래된순/가나다순 구현
 
 ### 필터
 
-- [ ] 폴더별 필터링
-- [ ] GET /api/bookmarks?folder_id=xxx
+- [x] 폴더별 필터링
+- [x] GET /api/bookmarks?folder_id=xxx
+- [x] 폴더 셀렉트박스 UI 구현 (ModalSelector)
 - [ ] 즐겨찾기 필터
 - [ ] GET /api/bookmarks?is_favorite=true
 
@@ -61,8 +65,8 @@
 ### 삭제
 
 - [ ] 확인 모달 구현
-- [ ] DELETE /api/bookmarks/[id]
-- [ ] DELETE /api/folders/[id]
+- [x] DELETE /api/bookmarks/[id] (API 연동 완료, UI 확인 필요)
+- [x] DELETE /api/folders/[id] (완료)
 
 ---
 
@@ -71,7 +75,9 @@
 ### 북마크 상세
 
 - [x] UI 완료 (`/bookmark/[id]`)
-- [ ] API 연동
+- [x] API 연동 (GET /api/bookmarks/[id])
+- [x] 폴더명 표시 (useGetFolders)
+- [x] 삭제 기능 연동
 
 ### 프로필/마이페이지
 
@@ -91,16 +97,16 @@
 
 ### 커스텀 훅
 
-- [ ] useGetBookmarks (목록, 검색, 필터)
-- [ ] useGetBookmark (단일 조회)
-- [ ] usePostBookmark
-- [ ] usePatchBookmark
-- [ ] useDeleteBookmark
+- [x] useGetBookmarks (목록, 검색, 필터, 정렬)
+- [x] useGetBookmark (단일 조회)
+- [x] usePostBookmark
+- [x] usePatchBookmark
+- [x] useDeleteBookmark
 - [x] useGetFolders
 - [x] usePostFolder
 - [x] usePatchFolder
 - [x] useDeleteFolder
-- [ ] useToggleFavorite
+- [ ] useToggleFavorite (미구현)
 
 ### 고급 기능
 
