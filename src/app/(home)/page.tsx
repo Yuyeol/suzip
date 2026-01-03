@@ -1,29 +1,33 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import SearchBar from "@/app/(home)/_components/search-bar";
 import ViewTabs from "@/app/(home)/_components/view-tabs";
 import FoldersTab from "@/app/(home)/_components/folders-tab";
 import BookmarksTab from "@/app/(home)/_components/bookmarks-tab";
 import ModalSelector from "@/shared/components/core/modal-selector";
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
+import { useQueryParam } from "@/shared/hooks/useQueryParam";
+import { useSetQueryParams } from "@/shared/hooks/useSetQueryParams";
+import { parseAsBoolean } from "@/shared/utils/queryStateParsers";
 
 type SortType = "latest" | "oldest" | "name";
 
 export default function Home() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const { data: folders = [] } = useGetFolders({
     search: null,
     sort: null,
     order: null,
   });
 
-  const activeView = (searchParams.get("view") as "all" | "folders") || "all";
-  const currentFolderId = searchParams.get("folder_id") || "all";
-  const currentSort = (searchParams.get("sort") as SortType) || "latest";
-  const isFavoriteFilter = searchParams.get("is_favorite") === "true";
+  const activeView = useQueryParam("view", "all");
+  const currentFolderId = useQueryParam("folder_id", "all");
+  const currentSort = useQueryParam("sort", "latest") as SortType;
+  const isFavoriteFilter = useQueryParam(
+    "is_favorite",
+    undefined,
+    parseAsBoolean
+  );
+  const setParams = useSetQueryParams(["sort", "folder_id", "is_favorite"]);
 
   const sortOptions = [
     { value: "latest" as SortType, label: "최신순" },
@@ -40,39 +44,27 @@ export default function Home() {
   ];
 
   const handleSortChange = (sort: SortType) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (sort === "latest") {
-      params.delete("sort");
-    } else {
-      params.set("sort", sort);
-    }
-
-    router.push(`/?${params.toString()}`, { scroll: false });
+    setParams({
+      sort: sort === "latest" ? null : sort,
+      folder_id: currentFolderId === "all" ? null : currentFolderId,
+      is_favorite: isFavoriteFilter ? true : null,
+    });
   };
 
   const handleFolderChange = (folderId: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (folderId === "all") {
-      params.delete("folder_id");
-    } else {
-      params.set("folder_id", folderId);
-    }
-
-    router.push(`/?${params.toString()}`, { scroll: false });
+    setParams({
+      sort: currentSort === "latest" ? null : currentSort,
+      folder_id: folderId === "all" ? null : folderId,
+      is_favorite: isFavoriteFilter ? true : null,
+    });
   };
 
   const handleFavoriteToggle = () => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (isFavoriteFilter) {
-      params.delete("is_favorite");
-    } else {
-      params.set("is_favorite", "true");
-    }
-
-    router.push(`/?${params.toString()}`, { scroll: false });
+    setParams({
+      sort: currentSort === "latest" ? null : currentSort,
+      folder_id: currentFolderId === "all" ? null : currentFolderId,
+      is_favorite: isFavoriteFilter ? null : true,
+    });
   };
 
   return (
