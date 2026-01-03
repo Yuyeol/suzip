@@ -3,6 +3,7 @@ import { getFolders } from "@/shared/api/folders";
 import { folderKeys } from "@/shared/utils/queryKeyFactory";
 
 export function useGetFolders(params: {
+  search: string | null;
   sort: string | null;
   order: "asc" | "desc" | null;
 }) {

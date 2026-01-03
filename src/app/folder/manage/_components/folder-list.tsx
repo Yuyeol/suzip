@@ -8,7 +8,11 @@ import Input from '@/shared/components/core/input';
 import Button from '@/shared/components/core/button';
 
 export default function FolderList() {
-  const { data: folders = [], isLoading } = useGetFolders({ sort: null, order: null });
+  const { data: folders = [], isLoading } = useGetFolders({
+    search: null,
+    sort: null,
+    order: null,
+  });
   const patchFolder = usePatchFolder();
   const deleteFolder = useDeleteFolder();
 

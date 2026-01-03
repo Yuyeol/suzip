@@ -25,7 +25,11 @@ export default function FolderSelector<T extends FieldValues>({
   name,
   control,
 }: Props<T>) {
-  const { data: folders = [], isLoading } = useGetFolders({ sort: null, order: null });
+  const { data: folders = [], isLoading } = useGetFolders({
+    search: null,
+    sort: null,
+    order: null,
+  });
   return (
     <Controller
       name={name}

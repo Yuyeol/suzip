@@ -1,7 +1,10 @@
 export const folderKeys = {
   all: ["folders"] as const,
-  list: (params: { sort: string | null; order: "asc" | "desc" | null }) =>
-    [...folderKeys.all, "list", params] as const,
+  list: (params: {
+    search: string | null;
+    sort: string | null;
+    order: "asc" | "desc" | null;
+  }) => [...folderKeys.all, "list", params] as const,
 } as const;
 
 export const bookmarkKeys = {

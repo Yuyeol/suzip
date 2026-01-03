@@ -12,11 +12,13 @@ import { fetcher } from "@/shared/utils/api/fetcher";
 
 // GET /api/folders
 export async function getFolders(params: {
+  search: string | null;
   sort: string | null;
   order: "asc" | "desc" | null;
 }): Promise<Folder[]> {
   const searchParams = new URLSearchParams();
 
+  if (params.search) searchParams.append("search", params.search);
   if (params.sort) searchParams.append("sort", params.sort);
   if (params.order) searchParams.append("order", params.order);
 

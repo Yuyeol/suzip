@@ -12,15 +12,24 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 
   // URL 파라미터 추출
   const { searchParams } = new URL(request.url);
+  const search = searchParams.get("search");
   const sort = searchParams.get("sort") || "created_at";
   const order = searchParams.get("order") || "desc";
 
   // 폴더 조회
-  const { data: folders, error } = await supabase
+  let query = supabase
     .from("folders")
     .select("*")
-    .eq("user_id", userId)
-    .order(sort, { ascending: order === "asc" });
+    .eq("user_id", userId);
+
+  // 검색어가 있으면 필터 적용
+  if (search) {
+    query = query.ilike("name", `%${search}%`);
+  }
+
+  const { data: folders, error } = await query.order(sort, {
+    ascending: order === "asc",
+  });
 
   if (error) {
     return handleSupabaseError(error, "Folders");

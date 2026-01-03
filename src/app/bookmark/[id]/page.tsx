@@ -15,7 +15,11 @@ export default function BookmarkDetailPage() {
   const id = params.id as string;
 
   const { data: bookmark, isLoading } = useGetBookmark({ id });
-  const { data: folders = [] } = useGetFolders({ sort: null, order: null });
+  const { data: folders = [] } = useGetFolders({
+    search: null,
+    sort: null,
+    order: null,
+  });
   const deleteBookmark = useDeleteBookmark();
 
   const handleDelete = () => {
