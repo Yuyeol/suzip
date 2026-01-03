@@ -14,7 +14,7 @@ export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { data: folders = [] } = useGetFolders();
+  const { data: folders = [] } = useGetFolders({ sort: null, order: null });
 
   const activeView = (searchParams.get("view") as "all" | "folders") || "all";
   const currentFolderId = searchParams.get("folder_id") || "all";

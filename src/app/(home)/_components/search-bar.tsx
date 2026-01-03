@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import Input from "@/shared/components/core/input";
 import ModalSelector from "@/shared/components/core/modal-selector";
 import Button from "@/shared/components/core/button";
+import { useQueryParam } from "@/shared/hooks/useQueryParam";
+import { useSetQueryParams } from "@/shared/hooks/useSetQueryParams";
 
 type SearchMode = "all" | "title" | "title_description";
 
@@ -16,15 +17,13 @@ const SEARCH_MODE_PLACEHOLDERS: Record<SearchMode, string> = {
 };
 
 export default function SearchBar() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const searchParam = useQueryParam("search", "");
+  const modeParam = useQueryParam("mode", "all" as SearchMode);
 
-  const [searchValue, setSearchValue] = useState(
-    searchParams.get("search") || ""
-  );
-  const [searchMode, setSearchMode] = useState<SearchMode>(
-    (searchParams.get("mode") as SearchMode) || "all"
-  );
+  const [searchValue, setSearchValue] = useState(searchParam);
+  const [searchMode, setSearchMode] = useState<SearchMode>(modeParam as SearchMode);
+
+  const setParams = useSetQueryParams(["search", "mode"]);
 
   const searchModeOptions = [
     { value: "all" as SearchMode, label: "전체" },
@@ -33,27 +32,16 @@ export default function SearchBar() {
   ];
 
   const handleSearch = () => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (searchValue.trim()) {
-      params.set("search", searchValue.trim());
-    } else {
-      params.delete("search");
-    }
-
-    if (searchMode !== "all") {
-      params.set("mode", searchMode);
-    } else {
-      params.delete("mode");
-    }
-
-    router.push(`/?${params.toString()}`, { scroll: false });
+    setParams({
+      search: searchValue.trim() || null,
+      mode: searchMode,
+    });
   };
 
   const handleClear = () => {
     setSearchValue("");
     setSearchMode("all");
-    router.push("/", { scroll: false });
+    setParams({ search: null, mode: null });
   };
 
   const handleModeChange = (mode: SearchMode) => {

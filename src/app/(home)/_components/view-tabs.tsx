@@ -1,24 +1,16 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useQueryParam } from '@/shared/hooks/useQueryParam';
+import { useSetQueryParams } from '@/shared/hooks/useSetQueryParams';
 
 type ViewType = 'all' | 'folders';
 
 export default function ViewTabs() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const currentView = (searchParams.get('view') as ViewType) || 'all';
+  const currentView = useQueryParam('view', 'all' as ViewType);
+  const setParams = useSetQueryParams(['view']);
 
   const handleViewChange = (view: ViewType) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (view === 'all') {
-      params.delete('view');
-    } else {
-      params.set('view', view);
-    }
-
-    router.push(`/?${params.toString()}`, { scroll: false });
+    setParams({ view });
   };
 
   return (

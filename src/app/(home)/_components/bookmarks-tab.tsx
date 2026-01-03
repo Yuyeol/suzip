@@ -1,16 +1,15 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import BookmarkCard from "@/app/(home)/_components/bookmark-card";
 import { useGetBookmarks } from "@/shared/hooks/queries/bookmarks/useGetBookmarks";
+import { useQueryParam } from "@/shared/hooks/useQueryParam";
+import { parseAsBoolean } from "@/shared/utils/queryStateParsers";
 
 export default function BookmarksTab() {
-  const searchParams = useSearchParams();
-
-  const search = searchParams.get("search") || undefined;
-  const folderId = searchParams.get("folder_id") || undefined;
-  const sort = searchParams.get("sort") || undefined;
-  const isFavorite = searchParams.get("is_favorite") === "true" ? true : undefined;
+  const search = useQueryParam("search");
+  const folderId = useQueryParam("folder_id");
+  const sort = useQueryParam("sort");
+  const isFavorite = useQueryParam("is_favorite", undefined, parseAsBoolean);
 
   // Sort 값에 따라 sort, order 파라미터 결정
   const getSortParams = () => {

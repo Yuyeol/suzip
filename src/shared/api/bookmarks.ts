@@ -12,20 +12,20 @@ import {
 import { fetcher } from "@/shared/utils/api/fetcher";
 
 // GET /api/bookmarks (목록 조회, 검색/필터 지원)
-export async function getBookmarks(params?: {
-  search?: string;
-  sort?: string;
-  order?: "asc" | "desc";
-  folder_id?: string;
-  is_favorite?: boolean;
+export async function getBookmarks(params: {
+  search: string | null;
+  sort: string | null;
+  order: "asc" | "desc" | null;
+  folder_id: string | null;
+  is_favorite: boolean | null;
 }): Promise<Bookmark[]> {
   const searchParams = new URLSearchParams();
 
-  if (params?.search) searchParams.append("search", params.search);
-  if (params?.sort) searchParams.append("sort", params.sort);
-  if (params?.order) searchParams.append("order", params.order);
-  if (params?.folder_id) searchParams.append("folder_id", params.folder_id);
-  if (params?.is_favorite !== undefined)
+  if (params.search) searchParams.append("search", params.search);
+  if (params.sort) searchParams.append("sort", params.sort);
+  if (params.order) searchParams.append("order", params.order);
+  if (params.folder_id) searchParams.append("folder_id", params.folder_id);
+  if (params.is_favorite !== null)
     searchParams.append("is_favorite", String(params.is_favorite));
 
   const url = `/api/bookmarks${

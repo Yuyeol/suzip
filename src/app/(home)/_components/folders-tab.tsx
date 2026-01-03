@@ -1,12 +1,11 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import FolderCard from "@/app/(home)/_components/folder-card";
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
+import { useQueryParam } from "@/shared/hooks/useQueryParam";
 
 export default function FoldersTab() {
-  const searchParams = useSearchParams();
-  const sort = searchParams.get("sort") || undefined;
+  const sort = useQueryParam("sort");
 
   // Sort 값에 따라 sort, order 파라미터 결정
   const getSortParams = () => {
@@ -24,7 +23,8 @@ export default function FoldersTab() {
 
   const sortParams = getSortParams();
 
-  const { data: folders = [], isLoading: isFoldersLoading } = useGetFolders(sortParams);
+  const { data: folders = [], isLoading: isFoldersLoading } =
+    useGetFolders(sortParams);
 
   return (
     <div className="grid grid-cols-2 gap-3">
