@@ -1,10 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { BookMarked, Plus } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { BookMarked, Plus, User } from "lucide-react";
 
 export default function BottomNav() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isActive = (path: string) => pathname === path;
 
   return (
     <>
@@ -17,8 +20,15 @@ export default function BottomNav() {
             }}
             className="flex flex-col items-center gap-1"
           >
-            <BookMarked size={20} className="text-muted" />
-            <span className="text-xs text-muted">저장목록</span>
+            <BookMarked
+              size={20}
+              className={isActive("/") ? "text-primary" : "text-muted"}
+            />
+            <span
+              className={`text-xs ${isActive("/") ? "text-primary" : "text-muted"}`}
+            >
+              저장목록
+            </span>
           </button>
 
           {/* 추가 버튼 */}
@@ -29,6 +39,26 @@ export default function BottomNav() {
             className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white"
           >
             <Plus size={24} />
+          </button>
+
+          {/* 프로필 */}
+          <button
+            onClick={() => {
+              router.push("/profile");
+            }}
+            className="flex flex-col items-center gap-1"
+          >
+            <User
+              size={20}
+              className={
+                isActive("/profile") ? "text-primary" : "text-muted"
+              }
+            />
+            <span
+              className={`text-xs ${isActive("/profile") ? "text-primary" : "text-muted"}`}
+            >
+              프로필
+            </span>
           </button>
         </div>
       </nav>

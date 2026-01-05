@@ -18,3 +18,8 @@ export const bookmarkKeys = {
   }) => [...bookmarkKeys.all, "list", params] as const,
   detail: (id: string) => [...bookmarkKeys.all, "detail", id] as const,
 } as const;
+
+export const profileKeys = {
+  all: ["profile"] as const,
+  stats: () => [...profileKeys.all, "stats"] as const,
+} as const;
