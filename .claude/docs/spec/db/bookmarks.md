@@ -4,9 +4,11 @@
 
 ## 필드
 - `id`: UUID (PK, 자동 생성)
-- `title`: 북마크 제목 (필수)
+- `title`: 북마크 제목 (필수, OG 자동 추출)
 - `url`: 링크 URL (필수)
-- `description`: 설명/메모 (선택)
+- `description`: 설명 (선택, OG 자동 추출)
+- `memo`: 사용자 메모 (선택)
+- `thumbnail`: OG 이미지 URL (선택, OG 자동 추출)
 - `folder_id`: 폴더 ID (선택, FK → folders.id)
 - `is_favorite`: 즐겨찾기 여부 (기본값: false)
 - `user_id`: 사용자 ID (필수)
@@ -25,6 +27,8 @@ CREATE TABLE bookmarks (
   title TEXT NOT NULL,
   url TEXT NOT NULL,
   description TEXT,
+  memo TEXT,
+  thumbnail TEXT,
   folder_id UUID REFERENCES folders(id) ON DELETE SET NULL,
   is_favorite BOOLEAN DEFAULT false,
   user_id UUID NOT NULL,
@@ -59,3 +63,20 @@ CREATE POLICY "Users can delete their own bookmarks"
   ON bookmarks FOR DELETE
   USING (auth.uid() = user_id);
 ```
+
+## 필드 구분
+
+### OG 자동 추출 필드
+북마크 생성 시 URL에서 자동으로 추출됩니다.
+- `title`: og:title → twitter:title → HTML title
+- `description`: og:description → twitter:description → meta description
+- `thumbnail`: og:image → twitter:image
+
+### 사용자 입력 필드
+- `memo`: 사용자가 직접 작성하는 메모
+
+### 처리 방식
+1. URL blur 시 POST /api/og-metadata 호출
+2. title, description, thumbnail 자동 채우기
+3. 사용자가 수정 가능
+4. memo는 순수 사용자 입력
