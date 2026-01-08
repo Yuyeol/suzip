@@ -8,7 +8,7 @@ import FormInput from "@/shared/components/core/form-input";
 import FormTextarea from "@/shared/components/core/form-textarea";
 import FolderSelector from "@/app/bookmark/_components/folder-selector";
 import CreateFolderButton from "@/app/bookmark/_components/create-folder-button";
-import UrlInputWithFetch from "@/app/bookmark/_components/url-input-with-fetch";
+import UrlInput from "@/app/bookmark/_components/url-input";
 import Button from "@/shared/components/core/button";
 import { useGetBookmark } from "@/shared/hooks/queries/bookmarks/useGetBookmark";
 import { usePatchBookmark } from "@/shared/hooks/queries/bookmarks/usePatchBookmark";
@@ -103,7 +103,7 @@ export default function BookmarkEditPage() {
         <h1 className="text-2xl font-bold text-foreground mb-6">링크 수정</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <UrlInputWithFetch
+          <UrlInput
             control={control}
             urlFieldName="url"
             onMetadataFetched={(data) => {
@@ -159,7 +159,11 @@ export default function BookmarkEditPage() {
             <Button type="button" variant="neutral" onClick={handleCancel}>
               취소
             </Button>
-            <Button type="submit" variant="primary" disabled={patchBookmark.isPending}>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={patchBookmark.isPending}
+            >
               {patchBookmark.isPending ? "수정 중..." : "수정"}
             </Button>
           </div>

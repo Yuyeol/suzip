@@ -8,7 +8,7 @@ import FormInput from "@/shared/components/core/form-input";
 import FormTextarea from "@/shared/components/core/form-textarea";
 import FolderSelector from "@/app/bookmark/_components/folder-selector";
 import CreateFolderButton from "@/app/bookmark/_components/create-folder-button";
-import UrlInputWithFetch from "@/app/bookmark/_components/url-input-with-fetch";
+import UrlInput from "@/app/bookmark/_components/url-input";
 import Button from "@/shared/components/core/button";
 import { usePostBookmark } from "@/shared/hooks/queries/bookmarks/usePostBookmark";
 
@@ -68,7 +68,7 @@ export default function BookmarkCreatePage() {
         <h1 className="text-2xl font-bold text-foreground mb-6">링크 추가</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <UrlInputWithFetch
+          <UrlInput
             control={control}
             urlFieldName="url"
             onMetadataFetched={(data) => {

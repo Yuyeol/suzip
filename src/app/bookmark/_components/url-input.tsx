@@ -9,7 +9,6 @@ import {
   useFormState,
 } from "react-hook-form";
 import FormInput from "@/shared/components/core/form-input";
-import Button from "@/shared/components/core/button";
 import { usePostOgMetadata } from "@/shared/hooks/queries/og-metadata/usePostOgMetadata";
 
 interface Props<T extends FieldValues> {
@@ -22,7 +21,7 @@ interface Props<T extends FieldValues> {
   }) => void;
 }
 
-export default function UrlInputWithFetch<T extends FieldValues>({
+export default function UrlInput<T extends FieldValues>({
   control,
   urlFieldName,
   onMetadataFetched,
@@ -57,36 +56,28 @@ export default function UrlInputWithFetch<T extends FieldValues>({
   };
 
   return (
-    <div className="flex gap-2">
-      <div className="flex-1">
-        <FormInput
-          name={urlFieldName}
-          control={control}
-          label="URL"
-          type="url"
-          placeholder="https://example.com"
-          rules={{
-            required: "URL을 입력해주세요",
-            pattern: {
-              value: /^https?:\/\/.+/,
-              message: "올바른 URL 형식이 아닙니다 (http:// 또는 https://)",
-            },
-          }}
-        />
-      </div>
-      {!isSuccess && (
-        <div className="pt-7">
-          <Button
-            type="button"
-            variant={isUrlValid ? "primary" : "primary-light"}
-            size="md"
-            onClick={handleFetch}
-            disabled={isPending || !isUrlValid}
-          >
-            {isPending ? "확인 중..." : "확인"}
-          </Button>
-        </div>
-      )}
-    </div>
+    <FormInput
+      name={urlFieldName}
+      control={control}
+      label="URL"
+      type="url"
+      placeholder="https://example.com"
+      rules={{
+        required: "URL을 입력해주세요",
+        pattern: {
+          value: /^https?:\/\/.+/,
+          message: "올바른 URL 형식이 아닙니다 (http:// 또는 https://)",
+        },
+      }}
+      buttonProps={
+        isSuccess
+          ? undefined
+          : {
+              onClick: handleFetch,
+              label: "확인",
+              disabled: isPending || !isUrlValid,
+            }
+      }
+    />
   );
 }
