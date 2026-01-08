@@ -13,11 +13,11 @@ export const GET = withErrorHandler(async () => {
   // 사용자 이메일 가져오기
   const {
     data: { user },
-    error: userError,
   } = await supabase.auth.getUser();
 
-  if (userError || !user) {
-    return errorResponse("Failed to get user", 401);
+  // Google OAuth 사용 시 이메일은 항상 존재하지만, TypeScript 타입 안전성을 위해 체크
+  if (!user?.email) {
+    return errorResponse("User email not found", 500);
   }
 
   // 총 북마크 수

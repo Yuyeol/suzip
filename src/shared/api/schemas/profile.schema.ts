@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Profile (이메일 + 통계)
 export const profileSchema = z.object({
-  email: z.string().nullable(),
+  email: z.string().email(),
   total_bookmarks: z.number(),
   folder_count: z.number(),
   favorite_count: z.number(),
