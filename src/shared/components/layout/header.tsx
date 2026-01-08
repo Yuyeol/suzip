@@ -9,7 +9,7 @@ export default function Header() {
         <div className="flex items-center justify-between py-1 px-4">
           {/* 로고 */}
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-foreground">Savvy</h1>
+            <h1 className="text-xl font-bold text-foreground">suzip</h1>
           </div>
 
           {/* 오른쪽: 다크모드 토글 + 아바타 */}

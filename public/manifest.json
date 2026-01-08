@@ -1,6 +1,6 @@
 {
-  "name": "savvy",
-  "short_name": "savvy",
+  "name": "suzip",
+  "short_name": "suzip",
   "description": "수집, 수집, 수집",
   "start_url": "/",
   "display": "standalone",

@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "savvy",
+  title: "suzip",
   description: "수집, 수집, 수집",
   manifest: "/manifest.json",
   icons: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "savvy",
+    title: "suzip",
   },
 };
 
