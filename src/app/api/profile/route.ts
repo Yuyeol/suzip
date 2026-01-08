@@ -1,12 +1,24 @@
 import { createClient } from "@/shared/lib/supabase/server";
 import { getUserId } from "@/app/api/_utils/get-user-id";
-import { successResponse } from "@/app/api/_utils/response";
+import { successResponse, errorResponse } from "@/app/api/_utils/response";
 import { handleSupabaseError } from "@/app/api/_utils/supabase-errors";
 import { withErrorHandler } from "@/app/api/_utils/api-handler";
+
+export const dynamic = "force-dynamic";
 
 export const GET = withErrorHandler(async () => {
   const supabase = await createClient();
   const userId = await getUserId();
+
+  // 사용자 이메일 가져오기
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return errorResponse("Failed to get user", 401);
+  }
 
   // 총 북마크 수
   const { count: totalBookmarks, error: bookmarksError } = await supabase
@@ -40,6 +52,7 @@ export const GET = withErrorHandler(async () => {
   }
 
   return successResponse({
+    email: user.email,
     total_bookmarks: totalBookmarks || 0,
     folder_count: folderCount || 0,
     favorite_count: favoriteCount || 0,

@@ -21,5 +21,5 @@ export const bookmarkKeys = {
 
 export const profileKeys = {
   all: ["profile"] as const,
-  stats: () => [...profileKeys.all, "stats"] as const,
+  detail: () => [...profileKeys.all, "detail"] as const,
 } as const;

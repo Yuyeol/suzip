@@ -1,26 +1,16 @@
 "use client";
 
-import { useGetProfileStats } from "@/shared/hooks/queries/profile/useGetProfileStats";
+import { useGetProfile } from "@/shared/hooks/queries/profile/useGetProfile";
 import { signOut } from "@/shared/api/auth";
 import { useRouter } from "next/navigation";
-import Button from "@/shared/components/core/Button";
 import { useState } from "react";
-import { createClient } from "@/shared/lib/supabase/client";
+import Button from "@/shared/components/core/button";
 
 export default function ProfilePage() {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [email, setEmail] = useState<string | null>(null);
 
-  const { data: stats } = useGetProfileStats();
-
-  // Get user email on mount
-  useState(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      setEmail(data.user?.email ?? null);
-    });
-  });
+  const { data: profile } = useGetProfile();
 
   const handleLogout = async () => {
     try {
@@ -46,7 +36,7 @@ export default function ProfilePage() {
       <main className="flex-1 p-4">
         {/* User Info Section */}
         <div className="mb-8 text-center">
-          <p className="text-base text-foreground">{email}</p>
+          <p className="text-base text-foreground">{profile?.email}</p>
         </div>
 
         {/* Statistics Section */}
@@ -54,18 +44,16 @@ export default function ProfilePage() {
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
               <p className="text-2xl font-bold">
-                {stats?.total_bookmarks ?? 0}
+                {profile?.total_bookmarks ?? 0}
               </p>
               <p className="text-sm text-muted">총 북마크</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold">{stats?.folder_count ?? 0}</p>
+              <p className="text-2xl font-bold">{profile?.folder_count ?? 0}</p>
               <p className="text-sm text-muted">폴더</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold">
-                {stats?.favorite_count ?? 0}
-              </p>
+              <p className="text-2xl font-bold">{profile?.favorite_count ?? 0}</p>
               <p className="text-sm text-muted">즐겨찾기</p>
             </div>
           </div>

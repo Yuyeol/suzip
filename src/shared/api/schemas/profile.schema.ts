@@ -1,17 +1,16 @@
 import { z } from "zod";
 
-// Profile Stats
-export const profileStatsSchema = z.object({
+// Profile (이메일 + 통계)
+export const profileSchema = z.object({
+  email: z.string().nullable(),
   total_bookmarks: z.number(),
   folder_count: z.number(),
   favorite_count: z.number(),
 });
 
-export const profileStatsGetResponseSchema = z.object({
-  data: profileStatsSchema,
+export const profileGetResponseSchema = z.object({
+  data: profileSchema,
 });
 
-export type ProfileStats = z.infer<typeof profileStatsSchema>;
-export type ProfileStatsGetResponse = z.infer<
-  typeof profileStatsGetResponseSchema
->;
+export type Profile = z.infer<typeof profileSchema>;
+export type ProfileGetResponse = z.infer<typeof profileGetResponseSchema>;
