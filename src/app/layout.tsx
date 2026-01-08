@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "savvy",
   description: "수집, 수집, 수집",
   manifest: "/manifest.json",
+  icons: {
+    apple: "/apple-touch-icon.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
