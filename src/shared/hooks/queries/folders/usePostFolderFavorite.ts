@@ -1,18 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { patchFolder, FolderPatchRequest } from "@/shared/api/folders";
+import { postFolderFavorite } from "@/shared/api/folders";
 import { folderKeys } from "@/shared/utils/queryKeyFactory";
 
-export function usePatchFolder() {
+export function usePostFolderFavorite() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      request,
-    }: {
-      id: string;
-      request: FolderPatchRequest;
-    }) => patchFolder(id, request),
+    mutationFn: (id: string) => postFolderFavorite(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: folderKeys.all,

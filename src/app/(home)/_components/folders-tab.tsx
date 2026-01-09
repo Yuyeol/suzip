@@ -3,10 +3,12 @@
 import FolderCard from "@/app/(home)/_components/folder-card";
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
 import { useQueryParam } from "@/shared/hooks/useQueryParam";
+import { parseAsBoolean } from "@/shared/utils/queryStateParsers";
 
 export default function FoldersTab() {
   const search = useQueryParam("search");
   const sort = useQueryParam("sort");
+  const isFavorite = useQueryParam("is_favorite", undefined, parseAsBoolean);
 
   // Sort 값에 따라 sort, order 파라미터 결정
   const getSortParams = () => {
@@ -27,6 +29,7 @@ export default function FoldersTab() {
   const { data: folders = [], isLoading: isFoldersLoading } = useGetFolders({
     search,
     ...sortParams,
+    is_favorite: isFavorite,
   });
 
   return (
@@ -42,6 +45,7 @@ export default function FoldersTab() {
             id={folder.id}
             name={folder.name}
             itemCount={folder.bookmark_count ?? 0}
+            isFavorite={folder.is_favorite}
           />
         ))
       )}

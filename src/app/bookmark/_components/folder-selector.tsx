@@ -17,6 +17,7 @@ export default function FolderSelector<T extends FieldValues>({
     search: null,
     sort: null,
     order: null,
+    is_favorite: null,
   });
 
   const folderOptions = [

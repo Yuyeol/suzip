@@ -19,10 +19,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   const isFavorite = searchParams.get("is_favorite");
 
   // 기본 쿼리 시작
-  let query = supabase
-    .from("bookmarks")
-    .select("*")
-    .eq("user_id", userId);
+  let query = supabase.from("bookmarks").select("*").eq("user_id", userId);
 
   // 검색 필터 (title, description, url)
   if (search) {
@@ -33,7 +30,11 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 
   // 폴더 필터
   if (folderId) {
-    query = query.eq("folder_id", folderId);
+    if (folderId === "null") {
+      query = query.is("folder_id", null);
+    } else {
+      query = query.eq("folder_id", folderId);
+    }
   }
 
   // 즐겨찾기 필터
@@ -59,7 +60,8 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   const userId = await getUserId();
   const body = await request.json();
 
-  const { title, url, description, folder_id, is_favorite, thumbnail, memo } = body;
+  const { title, url, description, folder_id, is_favorite, thumbnail, memo } =
+    body;
 
   // 필수 필드 검증
   const validation = validateRequired(body, ["title", "url"]);

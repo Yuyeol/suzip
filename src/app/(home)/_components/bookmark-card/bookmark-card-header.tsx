@@ -18,8 +18,12 @@ export default function BookmarkCardHeader({
         {title}
       </h3>
       <div className="flex items-center gap-2 flex-shrink-0">
-        <FavoriteButton bookmarkId={bookmarkId} isFavorite={isFavorite} />
-        <MoreButton bookmarkId={bookmarkId} />
+        <FavoriteButton
+          entityType="bookmark"
+          entityId={bookmarkId}
+          isFavorite={isFavorite}
+        />
+        <MoreButton entityType="bookmark" entityId={bookmarkId} />
       </div>
     </div>
   );

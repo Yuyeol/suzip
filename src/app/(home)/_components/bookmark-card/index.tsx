@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import BookmarkCardHeader from "@/app/(home)/_components/bookmark-card/bookmark-card-header";
 import BookmarkCardContent from "@/app/(home)/_components/bookmark-card/bookmark-card-content";
-import BookmarkCardFooter from "@/app/(home)/_components/bookmark-card/bookmark-card-footer";
 
 interface Props {
   id: string;
@@ -20,7 +19,6 @@ export default function BookmarkCard({
   id,
   title,
   description,
-  createdAt,
   thumbnail,
   isFavorite,
 }: Props) {
@@ -49,9 +47,6 @@ export default function BookmarkCard({
           description={description}
           title={title}
         />
-
-        {/* 3행: 날짜 */}
-        <BookmarkCardFooter createdAt={createdAt} />
       </div>
     </div>
   );

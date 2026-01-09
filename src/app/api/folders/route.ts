@@ -9,22 +9,28 @@ import { validateRequired } from "@/app/api/_utils/validation";
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const supabase = await createClient();
   const userId = await getUserId();
+  const { searchParams } = request.nextUrl;
 
-  // URL 파라미터 추출
-  const { searchParams } = new URL(request.url);
-  const search = searchParams.get("search");
+  // 쿼리 파라미터 추출
+  const search = searchParams.get("search") || "";
   const sort = searchParams.get("sort") || "created_at";
   const order = searchParams.get("order") || "desc";
+  const isFavorite = searchParams.get("is_favorite");
 
-  // 폴더 조회
+  // 기본 쿼리 시작
   let query = supabase
     .from("folders")
     .select("*")
     .eq("user_id", userId);
 
-  // 검색어가 있으면 필터 적용
+  // 검색 필터
   if (search) {
     query = query.ilike("name", `%${search}%`);
+  }
+
+  // 즐겨찾기 필터
+  if (isFavorite === "true") {
+    query = query.eq("is_favorite", true);
   }
 
   const { data: folders, error } = await query.order(sort, {

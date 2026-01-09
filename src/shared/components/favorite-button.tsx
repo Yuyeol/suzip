@@ -2,23 +2,33 @@
 
 import { Star } from "lucide-react";
 import { usePostFavorite } from "@/shared/hooks/queries/bookmarks/usePostFavorite";
+import { usePostFolderFavorite } from "@/shared/hooks/queries/folders/usePostFolderFavorite";
 
 interface Props {
-  bookmarkId: string;
+  entityType: "bookmark" | "folder";
+  entityId: string;
   isFavorite: boolean;
 }
 
-export default function FavoriteButton({ bookmarkId, isFavorite }: Props) {
-  const toggleFavorite = usePostFavorite();
+export default function FavoriteButton({
+  entityType,
+  entityId,
+  isFavorite,
+}: Props) {
+  const toggleBookmarkFavorite = usePostFavorite();
+  const toggleFolderFavorite = usePostFolderFavorite();
 
   const handleFavoriteToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleFavorite.mutate(bookmarkId, {
+
+    const toggleMutation =
+      entityType === "bookmark" ? toggleBookmarkFavorite : toggleFolderFavorite;
+
+    toggleMutation.mutate(entityId, {
       onSuccess: () => {
         // 성공 시 React Query가 자동으로 목록 갱신
       },
       onError: (error) => {
-        alert("즐겨찾기 토글에 실패했습니다.");
         console.error(error);
       },
     });

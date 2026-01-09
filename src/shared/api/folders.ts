@@ -11,11 +11,12 @@ import {
 import { fetcher } from "@/shared/utils/api/fetcher";
 import { buildUrlWithParams } from "@/shared/utils/buildUrlWithParams";
 
-// GET /api/folders
+// GET /api/folders (목록 조회, 검색/필터 지원)
 export async function getFolders(params: {
   search: string | null;
   sort: string | null;
   order: "asc" | "desc" | null;
+  is_favorite: boolean | null;
 }): Promise<Folder[]> {
   const url = buildUrlWithParams("/api/folders", params);
   const response = await fetcher(url, foldersGetResponse);
@@ -65,6 +66,16 @@ export async function deleteFolder(id: string): Promise<void> {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.error || "Failed to delete folder");
   }
+}
+
+// POST /api/folders/[id]/favorite (즐겨찾기 토글)
+export async function postFolderFavorite(id: string): Promise<Folder> {
+  const url = `/api/folders/${id}/favorite`;
+  const response = await fetcher(url, folderPostResponse, {
+    method: "POST",
+  });
+
+  return response.data;
 }
 
 // Re-export types

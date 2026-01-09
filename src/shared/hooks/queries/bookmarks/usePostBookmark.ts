@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postBookmark } from "@/shared/api/bookmarks";
-import { bookmarkKeys } from "@/shared/utils/queryKeyFactory";
+import { bookmarkKeys, folderKeys } from "@/shared/utils/queryKeyFactory";
 import type { BookmarkPostRequest } from "@/shared/api/bookmarks";
 
 export function usePostBookmark() {
@@ -9,7 +9,14 @@ export function usePostBookmark() {
   return useMutation({
     mutationFn: (request: BookmarkPostRequest) => postBookmark(request),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: bookmarkKeys.all });
+      queryClient.invalidateQueries({
+        queryKey: bookmarkKeys.all,
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: folderKeys.all,
+        refetchType: "active",
+      });
     },
   });
 }

@@ -20,6 +20,7 @@ export default function BookmarkDetailPage() {
     search: null,
     sort: null,
     order: null,
+    is_favorite: null,
   });
 
   if (isLoading) {
@@ -58,9 +59,14 @@ export default function BookmarkDetailPage() {
             <Text variant="title-2">{bookmark.title}</Text>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
-            <FavoriteButton bookmarkId={id} isFavorite={bookmark.is_favorite} />
+            <FavoriteButton
+              entityType="bookmark"
+              entityId={id}
+              isFavorite={bookmark.is_favorite}
+            />
             <MoreButton
-              bookmarkId={id}
+              entityType="bookmark"
+              entityId={id}
               onDeleteSuccess={() => router.push("/")}
             />
           </div>

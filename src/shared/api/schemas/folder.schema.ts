@@ -5,6 +5,7 @@ export const folderSchema = z.object({
   id: z.string(),
   name: z.string(),
   user_id: z.string(),
+  is_favorite: z.boolean(),
   created_at: z.string(),
   updated_at: z.string(),
   bookmark_count: z.number().optional(),
