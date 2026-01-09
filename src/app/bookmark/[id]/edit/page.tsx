@@ -83,7 +83,7 @@ export default function BookmarkEditPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-muted">로딩 중...</p>
       </div>
     );
@@ -91,14 +91,14 @@ export default function BookmarkEditPage() {
 
   if (!bookmark) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-muted">북마크를 찾을 수 없습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="">
       <div className="px-4 py-6">
         <h1 className="text-2xl font-bold text-foreground mb-6">링크 수정</h1>
 

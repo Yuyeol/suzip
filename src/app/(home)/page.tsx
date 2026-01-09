@@ -12,7 +12,7 @@ export default function Home({ searchParams }: HomeProps) {
   const { view = "all" } = searchParams;
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="pb-20">
       <SearchBar />
       <ViewTabs />
       <div className="px-4 py-4">

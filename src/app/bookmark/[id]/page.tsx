@@ -25,7 +25,7 @@ export default function BookmarkDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-muted">로딩 중...</p>
       </div>
     );
@@ -33,7 +33,7 @@ export default function BookmarkDetailPage() {
 
   if (!bookmark) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-muted">북마크를 찾을 수 없습니다.</p>
       </div>
     );
@@ -50,7 +50,7 @@ export default function BookmarkDetailPage() {
     .replace(/\.$/, "");
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="pb-24">
       {/* 헤더 */}
       <div className="p-4 border-b border-border-light">
         {/* 제목 + 즐겨찾기 + 더보기 */}

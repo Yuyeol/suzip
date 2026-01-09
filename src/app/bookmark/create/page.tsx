@@ -63,7 +63,7 @@ export default function BookmarkCreatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       <div className="px-4 py-6">
         <h1 className="text-2xl font-bold text-foreground mb-6">링크 추가</h1>
 

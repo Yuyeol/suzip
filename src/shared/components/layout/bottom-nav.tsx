@@ -25,7 +25,9 @@ export default function BottomNav() {
               className={isActive("/") ? "text-primary" : "text-muted"}
             />
             <span
-              className={`text-xs ${isActive("/") ? "text-primary" : "text-muted"}`}
+              className={`text-xs ${
+                isActive("/") ? "text-primary" : "text-muted"
+              }`}
             >
               저장목록
             </span>
@@ -50,12 +52,12 @@ export default function BottomNav() {
           >
             <User
               size={20}
-              className={
-                isActive("/profile") ? "text-primary" : "text-muted"
-              }
+              className={isActive("/profile") ? "text-primary" : "text-muted"}
             />
             <span
-              className={`text-xs ${isActive("/profile") ? "text-primary" : "text-muted"}`}
+              className={`text-xs ${
+                isActive("/profile") ? "text-primary" : "text-muted"
+              }`}
             >
               프로필
             </span>
