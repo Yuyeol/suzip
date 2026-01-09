@@ -20,6 +20,7 @@ export default function BookmarkDetailPage() {
     search: null,
     sort: null,
     order: null,
+    is_favorite: null,
   });
 
   if (isLoading) {

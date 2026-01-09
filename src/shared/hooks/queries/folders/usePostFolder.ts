@@ -8,7 +8,10 @@ export function usePostFolder() {
   return useMutation({
     mutationFn: (request: FolderPostRequest) => postFolder(request),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: folderKeys.all });
+      queryClient.invalidateQueries({
+        queryKey: folderKeys.all,
+        refetchType: "active",
+      });
     },
   });
 }

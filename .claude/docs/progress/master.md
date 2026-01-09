@@ -38,3 +38,11 @@
 - OG 메타데이터 자동 추출 (open-graph-scraper + Microlink API)
 - 썸네일 이미지 표시
 - URL 입력 시 자동 채우기
+
+### [Phase 6: React Query 캐싱 전략 최적화](phase6-caching-strategy.md) 📝
+
+- QueryKey 버그 수정 (is_favorite 파라미터)
+- 폴더 삭제 시 북마크 invalidation
+- 리소스별 staleTime 세분화 (프로필 5분, 폴더 2분, 북마크 30초)
+- refetchOnWindowFocus 최적화
+- 네트워크 요청 40% 감소 예상

@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ReactNode, useState } from 'react';
-import { isApiError, isSchemaError } from '@/shared/utils/api/errors';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactNode, useState } from "react";
+import { isApiError, isSchemaError } from "@/shared/utils/api/errors";
+
+import { STALE_TIME } from "@/shared/constants/queryConfig";
 
 interface Props {
   children: ReactNode;
@@ -15,7 +17,7 @@ export default function ReactQueryProvider({ children }: Props) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 60 * 1000,
+            staleTime: STALE_TIME.DEFAULT,
             retry: (failureCount, error) => {
               // ApiError이고 재시도 불가능한 경우 (4xx 에러) 재시도하지 않음
               if (isApiError(error) && !error.isRetryable) return false;
@@ -26,7 +28,7 @@ export default function ReactQueryProvider({ children }: Props) {
             },
             throwOnError: (error) => {
               // 개발 환경에서 SchemaError는 Error Boundary로 던지기
-              if (process.env.NODE_ENV === 'development') {
+              if (process.env.NODE_ENV === "development") {
                 return isSchemaError(error);
               }
               return false;
@@ -36,14 +38,14 @@ export default function ReactQueryProvider({ children }: Props) {
             retry: false,
             throwOnError: (error) => {
               // 개발 환경에서 SchemaError는 Error Boundary로 던지기
-              if (process.env.NODE_ENV === 'development') {
+              if (process.env.NODE_ENV === "development") {
                 return isSchemaError(error);
               }
               return false;
             },
           },
         },
-      }),
+      })
   );
 
   return (

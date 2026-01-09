@@ -4,6 +4,7 @@ export const folderKeys = {
     search: string | null;
     sort: string | null;
     order: "asc" | "desc" | null;
+    is_favorite: boolean | null;
   }) => [...folderKeys.all, "list", params] as const,
 } as const;
 

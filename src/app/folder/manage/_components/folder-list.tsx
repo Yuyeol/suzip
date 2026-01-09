@@ -1,23 +1,24 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useGetFolders } from '@/shared/hooks/queries/folders/useGetFolders';
-import { usePatchFolder } from '@/shared/hooks/queries/folders/usePatchFolder';
-import { useDeleteFolder } from '@/shared/hooks/queries/folders/useDeleteFolder';
-import Input from '@/shared/components/core/input';
-import Button from '@/shared/components/core/button';
+import { useState } from "react";
+import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
+import { usePatchFolder } from "@/shared/hooks/queries/folders/usePatchFolder";
+import { useDeleteFolder } from "@/shared/hooks/queries/folders/useDeleteFolder";
+import Input from "@/shared/components/core/input";
+import Button from "@/shared/components/core/button";
 
 export default function FolderList() {
   const { data: folders = [], isLoading } = useGetFolders({
     search: null,
     sort: null,
     order: null,
+    is_favorite: null,
   });
   const patchFolder = usePatchFolder();
   const deleteFolder = useDeleteFolder();
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editValue, setEditValue] = useState('');
+  const [editValue, setEditValue] = useState("");
 
   const handleEdit = (id: string, name: string) => {
     setEditingId(id);
@@ -31,7 +32,7 @@ export default function FolderList() {
         {
           onSuccess: () => {
             setEditingId(null);
-            setEditValue('');
+            setEditValue("");
           },
         }
       );
@@ -40,7 +41,7 @@ export default function FolderList() {
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    setEditValue('');
+    setEditValue("");
   };
 
   const handleDelete = (id: string) => {

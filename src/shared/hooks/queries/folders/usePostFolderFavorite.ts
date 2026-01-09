@@ -8,7 +8,10 @@ export function usePostFolderFavorite() {
   return useMutation({
     mutationFn: (id: string) => postFolderFavorite(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: folderKeys.all });
+      queryClient.invalidateQueries({
+        queryKey: folderKeys.all,
+        refetchType: "active",
+      });
     },
   });
 }
