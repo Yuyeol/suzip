@@ -39,10 +39,17 @@
 - 썸네일 이미지 표시
 - URL 입력 시 자동 채우기
 
-### [Phase 6: React Query 캐싱 전략 최적화](phase6-caching-strategy.md) 📝
+### [Phase 6: React Query 캐싱 전략 최적화](phase6-caching-strategy.md) ✅
 
 - QueryKey 버그 수정 (is_favorite 파라미터)
 - 폴더 삭제 시 북마크 invalidation
 - 리소스별 staleTime 세분화 (프로필 5분, 폴더 2분, 북마크 30초)
 - refetchOnWindowFocus 최적화
 - 네트워크 요청 40% 감소 예상
+
+### [Phase 7: 폴더 삭제 및 데이터 정합성 강화](phase7-folder-deletion-logic.md) ✅
+
+- 폴더 삭제 시 소속 북마크 처리 로직 구현
+- 삭제 확인 알럿 및 북마크 동시 삭제 옵션 제공
+- DB 연쇄 삭제 또는 NULL 처리 로직 확립
+- 관련 UI/UX 개선

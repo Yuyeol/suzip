@@ -18,7 +18,7 @@ export default function FilterControls() {
   });
 
   const currentSort = useQueryParam("sort", "latest") as SortType;
-  const currentFolderId = useQueryParam("folder_id", "all");
+  const currentFolderId = useQueryParam("folder_id");
   const isFavoriteFilter = useQueryParam(
     "is_favorite",
     undefined,
@@ -32,8 +32,9 @@ export default function FilterControls() {
     { value: "name" as SortType, label: "가나다순" },
   ];
 
-  const folderOptions = [
-    { value: "all", label: "전체 폴더" },
+  const folderOptions: { value: string | null; label: string }[] = [
+    { value: null, label: "전체 폴더" },
+    { value: "null", label: "폴더 없음" },
     ...folders.map((folder) => ({
       value: folder.id,
       label: folder.name,
@@ -43,15 +44,15 @@ export default function FilterControls() {
   const handleSortChange = (sort: SortType) => {
     setParams({
       sort: sort === "latest" ? null : sort,
-      folder_id: currentFolderId === "all" ? null : currentFolderId,
+      folder_id: currentFolderId,
       is_favorite: isFavoriteFilter ? true : null,
     });
   };
 
-  const handleFolderChange = (folderId: string) => {
+  const handleFolderChange = (folderId: string | null) => {
     setParams({
       sort: currentSort === "latest" ? null : currentSort,
-      folder_id: folderId === "all" ? null : folderId,
+      folder_id: folderId,
       is_favorite: isFavoriteFilter ? true : null,
     });
   };
@@ -59,7 +60,7 @@ export default function FilterControls() {
   const handleFavoriteToggle = () => {
     setParams({
       sort: currentSort === "latest" ? null : currentSort,
-      folder_id: currentFolderId === "all" ? null : currentFolderId,
+      folder_id: currentFolderId,
       is_favorite: isFavoriteFilter ? null : true,
     });
   };
@@ -76,6 +77,7 @@ export default function FilterControls() {
           options={folderOptions}
           value={currentFolderId}
           onChange={handleFolderChange}
+          placeholder="폴더 선택"
         />
       )}
       {(activeView === "all" || activeView === "folders") && (

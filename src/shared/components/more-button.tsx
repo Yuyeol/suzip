@@ -10,12 +10,14 @@ import { buildUrlWithParams } from "@/shared/utils/buildUrlWithParams";
 interface Props {
   entityType: "bookmark" | "folder";
   entityId: string;
+  itemCount?: number;
   onDeleteSuccess?: () => void;
 }
 
 export default function MoreButton({
   entityType,
   entityId,
+  itemCount,
   onDeleteSuccess,
 }: Props) {
   const router = useRouter();
@@ -23,8 +25,18 @@ export default function MoreButton({
   const deleteFolder = useDeleteFolder();
 
   const handleDelete = () => {
-    if (confirm("정말 삭제하시겠습니까?")) {
-      const deleteMutation = entityType === "bookmark" ? deleteBookmark : deleteFolder;
+    let confirmMessage = "정말 삭제하시겠습니까?";
+    if (
+      entityType === "folder" &&
+      typeof itemCount === "number" &&
+      itemCount > 0
+    ) {
+      confirmMessage = `${itemCount}개의 북마크가 저장되어 있습니다. 폴더를 삭제하시겠습니까?\n(북마크는 삭제되지 않고 '폴더 없음'으로 이동합니다.)`;
+    }
+
+    if (confirm(confirmMessage)) {
+      const deleteMutation =
+        entityType === "bookmark" ? deleteBookmark : deleteFolder;
 
       deleteMutation.mutate(entityId, {
         onSuccess: () => {

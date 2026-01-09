@@ -36,7 +36,7 @@ export default function FolderCard({ id, name, itemCount, isFavorite }: Props) {
             entityId={id}
             isFavorite={isFavorite}
           />
-          <MoreButton entityType="folder" entityId={id} />
+          <MoreButton entityType="folder" entityId={id} itemCount={itemCount} />
         </div>
       </div>
 
