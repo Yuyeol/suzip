@@ -7,6 +7,7 @@ import {
   type Folder,
   type FolderPostRequest,
   type FolderPatchRequest,
+  FolderWithoutCount,
 } from "@/shared/api/schemas/folder.schema";
 import { fetcher } from "@/shared/utils/api/fetcher";
 import { buildUrlWithParams } from "@/shared/utils/buildUrlWithParams";
@@ -24,7 +25,9 @@ export async function getFolders(params: {
 }
 
 // POST /api/folders
-export async function postFolder(request: FolderPostRequest): Promise<Folder> {
+export async function postFolder(
+  request: FolderPostRequest
+): Promise<FolderWithoutCount> {
   const validated = folderPostRequestSchema.parse(request);
 
   const url = "/api/folders";
@@ -41,7 +44,7 @@ export async function postFolder(request: FolderPostRequest): Promise<Folder> {
 export async function patchFolder(
   id: string,
   request: FolderPatchRequest
-): Promise<Folder> {
+): Promise<FolderWithoutCount> {
   const validated = folderPatchRequestSchema.parse(request);
 
   const url = `/api/folders/${id}`;
@@ -69,7 +72,9 @@ export async function deleteFolder(id: string): Promise<void> {
 }
 
 // POST /api/folders/[id]/favorite (즐겨찾기 토글)
-export async function postFolderFavorite(id: string): Promise<Folder> {
+export async function postFolderFavorite(
+  id: string
+): Promise<FolderWithoutCount> {
   const url = `/api/folders/${id}/favorite`;
   const response = await fetcher(url, folderPostResponse, {
     method: "POST",

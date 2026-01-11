@@ -23,7 +23,7 @@ export default function BookmarkCardHeader({
           entityId={bookmarkId}
           isFavorite={isFavorite}
         />
-        <MoreButton entityType="bookmark" entityId={bookmarkId} />
+        <MoreButton entityId={bookmarkId} />
       </div>
     </div>
   );

@@ -6,6 +6,10 @@ export const STALE_TIME = {
   OG_METADATA: Infinity,
 } as const;
 
+export const GC_TIME = Infinity;
+
+export const PERSIST_TIME = Infinity;
+
 export const QUERY_CONFIG = {
   PROFILE: {
     staleTime: STALE_TIME.PROFILE,

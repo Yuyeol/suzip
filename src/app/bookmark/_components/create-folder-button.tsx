@@ -1,22 +1,30 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { Plus } from 'lucide-react';
+import { Plus, X } from "lucide-react";
 
-export default function CreateFolderButton() {
-  const router = useRouter();
+interface Props {
+  isOpen: boolean;
+  onToggle: () => void;
+}
 
-  const handleCreateFolder = () => {
-    router.push('/folder/manage');
-  };
-
+export default function CreateFolderButton({ isOpen, onToggle }: Props) {
   return (
     <button
       type="button"
-      onClick={handleCreateFolder}
-      className="flex items-center gap-2 text-sm text-primary"
+      onClick={onToggle}
+      className="flex items-center gap-1 text-sm text-primary mt-2 ml-auto"
     >
-      <Plus size={16} />새 폴더 만들기
+      {isOpen ? (
+        <>
+          닫기
+          <X size={16} />
+        </>
+      ) : (
+        <>
+          새 폴더 만들기
+          <Plus size={16} />
+        </>
+      )}
     </button>
   );
 }

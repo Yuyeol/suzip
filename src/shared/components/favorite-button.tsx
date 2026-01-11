@@ -34,8 +34,17 @@ export default function FavoriteButton({
     });
   };
 
+  const isPending =
+    entityType === "bookmark"
+      ? toggleBookmarkFavorite.isPending
+      : toggleFolderFavorite.isPending;
+
   return (
-    <button className="flex items-center" onClick={handleFavoriteToggle}>
+    <button
+      className="flex items-center disabled:opacity-50"
+      onClick={handleFavoriteToggle}
+      disabled={isPending}
+    >
       <Star
         size={20}
         className={

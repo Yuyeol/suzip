@@ -9,8 +9,9 @@ import { useGetBookmark } from "@/shared/hooks/queries/bookmarks/useGetBookmark"
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
 import FavoriteButton from "@/shared/components/favorite-button";
 import MoreButton from "@/shared/components/more-button";
+import dynamic from "next/dynamic";
 
-export default function BookmarkDetailPage() {
+function BookmarkDetailPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
@@ -25,7 +26,7 @@ export default function BookmarkDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-muted">로딩 중...</p>
       </div>
     );
@@ -33,7 +34,7 @@ export default function BookmarkDetailPage() {
 
   if (!bookmark) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <p className="text-muted">북마크를 찾을 수 없습니다.</p>
       </div>
     );
@@ -50,7 +51,7 @@ export default function BookmarkDetailPage() {
     .replace(/\.$/, "");
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="pb-24">
       {/* 헤더 */}
       <div className="p-4 border-b border-border-light">
         {/* 제목 + 즐겨찾기 + 더보기 */}
@@ -65,7 +66,6 @@ export default function BookmarkDetailPage() {
               isFavorite={bookmark.is_favorite}
             />
             <MoreButton
-              entityType="bookmark"
               entityId={id}
               onDeleteSuccess={() => router.push("/")}
             />
@@ -141,3 +141,7 @@ export default function BookmarkDetailPage() {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(BookmarkDetailPage), {
+  ssr: false,
+});

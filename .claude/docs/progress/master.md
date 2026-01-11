@@ -53,3 +53,22 @@
 - 삭제 확인 알럿 및 북마크 동시 삭제 옵션 제공
 - DB 연쇄 삭제 또는 NULL 처리 로직 확립
 - 관련 UI/UX 개선
+
+### [Phase 8: 모바일 UX 및 폼 안정성](phase8-mobile-ux-stability.md) ✅
+
+- 모바일 확대/축소 차단 (viewport 설정)
+- 북마크 폼 공통화 및 인라인 폴더 생성
+- 중복 제출 방지 (연타 방지)
+- 불필요한 폴더 관리 페이지 삭제
+
+### [Phase 9: 낙관적 UI 및 즉시 피드백](phase9-optimistic-ui.md) ⏳
+
+- Optimistic Updates (즐겨찾기, 삭제, 수정)
+- Toast 알림 시스템
+- 에러 롤백 및 사용자 피드백
+
+### [Phase 10: 스마트 동기화 및 수동 갱신](phase10-smart-sync.md) ⏳
+
+- 변경 감지용 Ping API
+- Pull to Refresh 구현
+- 다중 기기 간 데이터 동기화

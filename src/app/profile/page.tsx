@@ -10,7 +10,9 @@ import UserInfo from "@/app/profile/_components/user-info";
 import Statistics from "@/app/profile/_components/statistics";
 import LogoutButton from "@/app/profile/_components/logout-button";
 
-export default function ProfilePage() {
+import dynamic from "next/dynamic";
+
+function ProfilePage() {
   const { data: profile } = useGetProfile();
 
   if (!profile) return null;
@@ -45,3 +47,7 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+export default dynamic(() => Promise.resolve(ProfilePage), {
+  ssr: false,
+});

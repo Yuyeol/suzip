@@ -6,6 +6,7 @@ export interface DropdownOption {
   label: string;
   value: string;
   variant?: "default" | "danger";
+  disabled?: boolean;
   onClick: () => void;
 }
 
@@ -40,6 +41,7 @@ export default function Dropdown({ trigger, options, align = "right" }: Props) {
 
   const handleOptionClick = (e: React.MouseEvent, option: DropdownOption) => {
     e.stopPropagation();
+    if (option.disabled) return;
     option.onClick();
     setIsOpen(false);
   };
@@ -66,7 +68,8 @@ export default function Dropdown({ trigger, options, align = "right" }: Props) {
             <button
               key={option.value}
               onClick={(e) => handleOptionClick(e, option)}
-              className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+              disabled={option.disabled}
+              className={`w-full text-left px-4 py-2.5 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                 index === 0 ? "rounded-t-lg" : ""
               } ${index === options.length - 1 ? "rounded-b-lg" : ""} ${
                 option.variant === "danger"
