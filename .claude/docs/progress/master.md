@@ -54,11 +54,12 @@
 - DB 연쇄 삭제 또는 NULL 처리 로직 확립
 - 관련 UI/UX 개선
 
-### [Phase 8: 모바일 UX 및 폼 안정성](phase8-mobile-ux-stability.md) ⏳
+### [Phase 8: 모바일 UX 및 폼 안정성](phase8-mobile-ux-stability.md) ✅
 
 - 모바일 확대/축소 차단 (viewport 설정)
-- 모달 기반 폴더 생성 (페이지 이동 없이 폴더 추가)
+- 북마크 폼 공통화 및 인라인 폴더 생성
 - 중복 제출 방지 (연타 방지)
+- 불필요한 폴더 관리 페이지 삭제
 
 ### [Phase 9: 낙관적 UI 및 즉시 피드백](phase9-optimistic-ui.md) ⏳
 

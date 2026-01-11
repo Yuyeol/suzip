@@ -11,6 +11,7 @@ interface Props {
   editId?: string;
   initialValue?: string;
   onSuccess?: (folderId?: string) => void;
+  onCancel?: () => void;
   placeholder?: string;
 }
 
@@ -19,6 +20,7 @@ export default function FolderForm({
   editId,
   initialValue = "",
   onSuccess,
+  onCancel,
   placeholder = "새 폴더 추가...",
 }: Props) {
   const [value, setValue] = useState(initialValue);
@@ -75,14 +77,26 @@ export default function FolderForm({
           maxLength={50}
         />
       </div>
-      <Button
-        type="button"
-        variant="primary"
-        onClick={() => handleSubmit()}
-        disabled={!value.trim() || isLoading}
-      >
-        {buttonText}
-      </Button>
+      <div className="flex items-center gap-1">
+        {onCancel && (
+          <Button
+            type="button"
+            variant="neutral"
+            onClick={onCancel}
+            disabled={isLoading}
+          >
+            취소
+          </Button>
+        )}
+        <Button
+          type="button"
+          variant="primary"
+          onClick={() => handleSubmit()}
+          disabled={!value.trim() || isLoading}
+        >
+          {buttonText}
+        </Button>
+      </div>
     </div>
   );
 }

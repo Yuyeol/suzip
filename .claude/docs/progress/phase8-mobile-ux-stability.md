@@ -70,6 +70,7 @@ PWA 적용 후 모바일 네이티브 앱과 같은 사용자 경험을 위한 �
   - `folders-tab/folder-card.tsx`로 리스트 아이템 컴포넌트 생성
 
 - [x] **MoreButton 북마크 전용으로 변경**
+
   - `entityType` prop 제거
   - 폴더 관련 코드 완전 삭제
   - 북마크 전용 컴포넌트로 간소화
@@ -81,48 +82,31 @@ PWA 적용 후 모바일 네이티브 앱과 같은 사용자 경험을 위한 �
 
 ---
 
-### 8.3 북마크 페이지 폴더 생성 모달
+### 8.3 북마크 폼 공통화 및 인라인 폴더 생성
 
 #### 문제점
 
+- 북마크 생성/수정 페이지 코드 중복 심화 (약 80% 이상의 로직이 중복)
 - 북마크 생성/수정 중 폴더를 추가하려면 `/folder/manage` 페이지로 이동해야 함
 - 페이지 이동 시 입력했던 북마크 정보가 모두 사라짐
-- 폴더 생성 후 돌아와서 다시 입력해야 하는 불편함
 
 #### 해결 방안
 
-- [ ] **Modal 컴포넌트 생성**
+- [x] **북마크 공통 폼 컴포넌트 생성**
 
-  - `src/shared/components/modal/index.tsx` 생성
-  - Portal을 사용하여 body에 직접 렌더링
-  - children을 받아 모달 내용 표시
-  - Props: `isOpen`, `onClose`, `children`
+  - `src/app/bookmark/_components/bookmark-form.tsx` 생성
+  - 생성/수정 모드 통합 처리
+  - 중복되는 상태(`thumbnail`, `isFolderFormOpen`) 및 핸들러 통합
 
-- [ ] **Overlay 컴포넌트 재사용**
+- [x] **인라인 폴더 생성 기능**
 
-  - 기존 `src/shared/components/overlay.tsx` 활용
-  - 배경 딤 처리 및 클릭 시 모달 닫기
+  - `BookmarkForm` 내에서 `FolderForm`을 직접 호출하여 인라인으로 폴더 생성
+  - 페이지 이동 없이 즉시 폴더 추가 가능
+  - 생성된 폴더의 ID를 폼에 자동 반영하여 데이터 유실 방지
 
-- [ ] **ModalContent 컴포넌트 생성**
-
-  - `src/app/bookmark/_components/modal-content.tsx` 생성
-  - 테두리를 가진 박스 UI (shared가 아닌 북마크 페이지 전용)
-  - 폴더 생성 폼 포함: Input + 생성 버튼
-
-- [ ] **CreateFolderButton 수정**
-
-  - `/folder/manage`로 이동하는 대신 모달 오픈
-  - `src/app/bookmark/_components/create-folder-button.tsx` 수정
-
-- [ ] **폴더 생성 후 자동 선택**
-
-  - 모달에서 폴더 생성 성공 시 모달 닫힘
-  - 생성된 폴더가 FolderSelector에 자동으로 선택됨
-  - 북마크 입력 데이터는 그대로 유지
-
-- [ ] **적용 페이지**
-  - `/bookmark/create/page.tsx`
-  - `/bookmark/[id]/edit/page.tsx`
+- [x] **적용 페이지**
+  - `/bookmark/create/page.tsx` 리팩토링 완료
+  - `/bookmark/[id]/edit/page.tsx` 리팩토링 완료
 
 ---
 
@@ -130,14 +114,14 @@ PWA 적용 후 모바일 네이티브 앱과 같은 사용자 경험을 위한 �
 
 #### 변경 사항
 
-- [ ] **`/folder/manage` 페이지 삭제**
+- [x] **`/folder/manage` 페이지 삭제**
 
-  - `src/app/folder/manage/page.tsx` 삭제
-  - `src/app/folder/manage/_components/` 디렉토리 삭제
+  - `src/app/folder/manage/page.tsx` 삭제 완료
+  - `src/app/folder/manage/_components/` 디렉토리 삭제 완료
   - 폴더 관리는 홈 폴더 탭에서만 처리
 
-- [ ] **스펙 문서 삭제**
-  - `.claude/docs/spec/pages/folder/manage/` 디렉토리 삭제
+- [x] **스펙 문서 삭제**
+  - `.claude/docs/spec/pages/folder/manage/` 디렉토리 삭제 완료
 
 ---
 
@@ -150,15 +134,14 @@ PWA 적용 후 모바일 네이티브 앱과 같은 사용자 경험을 위한 �
 
 #### 해결 방안
 
-- [ ] **Mutation `isPending` 상태 활용**
+- [x] **Mutation `isPending` 상태 활용**
 
   - 제출 중에는 버튼 비활성화
-  - 로딩 상태 표시 ('저장 중...', '추가 중...')
+  - 로딩 상태 표시 ('저장 중...', '수정 중...', '추가 중...')
 
-- [ ] **적용 대상**
-  - 북마크 생성/수정 폼 (`/bookmark/create`, `/bookmark/[id]/edit`)
-  - 폴더 생성 폼 (모달 내부)
-  - 폴더 수정 폼 (홈 폴더 탭 인라인)
+- [x] **적용 대상**
+  - 북마크 생성/수정 폼 (`BookmarkForm`)
+  - 폴더 생성/수정 폼 (`FolderForm`)
   - 즐겨찾기 토글 (`FavoriteButton`)
   - 삭제 버튼 (`MoreButton`, 홈 폴더 탭)
 
