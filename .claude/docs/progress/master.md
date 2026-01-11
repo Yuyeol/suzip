@@ -56,8 +56,8 @@
 
 ### [Phase 8: 모바일 UX 및 폼 안정성](phase8-mobile-ux-stability.md) ⏳
 
-- 모바일 입력 환경 최적화 (확대/축소 제어)
-- 폼 데이터 유실 방지 (Draft 저장)
+- 모바일 확대/축소 차단 (viewport 설정)
+- 모달 기반 폴더 생성 (페이지 이동 없이 폴더 추가)
 - 중복 제출 방지 (연타 방지)
 
 ### [Phase 9: 낙관적 UI 및 즉시 피드백](phase9-optimistic-ui.md) ⏳
