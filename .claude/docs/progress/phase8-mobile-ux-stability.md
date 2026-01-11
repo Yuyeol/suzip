@@ -46,27 +46,38 @@ PWA 적용 후 모바일 네이티브 앱과 같은 사용자 경험을 위한 �
 
 #### 해결 방안
 
-- [ ] **리스트 형태로 UI 변경**
+- [x] **리스트 형태로 UI 변경**
 
   - 2열 그리드 → 한 행당 하나의 폴더 리스트로 변경
   - 각 행 구성: 폴더명 | 북마크 개수 | 즐겨찾기 토글 | 수정 버튼 | 삭제 버튼
-  - `(home)/_components/folders-tab.tsx` 수정
+  - `(home)/_components/folders-tab/` 폴더로 컴포넌트 분리
 
-- [ ] **인라인 수정 기능**
+- [x] **폴더 생성 폼 상시 노출**
 
-  - 수정 버튼 클릭 시 해당 행이 수정 모드로 전환
-  - Input + 완료/취소 버튼으로 즉시 수정 가능
-  - 수정 완료 시 다시 일반 모드로 전환
+  - 폴더 탭 상단에 폴더 생성 폼 항상 표시
+  - 수정 모드일 때는 생성 폼이 수정 폼으로 전환
+  - `FolderForm` 컴포넌트로 생성/수정 통합 처리
 
-- [ ] **FolderCard 컴포넌트 제거**
+- [x] **인라인 수정 기능**
 
-  - 카드 형태가 아닌 리스트 행으로 표시하므로 `folder-card.tsx` 삭제
-  - `folders-tab.tsx`에 직접 리스트 항목 렌더링
+  - 수정 버튼 클릭 시 상단 폼이 수정 모드로 전환
+  - 해당 폴더는 목록에서 숨김
+  - Input + 완료 + 취소 버튼으로 즉시 수정 가능
 
-- [ ] **MoreButton 폴더 수정 기능 제거**
-  - 폴더의 경우 수정 옵션을 드롭다운에서 제거
-  - 북마크만 수정 옵션 유지
-  - `src/shared/components/more-button.tsx` 수정
+- [x] **FolderCard 컴포넌트 삭제**
+
+  - 기존 카드 형태 제거
+  - `folders-tab/folder-card.tsx`로 리스트 아이템 컴포넌트 생성
+
+- [x] **MoreButton 북마크 전용으로 변경**
+  - `entityType` prop 제거
+  - 폴더 관련 코드 완전 삭제
+  - 북마크 전용 컴포넌트로 간소화
+
+- [x] **폴더 스키마 개선**
+  - `folderWithoutCountSchema` (DB 테이블과 동일)
+  - `folderSchema` (bookmark_count 포함 - 일반적으로 사용)
+  - 생성/수정/즐겨찾기 응답에는 `bookmark_count` 불필요
 
 ---
 

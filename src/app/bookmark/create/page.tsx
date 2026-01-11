@@ -8,6 +8,7 @@ import FormInput from "@/shared/components/core/form-input";
 import FormTextarea from "@/shared/components/core/form-textarea";
 import FolderSelector from "@/app/bookmark/_components/folder-selector";
 import CreateFolderButton from "@/app/bookmark/_components/create-folder-button";
+import FolderForm from "@/shared/components/folder/folder-form";
 import UrlInput from "@/app/bookmark/_components/url-input";
 import Button from "@/shared/components/core/button";
 import { usePostBookmark } from "@/shared/hooks/queries/bookmarks/usePostBookmark";
@@ -25,6 +26,7 @@ function BookmarkCreatePage() {
   const router = useRouter();
   const postBookmark = usePostBookmark();
   const [thumbnail, setThumbnail] = useState<string | null>(null);
+  const [isFolderFormOpen, setIsFolderFormOpen] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm<BookmarkFormData>({
     defaultValues: {
@@ -38,6 +40,13 @@ function BookmarkCreatePage() {
 
   const handleCancel = () => {
     router.push("/");
+  };
+
+  const handleFolderCreated = (folderId?: string) => {
+    if (folderId) {
+      setValue("folderId", folderId);
+    }
+    setIsFolderFormOpen(false);
   };
 
   const onSubmit = async (data: BookmarkFormData) => {
@@ -116,11 +125,21 @@ function BookmarkCreatePage() {
             maxLength={500}
             rows={3}
           />
+          <div>
+            <FolderSelector name="folderId" control={control} />
 
-          <FolderSelector name="folderId" control={control} />
-
-          <CreateFolderButton />
-
+            {isFolderFormOpen && (
+              <FolderForm
+                mode="create"
+                placeholder="폴더 이름을 입력하세요"
+                onSuccess={handleFolderCreated}
+              />
+            )}
+            <CreateFolderButton
+              isOpen={isFolderFormOpen}
+              onToggle={() => setIsFolderFormOpen(!isFolderFormOpen)}
+            />
+          </div>
           <div className="flex justify-end gap-3 pt-4">
             <Button type="button" variant="neutral" onClick={handleCancel}>
               취소

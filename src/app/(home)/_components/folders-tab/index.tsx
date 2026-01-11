@@ -4,10 +4,8 @@ import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
 import { useQueryParam } from "@/shared/hooks/useQueryParam";
 import { parseAsBoolean } from "@/shared/utils/queryStateParsers";
 import { useState } from "react";
-import { usePostFolder } from "@/shared/hooks/queries/folders/usePostFolder";
-import { usePatchFolder } from "@/shared/hooks/queries/folders/usePatchFolder";
 import { useDeleteFolder } from "@/shared/hooks/queries/folders/useDeleteFolder";
-import FolderForm from "./folder-form";
+import FolderForm from "@/shared/components/folder/folder-form";
 import FolderListItem from "./folder-card";
 
 export default function FoldersTab() {
@@ -15,12 +13,9 @@ export default function FoldersTab() {
   const sort = useQueryParam("sort");
   const isFavorite = useQueryParam("is_favorite", undefined, parseAsBoolean);
 
-  const [createValue, setCreateValue] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editValue, setEditValue] = useState("");
+  const [editingName, setEditingName] = useState("");
 
-  const postFolder = usePostFolder();
-  const patchFolder = usePatchFolder();
   const deleteFolder = useDeleteFolder();
 
   const getSortParams = () => {
@@ -44,39 +39,19 @@ export default function FoldersTab() {
     is_favorite: isFavorite,
   });
 
-  const handleCreate = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (createValue.trim()) {
-      postFolder.mutate(
-        { name: createValue },
-        { onSuccess: () => setCreateValue("") }
-      );
-    }
-  };
-
   const handleEdit = (id: string, name: string) => {
     setEditingId(id);
-    setEditValue(name);
+    setEditingName(name);
   };
 
-  const handleSaveEdit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editValue.trim() && editingId) {
-      patchFolder.mutate(
-        { id: editingId, request: { name: editValue } },
-        {
-          onSuccess: () => {
-            setEditingId(null);
-            setEditValue("");
-          },
-        }
-      );
-    }
+  const handleEditSuccess = () => {
+    setEditingId(null);
+    setEditingName("");
   };
 
   const handleCancel = () => {
     setEditingId(null);
-    setEditValue("");
+    setEditingName("");
   };
 
   const handleDelete = (id: string, itemCount: number) => {
@@ -97,20 +72,11 @@ export default function FoldersTab() {
   return (
     <div className="space-y-2">
       <FolderForm
-        value={editingId ? editValue : createValue}
-        onChange={editingId ? setEditValue : setCreateValue}
-        onSubmit={editingId ? handleSaveEdit : handleCreate}
-        placeholder={editingId ? "폴더명 입력..." : "새 폴더 추가..."}
-        buttonText={
-          editingId
-            ? patchFolder.isPending
-              ? "수정 중..."
-              : "수정"
-            : postFolder.isPending
-            ? "추가 중..."
-            : "추가"
-        }
-        isLoading={editingId ? patchFolder.isPending : postFolder.isPending}
+        mode={editingId ? "edit" : "create"}
+        editId={editingId ?? undefined}
+        initialValue={editingId ? editingName : ""}
+        placeholder={editingId ? "폴더명 입력..." : undefined}
+        onSuccess={editingId ? handleEditSuccess : undefined}
         onCancel={editingId ? handleCancel : undefined}
       />
 
