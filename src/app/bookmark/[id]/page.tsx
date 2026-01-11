@@ -66,7 +66,6 @@ function BookmarkDetailPage() {
               isFavorite={bookmark.is_favorite}
             />
             <MoreButton
-              entityType="bookmark"
               entityId={id}
               onDeleteSuccess={() => router.push("/")}
             />
