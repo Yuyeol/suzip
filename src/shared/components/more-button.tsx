@@ -38,17 +38,21 @@ export default function MoreButton({ entityId, onDeleteSuccess }: Props) {
       onClick: handleEdit,
     },
     {
-      label: "삭제",
+      label: deleteBookmark.isPending ? "삭제 중..." : "삭제",
       value: "delete",
       variant: "danger",
       onClick: handleDelete,
+      disabled: deleteBookmark.isPending,
     },
   ];
 
   return (
     <Dropdown
       trigger={
-        <button className="flex items-center text-muted">
+        <button
+          className="flex items-center text-muted disabled:opacity-50"
+          disabled={deleteBookmark.isPending}
+        >
           <MoreVertical size={20} />
         </button>
       }
