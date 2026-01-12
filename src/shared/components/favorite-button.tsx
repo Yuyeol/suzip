@@ -24,14 +24,7 @@ export default function FavoriteButton({
     const toggleMutation =
       entityType === "bookmark" ? toggleBookmarkFavorite : toggleFolderFavorite;
 
-    toggleMutation.mutate(entityId, {
-      onSuccess: () => {
-        // 성공 시 React Query가 자동으로 목록 갱신
-      },
-      onError: (error) => {
-        console.error(error);
-      },
-    });
+    toggleMutation.mutate(entityId);
   };
 
   const isPending =
