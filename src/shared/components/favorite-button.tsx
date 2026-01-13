@@ -34,7 +34,7 @@ export default function FavoriteButton({
 
   return (
     <button
-      className="flex items-center disabled:opacity-50"
+      className="flex items-center"
       onClick={handleFavoriteToggle}
       disabled={isPending}
     >
