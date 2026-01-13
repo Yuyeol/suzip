@@ -9,7 +9,7 @@ interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
-export const GET = withErrorHandler(async (_request: NextRequest, context?: RouteContext) => {
+export const GET = withErrorHandler(async (request: NextRequest, context?: RouteContext) => {
   const supabase = await createClient();
   const userId = await getUserId();
   const { id } = await context!.params;
@@ -25,7 +25,10 @@ export const GET = withErrorHandler(async (_request: NextRequest, context?: Rout
     return handleSupabaseError(error, "Bookmark");
   }
 
-  return successResponse(data);
+  // ETag 생성 (단일 객체의 updated_at 기반)
+  const etag = data.updated_at || "empty";
+
+  return successResponse(data, 200, { request, etag });
 });
 
 export const PATCH = withErrorHandler(async (request: NextRequest, context?: RouteContext) => {

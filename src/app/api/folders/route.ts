@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@/shared/lib/supabase/server";
 import { getUserId } from "@/app/api/_utils/get-user-id";
-import { successResponse } from "@/app/api/_utils/response";
+import { successResponse, generateArrayETag } from "@/app/api/_utils/response";
 import { handleSupabaseError } from "@/app/api/_utils/supabase-errors";
 import { withErrorHandler } from "@/app/api/_utils/api-handler";
 import { validateRequired } from "@/app/api/_utils/validation";
@@ -56,7 +56,10 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     })
   );
 
-  return successResponse(foldersWithCount);
+  // ETag 생성 (배열의 최신 updated_at 기반)
+  const etag = generateArrayETag(folders || []);
+
+  return successResponse(foldersWithCount, 200, { request, etag });
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
