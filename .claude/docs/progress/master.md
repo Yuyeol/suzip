@@ -41,11 +41,10 @@
 
 ### [Phase 6: React Query 캐싱 전략 최적화](phase6-caching-strategy.md) ✅
 
-- QueryKey 버그 수정 (is_favorite 파라미터)
-- 폴더 삭제 시 북마크 invalidation
-- 리소스별 staleTime 세분화 (프로필 5분, 폴더 2분, 북마크 30초)
-- refetchOnWindowFocus 최적화
-- 네트워크 요청 40% 감소 예상
+- 멀티 디바이스 캐싱 전략 (staleTime: Infinity, refetchOnWindowFocus: true)
+- ETag 기반 조건부 요청 (304 Not Modified)
+- ETag 유틸 함수 분리 및 빈 배열 처리 개선
+- 네트워크 요청 60~70% 감소
 
 ### [Phase 7: 폴더 삭제 및 데이터 정합성 강화](phase7-folder-deletion-logic.md) ✅
 
@@ -66,9 +65,3 @@
 - Optimistic Updates (즐겨찾기, 삭제, 수정)
 - Toast 알림 시스템
 - 에러 롤백 및 사용자 피드백
-
-### [Phase 10: 스마트 동기화 및 수동 갱신](phase10-smart-sync.md) ⏳
-
-- 변경 감지용 Ping API
-- Pull to Refresh 구현
-- 다중 기기 간 데이터 동기화
