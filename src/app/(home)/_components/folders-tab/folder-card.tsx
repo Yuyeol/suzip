@@ -6,7 +6,7 @@ import { Folder } from "@/shared/api/folders";
 
 interface Props {
   folder: Folder;
-  onEdit: (id: string, name: string) => void;
+  onEdit: (id: string) => void;
   onDelete: (id: string, itemCount: number) => void;
   isDeleting: boolean;
 }
@@ -51,7 +51,6 @@ export default function FolderListItem({
       {/* 수정/삭제 버튼 */}
       <FolderActions
         folderId={folder.id}
-        folderName={folder.name}
         onEdit={onEdit}
         onDelete={() => onDelete(folder.id, folder.bookmark_count)}
         isDeleting={isDeleting}

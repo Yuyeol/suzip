@@ -1,14 +1,12 @@
 interface Props {
   folderId: string;
-  folderName: string;
-  onEdit: (id: string, name: string) => void;
+  onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   isDeleting: boolean;
 }
 
 export default function FolderActions({
   folderId,
-  folderName,
   onEdit,
   onDelete,
   isDeleting,
@@ -17,7 +15,7 @@ export default function FolderActions({
     <>
       {/* 수정 버튼 */}
       <button
-        onClick={() => onEdit(folderId, folderName)}
+        onClick={() => onEdit(folderId)}
         className="px-1 py-1 text-sm text-primary flex-shrink-0"
       >
         수정
