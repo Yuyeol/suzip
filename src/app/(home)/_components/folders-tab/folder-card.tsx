@@ -21,7 +21,7 @@ export default function FolderListItem({
 
   const handleFolderClick = () => {
     // 전체보기 탭으로 전환 + 해당 폴더 필터링
-    router.push(buildUrlWithParams("/", { folder_id: folder.id }));
+    router.replace(buildUrlWithParams("/", { folder_id: folder.id }));
   };
 
   return (

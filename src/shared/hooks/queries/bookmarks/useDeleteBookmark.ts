@@ -30,7 +30,9 @@ export function useDeleteBookmark() {
       );
     },
 
-    onSuccess: () => {
+    onSuccess: (_, id) => {
+      // 상세 캐시 즉시 제거 (유령 데이터 방지)
+      queryClient.removeQueries({ queryKey: bookmarkKeys.detail(id) });
       // 폴더에 속한 북마크 갯수 갱신을 위해 무효화 필요
       queryClient.invalidateQueries({ queryKey: folderListKey });
     },

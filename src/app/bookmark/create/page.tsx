@@ -12,7 +12,7 @@ function BookmarkCreatePage() {
   const postBookmark = usePostBookmark();
 
   const onSubmit = async (
-    data: BookmarkFormData & { thumbnail: string | null }
+    data: BookmarkFormData & { thumbnail: string | null },
   ) => {
     postBookmark.mutate(
       {
@@ -26,13 +26,13 @@ function BookmarkCreatePage() {
       },
       {
         onSuccess: () => {
-          router.push("/");
+          router.replace("/");
         },
         onError: (error) => {
           console.error("Failed to create bookmark:", error);
           alert("북마크 저장에 실패했습니다.");
         },
-      }
+      },
     );
   };
 

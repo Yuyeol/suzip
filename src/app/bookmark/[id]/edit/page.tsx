@@ -30,13 +30,13 @@ function BookmarkEditPage() {
       },
       {
         onSuccess: () => {
-          router.push(`/bookmark/${bookmarkId}`);
+          router.replace(`/bookmark/${bookmarkId}`);
         },
         onError: (error) => {
           console.error("Failed to update bookmark:", error);
           alert("북마크 수정에 실패했습니다.");
         },
-      }
+      },
     );
   };
 
