@@ -13,11 +13,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const stateStyles = props.disabled
       ? "border-border-light cursor-not-allowed"
       : error
-      ? "border-danger"
-      : "border-border-light";
+        ? "border-danger"
+        : "border-border-light";
 
     return (
-      <label className="block text-sm font-medium text-foreground">
+      <label className="block text-base font-medium text-foreground">
         {label && <span className="mb-1 block">{label}</span>}
         <input
           ref={ref}
@@ -30,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
       </label>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";
