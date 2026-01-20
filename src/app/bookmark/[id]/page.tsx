@@ -67,7 +67,7 @@ function BookmarkDetailPage() {
             />
             <MoreButton
               entityId={id}
-              onDeleteSuccess={() => router.push("/")}
+              onDeleteSuccess={() => router.replace("/")}
             />
           </div>
         </div>

@@ -5,7 +5,7 @@ import { successResponse, errorResponse } from "@/app/api/_utils/response";
 import { validateRequired, isValidUrl } from "@/app/api/_utils/validation";
 
 // Microlink API가 필요한 동적 렌더링 사이트
-const MICROLINK_WHITELIST = ["threads.com", "instagram.com"];
+const MICROLINK_WHITELIST = ["threads.com", "instagram.com", "skillsmp.com"];
 
 // URL이 화이트리스트에 포함되는지 확인
 function needsMicrolink(url: string): boolean {

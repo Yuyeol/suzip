@@ -83,14 +83,7 @@ export default function BookmarkForm({
   };
 
   const title = mode === "create" ? "링크 추가" : "링크 수정";
-  const submitLabel =
-    mode === "create"
-      ? isPending
-        ? "저장 중..."
-        : "저장"
-      : isPending
-      ? "수정 중..."
-      : "수정";
+  const submitLabel = mode === "create" ? "저장" : "수정";
 
   return (
     <div className="px-4 py-6">

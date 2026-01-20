@@ -1,21 +1,41 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postFavorite } from "@/shared/api/bookmarks";
+import { postFavorite, type Bookmark } from "@/shared/api/bookmarks";
 import { bookmarkKeys } from "@/shared/utils/queryKeyFactory";
 
 export function usePostFavorite() {
   const queryClient = useQueryClient();
+  const listKey = [...bookmarkKeys.all, "list"];
 
   return useMutation({
-    mutationFn: (id: string) => postFavorite(id),
-    onSuccess: (data) => {
-      // 해당 북마크의 상세 데이터를 캐시에 즉시 반영
-      queryClient.setQueryData(bookmarkKeys.detail(data.id), data);
+    mutationFn: postFavorite,
 
-      // 목록 캐시 무효화 (필터링된 목록들 갱신)
-      queryClient.invalidateQueries({
-        queryKey: bookmarkKeys.all,
-        refetchType: "active",
-      });
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: listKey });
+
+      const prevLists = queryClient.getQueriesData<Bookmark[]>({ queryKey: listKey });
+      const prevDetail = queryClient.getQueryData<Bookmark>(bookmarkKeys.detail(id));
+
+      // 목록 캐시 업데이트
+      queryClient.setQueriesData<Bookmark[]>({ queryKey: listKey }, (old) =>
+        old?.map((b) => (b.id === id ? { ...b, is_favorite: !b.is_favorite } : b)),
+      );
+
+      // 상세 캐시 업데이트
+      if (prevDetail) {
+        queryClient.setQueryData(bookmarkKeys.detail(id), {
+          ...prevDetail,
+          is_favorite: !prevDetail.is_favorite,
+        });
+      }
+
+      return { prevLists, prevDetail, id };
+    },
+
+    onError: (_, __, ctx) => {
+      ctx?.prevLists.forEach(([key, data]) => queryClient.setQueryData(key, data));
+      if (ctx?.prevDetail) {
+        queryClient.setQueryData(bookmarkKeys.detail(ctx.id), ctx.prevDetail);
+      }
     },
   });
 }

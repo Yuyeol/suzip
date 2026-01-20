@@ -14,7 +14,6 @@ export default function FoldersTab() {
   const isFavorite = useQueryParam("is_favorite", undefined, parseAsBoolean);
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState("");
 
   const deleteFolder = useDeleteFolder();
 
@@ -39,19 +38,16 @@ export default function FoldersTab() {
     is_favorite: isFavorite,
   });
 
-  const handleEdit = (id: string, name: string) => {
+  const handleEdit = (id: string) => {
     setEditingId(id);
-    setEditingName(name);
   };
 
   const handleEditSuccess = () => {
     setEditingId(null);
-    setEditingName("");
   };
 
   const handleCancel = () => {
     setEditingId(null);
-    setEditingName("");
   };
 
   const handleDelete = (id: string, itemCount: number) => {
@@ -71,20 +67,23 @@ export default function FoldersTab() {
 
   return (
     <div className="space-y-2">
-      <FolderForm
-        mode={editingId ? "edit" : "create"}
-        editId={editingId ?? undefined}
-        initialValue={editingId ? editingName : ""}
-        placeholder={editingId ? "폴더명 입력..." : undefined}
-        onSuccess={editingId ? handleEditSuccess : undefined}
-        onCancel={editingId ? handleCancel : undefined}
-      />
+      {/* 수정 중이 아닐 때만 상단 생성 폼 표시 */}
+      {!editingId && <FolderForm mode="create" />}
 
       {folders.length === 0 ? (
         <p className="text-center text-muted py-8">폴더가 없습니다</p>
       ) : (
         folders.map((folder) =>
-          editingId === folder.id ? null : (
+          editingId === folder.id ? (
+            <FolderForm
+              key={folder.id}
+              mode="edit"
+              editId={folder.id}
+              initialValue={folder.name}
+              onSuccess={handleEditSuccess}
+              onCancel={handleCancel}
+            />
+          ) : (
             <FolderListItem
               key={folder.id}
               folder={folder}
@@ -92,7 +91,7 @@ export default function FoldersTab() {
               onDelete={handleDelete}
               isDeleting={deleteFolder.isPending}
             />
-          )
+          ),
         )
       )}
     </div>

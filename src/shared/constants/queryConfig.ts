@@ -6,25 +6,18 @@ export const STALE_TIME = {
   OG_METADATA: Infinity,
 } as const;
 
-export const GC_TIME = Infinity;
-
-export const PERSIST_TIME = Infinity;
+export const GC_TIME = Infinity; // 메모리에서 절대 삭제 안함
 
 export const QUERY_CONFIG = {
-  PROFILE: {
-    staleTime: STALE_TIME.PROFILE,
-    refetchOnWindowFocus: false,
+  ALL: {
+    staleTime: STALE_TIME.DEFAULT,
+    gcTime: GC_TIME,
+    refetchOnWindowFocus: true,
+    refetchOnMount: false,
+    refetchOnReconnect: true,
   },
-  FOLDERS: {
-    staleTime: STALE_TIME.FOLDERS,
-    refetchOnWindowFocus: false,
-  },
-  BOOKMARKS: {
-    staleTime: STALE_TIME.BOOKMARKS,
-    refetchOnWindowFocus: false,
-  },
-  OG_METADATA: {
-    staleTime: STALE_TIME.OG_METADATA,
-    refetchOnWindowFocus: false,
-  },
+  PROFILE: {},
+  FOLDERS: {},
+  BOOKMARKS: {},
+  OG_METADATA: {},
 } as const;
