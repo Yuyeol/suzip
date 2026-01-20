@@ -56,8 +56,10 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     })
   );
 
-  // ETag 생성 (배열의 최신 updated_at 기반)
-  const etag = generateArrayETag(folders || []);
+  // ETag 생성 (updated_at + bookmark_count 조합)
+  const totalBookmarkCount = foldersWithCount.reduce((sum, f) => sum + f.bookmark_count, 0);
+  const baseEtag = generateArrayETag(folders || []);
+  const etag = `${baseEtag}-${totalBookmarkCount}`;
 
   return successResponse(foldersWithCount, 200, { request, etag });
 });
