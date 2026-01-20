@@ -14,9 +14,13 @@
 
 #### 우선순위 1: 즉각 반응 필수 기능
 
-- [ ] **즐겨찾기 토글** (`usePostFavorite`, `usePostFolderFavorite`)
+- [x] **즐겨찾기 토글 (북마크)** (`usePostFavorite`)
+  - onMutate에서 캐시 즉시 업데이트 (`Bookmark[]` 타입)
+  - onError에서 롤백 처리
+  - disabled로 중복 클릭 방지 (반투명 효과 없음)
+
+- [x] **즐겨찾기 토글 (폴더)** (`usePostFolderFavorite`)
   - Star 아이콘 클릭 시 즉시 채움/비움
-  - 서버 응답 전에 시각적 변경 완료
   - 실패 시 이전 상태로 롤백
 
 - [ ] **북마크 삭제** (`useDeleteBookmark`)
