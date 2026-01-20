@@ -38,7 +38,7 @@ export default function MoreButton({ entityId, onDeleteSuccess }: Props) {
       onClick: handleEdit,
     },
     {
-      label: deleteBookmark.isPending ? "삭제 중..." : "삭제",
+      label: "삭제",
       value: "delete",
       variant: "danger",
       onClick: handleDelete,

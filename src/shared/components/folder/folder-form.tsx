@@ -41,7 +41,7 @@ export default function FolderForm({
             setValue("");
             onSuccess?.(data.id);
           },
-        }
+        },
       );
     } else if (mode === "edit" && editId) {
       patchFolder.mutate(
@@ -51,19 +51,12 @@ export default function FolderForm({
             setValue("");
             onSuccess?.();
           },
-        }
+        },
       );
     }
   };
 
-  const buttonText =
-    mode === "create"
-      ? postFolder.isPending
-        ? "추가 중..."
-        : "추가"
-      : patchFolder.isPending
-      ? "수정 중..."
-      : "수정";
+  const buttonText = mode === "create" ? "추가" : "수정";
 
   return (
     <div className="flex items-center gap-2 mt-2">
