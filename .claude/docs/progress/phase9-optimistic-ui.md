@@ -35,8 +35,13 @@
 
 #### 우선순위 2: 향상된 경험
 
-- [ ] **북마크 수정** (`usePatchBookmark`)
+- [x] **북마크 수정** (`usePatchBookmark`)
   - 제목, 메모 등 변경사항 즉시 반영
+  - 실패 시 이전 값으로 복원
+  - 폴더 변경 시에만 폴더 목록 invalidate
+
+- [x] **폴더 수정** (`usePatchFolder`)
+  - 폴더명 등 변경사항 즉시 반영
   - 실패 시 이전 값으로 복원
 
 - [ ] **폴더 생성** (`usePostFolder`)
