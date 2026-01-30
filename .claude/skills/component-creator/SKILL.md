@@ -16,7 +16,7 @@ Use when:
 - 새 라우트 생성
 - searchParams 필요
 
-### 2. Page-Specific Components (`app/{route}/_component/{name}.tsx`)
+### 2. Page-Specific Components (`app/{route}/_components/{name}.tsx`)
 
 Use when:
 
@@ -40,7 +40,7 @@ Use when:
 
   ```
   app/{route}/
-  ├── _component/       # page-specific
+  ├── _components/       # page-specific
   └── page.tsx         # page
 
   shared/components/

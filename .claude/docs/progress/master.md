@@ -60,8 +60,8 @@
 - 중복 제출 방지 (연타 방지)
 - 불필요한 폴더 관리 페이지 삭제
 
-### [Phase 9: 낙관적 UI 및 즉시 피드백](phase9-optimistic-ui.md) ⏳
+### [Phase 9: 낙관적 UI 및 즉시 피드백](phase9-optimistic-ui.md) ✅
 
-- Optimistic Updates (즐겨찾기, 삭제, 수정)
-- Toast 알림 시스템
-- 에러 롤백 및 사용자 피드백
+- Optimistic Updates (즐겨찾기, 삭제, 수정, 생성)
+- onMutate/onError/onSettled 기반 캐시 즉시 업데이트 및 롤백
+- 폴더/북마크 CRUD 전체에 낙관적 UI 적용

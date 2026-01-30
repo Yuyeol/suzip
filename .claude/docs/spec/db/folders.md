@@ -1,57 +1,40 @@
-# folders
+# folders 테이블
 
-폴더 관리 테이블
+## 스키마
 
-## 필드
-- `id`: UUID (PK, 자동 생성)
-- `name`: 폴더 이름 (필수)
-- `user_id`: 사용자 ID (필수)
-- `created_at`: 생성 시간 (자동)
-- `updated_at`: 수정 시간 (자동)
+| 컬럼 | 타입 | 제약조건 | 설명 |
+|------|------|----------|------|
+| `id` | UUID | PK, default: gen_random_uuid() | 고유 ID |
+| `name` | TEXT | NOT NULL | 폴더명 |
+| `user_id` | UUID | NOT NULL, FK → auth.users.id | 소유 사용자 |
+| `is_favorite` | BOOLEAN | NOT NULL, default: false | 즐겨찾기 여부 |
+| `created_at` | TIMESTAMPTZ | default: now() | 생성 시각 |
+| `updated_at` | TIMESTAMPTZ | default: now() | 수정 시각 |
 
-## 설정
-- `updated_at`: 수정 시 자동 업데이트 (트리거)
-- RLS: 사용자는 본인 데이터만 CRUD 가능
+## RLS 정책
 
-```sql
-CREATE TABLE folders (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
-  user_id UUID NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now(),
-  updated_at TIMESTAMPTZ DEFAULT now()
-);
+- 사용자는 자신의 폴더만 CRUD 가능
+- `user_id = auth.uid()` 조건 적용
 
-CREATE INDEX idx_folders_user_id ON folders(user_id);
+## 외래키 관계
 
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = now();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+- `bookmarks.folder_id` → `folders.id` (ON DELETE SET NULL)
+- 폴더 삭제 시 소속 북마크의 `folder_id`가 `NULL`로 자동 변경
 
-CREATE TRIGGER update_folders_updated_at
-  BEFORE UPDATE ON folders
-  FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+## Zod 스키마
 
-ALTER TABLE folders ENABLE ROW LEVEL SECURITY;
+```typescript
+// DB 테이블과 동일 (bookmark_count 없음)
+folderWithoutCountSchema: { id, name, user_id, is_favorite, created_at, updated_at }
 
-CREATE POLICY "Users can view their own folders"
-  ON folders FOR SELECT
-  USING (auth.uid() = user_id);
+// API 응답용 (bookmark_count 포함)
+folderSchema: folderWithoutCountSchema + { bookmark_count }
 
-CREATE POLICY "Users can insert their own folders"
-  ON folders FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can update their own folders"
-  ON folders FOR UPDATE
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can delete their own folders"
-  ON folders FOR DELETE
-  USING (auth.uid() = user_id);
+// POST/PATCH Request: { name }
 ```
+
+## 참고
+
+- `bookmark_count`는 DB 컬럼이 아닌 API 레벨에서 계산되는 가상 필드
+- 생성/수정 응답에는 `folderWithoutCountSchema` 사용 (bookmark_count 불포함)
+- 목록 조회 응답에는 `folderSchema` 사용 (bookmark_count 포함)

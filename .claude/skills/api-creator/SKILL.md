@@ -23,26 +23,12 @@ description: Create API layer following 3-layer pattern (schema → api → hook
    - QueryKey factory 확인 후 진행
    - factory의 queryKey 사용
 
-## Endpoint Selection Guide
+## Endpoint Pattern
 
-### Admin/Auth Endpoints (세션 필요)
-
-Use `/api/management/*` with credentials:
+상대 경로 `/api/*` 사용:
 
 ```typescript
-const url = "/api/management/login";
-return fetcher(url, schema, {
-  method: "POST",
-  credentials: "include", // 필수
-});
-```
-
-### Public Endpoints (세션 불필요)
-
-Use `${API_BASE_URL}/api/*`:
-
-```typescript
-const url = `${API_BASE_URL}/api/cars/search`;
+const url = "/api/bookmarks";
 return fetcher(url, schema);
 ```
 
@@ -69,40 +55,49 @@ export const {feature}Keys = {
 
 ## Example Output (3-Layer)
 
-### 1. Schema (`domains/buy/carSearch/schemas/search.schema.ts`)
+### 1. Schema (`shared/api/schemas/bookmark.schema.ts`)
 
 ```typescript
-export const searchResponseSchema = z.object({
-  cars: z.array(
-    z.object({
-      id: z.string(),
-      model: z.string(),
-      price: z.number(),
-    })
-  ),
-  total: z.number(),
+export const bookmarkSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  url: z.string(),
+  description: z.string().nullable(),
+  folder_id: z.string().nullable(),
+  is_favorite: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
-export type TSearchResponse = z.infer<typeof searchResponseSchema>;
+export const bookmarksGetResponse = z.object({
+  data: z.array(bookmarkSchema),
+});
+
+export type Bookmark = z.infer<typeof bookmarkSchema>;
 ```
 
-### 2. API (`domains/buy/carSearch/api/searchCars.api.ts`)
+### 2. API (`shared/api/bookmarks.ts`)
 
 ```typescript
-export const searchCars = async (params: { keyword: string }) => {
-  const url = `${API_BASE_URL}/api/cars/search?keyword=${params.keyword}`;
-  return fetcher(url, searchResponseSchema);
-};
+export async function getBookmarks(params: {
+  search: string | null;
+  sort: string | null;
+  order: "asc" | "desc" | null;
+}): Promise<Bookmark[]> {
+  const url = buildUrlWithParams("/api/bookmarks", params);
+  const response = await fetcher(url, bookmarksGetResponse);
+  return response.data;
+}
 ```
 
-### 3. Hook (`domains/buy/carSearch/hooks/queries/useSearchCars.ts`)
+### 3. Hook (`shared/hooks/queries/bookmarks/useGetBookmarks.ts`)
 
 ```typescript
-export function useSearchCars(keyword: string) {
+export function useGetBookmarks(params: { ... }) {
   return useQuery({
-    queryFn: () => searchCars({ keyword }),
-    queryKey: carSearchKeys.search(keyword),
-    enabled: !!keyword,
+    queryKey: bookmarkKeys.list(params),
+    queryFn: () => getBookmarks(params),
+    ...QUERY_CONFIG.BOOKMARKS,
   });
 }
 ```

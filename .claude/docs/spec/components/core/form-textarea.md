@@ -1,25 +1,39 @@
 # FormTextarea
 
-React Hook Form Controller를 내장한 폼 전용 Textarea 컴포넌트
+React Hook Form `Controller`를 내장한 Textarea 래퍼 컴포넌트
 
 ## Props
 
-- `name`: 필드명 (Path<T>)
-- `control`: React Hook Form control 객체
-- `label`: 라벨 텍스트
-- `rules`: 유효성 검사 규칙 (RegisterOptions)
-- `rows`: 행 수 (기본값: 3)
-- `...textareaProps`: 모든 HTML textarea 속성 지원
-
-## 사용 예시
-
-```tsx
-<FormTextarea
-  name="description"
-  control={control}
-  label="설명"
-  placeholder="설명을 입력하세요"
-  maxLength={500}
-  rows={3}
-/>
+```typescript
+interface FormTextareaProps<T extends FieldValues>
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name"> {
+  name: Path<T>;
+  control: Control<T>;
+  label: string;
+  rules?: RegisterOptions<T>;
+}
 ```
+
+## 레이아웃
+
+```
+┌──────────────────────────────────────┐
+│ 라벨                                 │
+│ ┌────────────────────────────────┐   │
+│ │ Textarea                       │   │
+│ │                                │   │
+│ │                                │   │
+│ └────────────────────────────────┘   │
+│ 에러 메시지 (있을 때)                │
+└──────────────────────────────────────┘
+```
+
+## 기능
+
+- `Controller`로 React Hook Form 통합
+- `label` + `Textarea` + 에러 메시지 자동 렌더링
+- `...textareaProps`로 HTML textarea 속성 확장 (rows, maxLength, placeholder 등)
+
+## 사용처
+
+- `BookmarkForm`: 설명/메모 입력 (`rows={3}`, `maxLength={500}`)

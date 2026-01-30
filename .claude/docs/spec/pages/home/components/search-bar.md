@@ -18,12 +18,23 @@
 
 - **검색 버튼 방식**: 버튼 클릭 또는 Enter 키로 검색 실행
 - URL state: `?search=xxx&mode=xxx`
-- X 버튼: 검색어 + 검색 모드 초기화 및 홈으로 리다이렉트
+- X 버튼: 검색어 + 검색 모드 초기화 (URL 파라미터 제거)
 - 검색어 trim 처리
+- 검색 모드별 placeholder 변경:
+  - 전체: "북마크 검색..."
+  - 제목만: "제목 검색..."
+  - 제목+설명: "제목 또는 설명 검색..."
+
+## 컴포넌트 구성
+
+- **DropdownSelect**: 검색 모드 선택 (전체/제목만/제목+설명)
+- **Input**: 검색어 입력 (Search 아이콘 + X 버튼 포함)
+- **Button**: 검색 실행 버튼 (primary variant)
 
 ## 특징
 
 - Enter 키 지원
 - 대소문자 구분 없음
 - 검색어가 있을 때만 X 버튼 표시
-- mode가 "all"일 때는 URL에서 제거 (기본값)
+- `useQueryParam`으로 URL에서 초기값 로드
+- `useSetQueryParams`로 URL 업데이트

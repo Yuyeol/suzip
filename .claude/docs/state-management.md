@@ -6,9 +6,13 @@ API 데이터 및 서버에서 가져오는 모든 데이터에 사용
 
 ### 설정
 
-- **Stale time**: 60초
+- **Stale time**: `Infinity` (데이터를 stale 처리하지 않음)
+- **GC time**: `Infinity` (메모리에서 삭제하지 않음)
+- **refetchOnWindowFocus**: `true` (탭 전환 시 자동 갱신)
+- **refetchOnMount**: `false` (마운트 시 재요청 안 함)
 - **재시도**: 4xx/스키마 오류는 재시도 안 함, 기타 오류는 3회 재시도
-- **위치**: `/shared/components/provider/react-query-client-provider.tsx`
+- **설정 파일**: `shared/constants/queryConfig.ts`
+- **위치**: `/shared/components/provider/react-query-provider.tsx`
 
 ### 패턴
 

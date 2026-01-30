@@ -1,44 +1,31 @@
 # DELETE /api/folders/[id]
 
-폴더 삭제
+## 개요
 
-## Path Parameters
+폴더를 삭제합니다. 폴더에 속한 북마크는 삭제되지 않고 `folder_id`가 `NULL`로 설정됩니다 (DB 외래키 `ON DELETE SET NULL`).
 
-- `id` (string, required) - 폴더 UUID
+## 요청
 
-## Request Example
+### Path Parameters
 
-```bash
-DELETE /api/folders/123e4567-e89b-12d3-a456-426614174000
-```
+| 파라미터 | 타입 | 설명 |
+|----------|------|------|
+| `id` | string (UUID) | 폴더 ID |
 
-## Response 200
+## 응답
+
+### 200 OK
 
 ```json
-{
-  "message": "Folder deleted successfully"
-}
+{ "message": "Folder deleted successfully" }
 ```
 
-## Error Responses
+### 에러
 
-### 404 Not Found
+- Supabase 에러 발생 시 `handleSupabaseError`로 처리
 
-폴더가 존재하지 않거나 다른 사용자의 폴더:
-```json
-{
-  "error": "Folder not found"
-}
-```
+## 동작 상세 (Phase 7)
 
-## 동작 방식
-
-1. 폴더 삭제
-2. 해당 폴더에 속한 모든 북마크의 `folder_id` → `null`로 변경 (ON DELETE SET NULL)
-
-## 특징
-
-- user_id로 자동 필터링되어 본인의 폴더만 삭제 가능
-- 영구 삭제 (복구 불가)
-- 폴더 내 북마크는 삭제되지 않고, 폴더 관계만 해제됨
-- DB 외래키 제약(`ON DELETE SET NULL`)에 의해 자동 처리
+- 폴더 삭제 시 해당 폴더의 북마크는 `folder_id = NULL`로 자동 변경
+- DB 외래키 제약조건(`ON DELETE SET NULL`)에 의해 처리됨
+- API 코드에서 별도 북마크 처리 로직 없음

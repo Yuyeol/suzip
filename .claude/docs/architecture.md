@@ -5,16 +5,15 @@
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── _components/        # 홈 전용 컴포넌트
-│   ├── _hooks/             # 홈 전용 커스텀 훅
-│   ├── _utils/             # 홈 전용 유틸리티
-│   ├── _api/               # 홈 전용 fetch 함수
+│   ├── _components/        # 앱 전역 컴포넌트
+│   ├── (home)/             # 홈 라우트 그룹
+│   │   └── _components/    # 홈 전용 컴포넌트
 │   ├── api/                # API Routes (서버)
 │   └── {route}/
 │       ├── _components/    # 라우트별 컴포넌트
-│       ├── _hooks/         # 라우트별 커스텀 훅
-│       ├── _utils/         # 라우트별 유틸리티
-│       ├── _api/           # 라우트별 fetch 함수
+│       ├── _hooks/         # 라우트별 커스텀 훅 (선택)
+│       ├── _utils/         # 라우트별 유틸리티 (선택)
+│       ├── _api/           # 라우트별 fetch 함수 (선택)
 │       └── _stores/        # 라우트별 Zustand stores (선택)
 └── shared/
     ├── components/
@@ -24,7 +23,9 @@ src/
     ├── hooks/              # 전역 커스텀 훅
     ├── stores/             # 전역 Zustand stores (선택)
     ├── utils/              # 전역 유틸리티 함수
-    └── api/                # 전역 fetch 함수
+    ├── constants/          # 전역 상수
+    ├── lib/                # 외부 라이브러리 설정 (Supabase 등)
+    └── api/                # 전역 fetch 함수 + schemas
 ```
 
 ## 상태 관리
