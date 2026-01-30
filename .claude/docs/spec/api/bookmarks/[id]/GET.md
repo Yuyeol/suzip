@@ -1,47 +1,46 @@
 # GET /api/bookmarks/[id]
 
-북마크 단건 조회
+## 개요
 
-## Path Parameters
+단일 북마크의 상세 정보를 조회합니다.
 
-- `id` (string, required) - 북마크 UUID
+## 요청
 
-## Request Example
+### Path Parameters
 
-```bash
-GET /api/bookmarks/123e4567-e89b-12d3-a456-426614174000
-```
+| 파라미터 | 타입 | 설명 |
+|----------|------|------|
+| `id` | string (UUID) | 북마크 ID |
 
-## Response 200
+## 응답
+
+### 200 OK
 
 ```json
 {
   "data": {
     "id": "uuid",
-    "title": "React 공식 문서",
-    "url": "https://react.dev",
-    "description": "React 배우기",
+    "title": "Example",
+    "url": "https://example.com",
+    "description": "설명",
+    "memo": "메모",
+    "thumbnail": "https://example.com/image.png",
     "folder_id": "uuid",
     "is_favorite": false,
     "user_id": "uuid",
-    "created_at": "2025-01-01T00:00:00Z",
-    "updated_at": "2025-01-01T00:00:00Z"
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
   }
 }
 ```
 
-## Error Responses
+### ETag 지원 (Phase 6)
+
+- `data.updated_at` 기반 ETag 생성
+- `If-None-Match` 일치 시 `304 Not Modified` 반환
 
 ### 404 Not Found
 
-북마크가 존재하지 않거나 다른 사용자의 북마크:
 ```json
-{
-  "error": "Bookmark not found"
-}
+{ "error": "Bookmark not found" }
 ```
-
-## 특징
-
-- user_id로 자동 필터링되어 본인의 북마크만 조회 가능
-- RLS 정책으로 권한 검증

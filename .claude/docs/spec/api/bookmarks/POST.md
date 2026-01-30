@@ -1,66 +1,53 @@
 # POST /api/bookmarks
 
-북마크 생성
+## 개요
 
-## Request Body
+새 북마크를 생성합니다.
 
-```json
-{
-  "title": "React 공식 문서",
-  "url": "https://react.dev",
-  "description": "React 배우기",
-  "folder_id": "uuid",
-  "is_favorite": false
-}
-```
+## 요청
 
-| 필드 | 타입 | 필수 | 기본값 | 설명 |
-|-----|------|------|--------|------|
-| `title` | string | ✓ | - | 북마크 제목 |
-| `url` | string | ✓ | - | 링크 URL |
-| `description` | string | ✕ | null | 설명/메모 |
-| `folder_id` | string | ✕ | null | 폴더 ID |
-| `is_favorite` | boolean | ✕ | false | 즐겨찾기 여부 |
+### Request Body
 
-## Response 201
+| 필드 | 타입 | 필수 | 설명 |
+|------|------|------|------|
+| `title` | string | **필수** | 북마크 제목 |
+| `url` | string | **필수** | 북마크 URL |
+| `description` | string | 선택 | 설명 |
+| `folder_id` | string | 선택 | 폴더 ID |
+| `is_favorite` | boolean | 선택 | 즐겨찾기 (기본: false) |
+| `thumbnail` | string | 선택 | 썸네일 URL (OG 메타데이터) |
+| `memo` | string | 선택 | 사용자 메모 |
+
+## 응답
+
+### 201 Created
 
 ```json
 {
   "data": {
     "id": "uuid",
-    "title": "React 공식 문서",
-    "url": "https://react.dev",
-    "description": "React 배우기",
-    "folder_id": "uuid",
+    "title": "Example",
+    "url": "https://example.com",
+    "description": null,
+    "memo": null,
+    "thumbnail": null,
+    "folder_id": null,
     "is_favorite": false,
     "user_id": "uuid",
-    "created_at": "2025-01-01T00:00:00Z",
-    "updated_at": "2025-01-01T00:00:00Z"
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
   }
 }
 ```
 
-## Error Responses
-
 ### 400 Bad Request
 
-필수 필드 누락:
 ```json
-{
-  "error": "Missing required fields: title, url"
-}
+{ "error": "Missing required fields: title, url" }
 ```
 
 ### 409 Conflict
 
-중복 데이터 (Unique 제약이 있는 경우):
 ```json
-{
-  "error": "Bookmark already exists"
-}
+{ "error": "Bookmark already exists" }
 ```
-
-## 특징
-
-- `user_id`는 자동으로 현재 사용자 ID로 설정
-- `created_at`, `updated_at`은 자동 생성
