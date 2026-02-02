@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import SelectOption from "./select-option";
+import Overlay from "@/shared/components/overlay";
+import SelectOption from "@/shared/components/dropdown/select-option";
 
 interface Option<T> {
   value: T;
@@ -42,7 +43,7 @@ export default function Dropdown<T>({
   };
 
   return (
-    <div className={`relative ${fullWidth ? "w-full" : "w-fit"}`}>
+    <div className={fullWidth ? "w-full" : "w-fit"}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -59,10 +60,7 @@ export default function Dropdown<T>({
       </button>
 
       {isOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-6"
-          onClick={() => setIsOpen(false)}
-        >
+        <Overlay onClose={() => setIsOpen(false)}>
           <div className="bg-background border border-border-light rounded-lg shadow-lg py-2 w-full max-h-[300px]">
             <div className={` overflow-y-auto ${contentClassName}`}>
               {options.map((option, idx) => (
@@ -79,7 +77,7 @@ export default function Dropdown<T>({
               ))}
             </div>
           </div>
-        </div>
+        </Overlay>
       )}
     </div>
   );

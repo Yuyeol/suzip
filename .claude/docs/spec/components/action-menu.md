@@ -14,7 +14,7 @@ interface ActionMenuOption {
 interface Props {
   trigger: React.ReactNode;
   options: ActionMenuOption[];
-  align?: "left" | "right";  // 기본: "right"
+  align?: "left" | "right"; // 기본: "right"
 }
 ```
 
@@ -28,14 +28,14 @@ interface Props {
 
 ## 옵션 스타일
 
-| Variant | 스타일 |
-|---------|--------|
+| Variant   | 스타일                             |
+| --------- | ---------------------------------- |
 | `default` | `text-gray-700 dark:text-gray-200` |
-| `danger` | `text-rose-600 dark:text-rose-400` |
+| `danger`  | `text-rose-600 dark:text-rose-400` |
 
 ## 특징
 
 - `absolute` 포지셔닝 (trigger 바로 아래)
-- `z-10`, `min-w-[120px]`, `rounded-lg`, `shadow-lg`
+- `min-w-[120px]`, `rounded-lg`, `shadow-lg`
 - 다크모드 지원: `dark:border-gray-700`, `dark:bg-gray-800`
 - 첫 번째/마지막 옵션에 `rounded-t-lg`/`rounded-b-lg` 적용
