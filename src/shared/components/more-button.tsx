@@ -2,7 +2,7 @@
 
 import { MoreVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Dropdown, { DropdownOption } from "@/shared/components/core/dropdown";
+import ActionMenu, { ActionMenuOption } from "@/shared/components/action-menu";
 import { useDeleteBookmark } from "@/shared/hooks/queries/bookmarks/useDeleteBookmark";
 
 interface Props {
@@ -31,7 +31,7 @@ export default function MoreButton({ entityId, onDeleteSuccess }: Props) {
     router.push(`/bookmark/${entityId}/edit`);
   };
 
-  const dropdownOptions: DropdownOption[] = [
+  const menuOptions: ActionMenuOption[] = [
     {
       label: "수정",
       value: "edit",
@@ -47,7 +47,7 @@ export default function MoreButton({ entityId, onDeleteSuccess }: Props) {
   ];
 
   return (
-    <Dropdown
+    <ActionMenu
       trigger={
         <button
           className="flex items-center text-muted disabled:opacity-50"
@@ -56,7 +56,7 @@ export default function MoreButton({ entityId, onDeleteSuccess }: Props) {
           <MoreVertical size={20} />
         </button>
       }
-      options={dropdownOptions}
+      options={menuOptions}
     />
   );
 }

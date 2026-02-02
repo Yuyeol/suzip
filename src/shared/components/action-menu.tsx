@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 
-export interface DropdownOption {
+export interface ActionMenuOption {
   label: string;
   value: string;
   variant?: "default" | "danger";
@@ -12,19 +12,23 @@ export interface DropdownOption {
 
 interface Props {
   trigger: React.ReactNode;
-  options: DropdownOption[];
+  options: ActionMenuOption[];
   align?: "left" | "right";
 }
 
-export default function Dropdown({ trigger, options, align = "right" }: Props) {
+export default function ActionMenu({
+  trigger,
+  options,
+  align = "right",
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -39,7 +43,10 @@ export default function Dropdown({ trigger, options, align = "right" }: Props) {
     };
   }, [isOpen]);
 
-  const handleOptionClick = (e: React.MouseEvent, option: DropdownOption) => {
+  const handleOptionClick = (
+    e: React.MouseEvent,
+    option: ActionMenuOption,
+  ) => {
     e.stopPropagation();
     if (option.disabled) return;
     option.onClick();
@@ -47,7 +54,7 @@ export default function Dropdown({ trigger, options, align = "right" }: Props) {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative" ref={menuRef}>
       <div
         onClick={(e) => {
           e.stopPropagation();

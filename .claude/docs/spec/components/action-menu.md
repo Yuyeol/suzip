@@ -1,9 +1,9 @@
-# Dropdown
+# ActionMenu
 
 ## Props
 
 ```typescript
-interface DropdownOption {
+interface ActionMenuOption {
   label: string;
   value: string;
   variant?: "default" | "danger";
@@ -13,14 +13,14 @@ interface DropdownOption {
 
 interface Props {
   trigger: React.ReactNode;
-  options: DropdownOption[];
+  options: ActionMenuOption[];
   align?: "left" | "right";  // 기본: "right"
 }
 ```
 
 ## 기능
 
-- `trigger` 클릭 시 드롭다운 메뉴 열기/닫기
+- `trigger` 클릭 시 액션 메뉴 열기/닫기
 - 외부 클릭 시 자동 닫힘 (`useRef` + `mousedown` 이벤트)
 - 옵션 클릭 시 `onClick` 실행 + 메뉴 닫힘
 - `disabled` 옵션은 `opacity-50 cursor-not-allowed`
