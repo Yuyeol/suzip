@@ -7,8 +7,8 @@
   --foreground: #1a1a1a;
 
   /* Base colors */
-  --color-white: #fefefe;
-  --color-black: #1a1a1a;
+  --color-default-white: #fefefe;
+  --color-default-black: #1a1a1a;
 
   /* Primary colors */
   --color-primary: #3b82f6; /* blue-500 */

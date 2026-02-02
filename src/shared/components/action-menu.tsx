@@ -26,10 +26,7 @@ export default function ActionMenu({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -43,10 +40,7 @@ export default function ActionMenu({
     };
   }, [isOpen]);
 
-  const handleOptionClick = (
-    e: React.MouseEvent,
-    option: ActionMenuOption,
-  ) => {
+  const handleOptionClick = (e: React.MouseEvent, option: ActionMenuOption) => {
     e.stopPropagation();
     if (option.disabled) return;
     option.onClick();
@@ -66,7 +60,7 @@ export default function ActionMenu({
 
       {isOpen && (
         <div
-          className={`absolute top-full mt-1 z-10 min-w-[120px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg ${
+          className={`absolute top-full mt-1 min-w-[120px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg ${
             align === "right" ? "right-0" : "left-0"
           }`}
           onClick={(e) => e.stopPropagation()}

@@ -2,7 +2,7 @@
 
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
-import DropdownSelect from "@/shared/components/dropdown/dropdown-select";
+import Dropdown from "@/shared/components/dropdown";
 
 interface Props<T extends FieldValues> {
   name: Path<T>;
@@ -34,14 +34,13 @@ export default function FolderSelector<T extends FieldValues>({
         rules={{ required: "폴더를 선택해주세요" }}
         render={({ field, fieldState }) => (
           <div className="flex flex-col">
-            <DropdownSelect
+            <Dropdown
               options={folderOptions}
               value={field.value}
               onChange={field.onChange}
               error={!!fieldState.error}
               fullWidth={true}
               className="px-4 py-3"
-              contentClassName="min-w-[280px]"
               renderLabel={(option) =>
                 option?.value ? `📁 ${option.label}` : "폴더 없음"
               }
