@@ -84,8 +84,11 @@ const tier = useQueryParam('tier', undefined, parseAsNumber);
 const name = useQueryParam('name', 'default');
 
 // 쓰기 (일괄 업데이트)
-const setParams = useSetQueryParams(['model', 'year', 'fuel']);
+const setParams = useSetQueryParams();
 setParams({ model: 'K5', year: '2023' });
+
+// null 전달 시 해당 param 제거
+setParams({ model: null });
 ```
 
 ## 의사결정 트리

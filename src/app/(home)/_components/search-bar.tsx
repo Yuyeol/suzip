@@ -22,10 +22,10 @@ export default function SearchBar() {
 
   const [searchValue, setSearchValue] = useState(searchParam);
   const [searchMode, setSearchMode] = useState<SearchMode>(
-    modeParam as SearchMode
+    modeParam as SearchMode,
   );
 
-  const setParams = useSetQueryParams(["search", "mode"]);
+  const setParams = useSetQueryParams();
 
   const searchModeOptions = [
     { value: "all" as SearchMode, label: "전체" },

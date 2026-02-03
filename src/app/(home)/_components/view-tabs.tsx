@@ -7,13 +7,7 @@ type ViewType = "all" | "folders";
 
 export default function ViewTabs() {
   const currentView = useQueryParam("view", "all" as ViewType);
-  const setParams = useSetQueryParams([
-    "view",
-    "search",
-    "folder_id",
-    "is_favorite",
-    "sort",
-  ]);
+  const setParams = useSetQueryParams();
 
   const handleViewChange = (view: ViewType) => {
     setParams({

@@ -24,7 +24,7 @@ export default function FilterControls() {
     undefined,
     parseAsBoolean,
   );
-  const setParams = useSetQueryParams(["sort", "folder_id", "is_favorite"]);
+  const setParams = useSetQueryParams();
 
   const sortOptions = [
     { value: "latest" as SortType, label: "최신순" },
