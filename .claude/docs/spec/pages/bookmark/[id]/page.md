@@ -20,7 +20,7 @@
 │ 폴더명 | 2024.12.08                        │
 ├────────────────────────────────────────────┤
 │ URL                                        │
-│ https://example.com              🔗        │
+│ example.com 🔗                       [📋] │
 ├────────────────────────────────────────────┤
 │ 썸네일 (있을 때만)                          │
 │ ┌──────────────────────────────────────┐   │
@@ -49,8 +49,12 @@
 
 ### URL 섹션
 - 레이블: "URL" (`body-3, text-muted`)
-- URL 링크: `text-primary`, 외부 링크 (`target="_blank"`)
-- `ExternalLink` 아이콘 (16px)
+- **좌측: 열기 버튼** — 도메인 텍스트 + `ExternalLink` 아이콘으로 구성. 클릭 시 `window.open(url, "_blank")`
+  - 도메인: `new URL(url).hostname.replace(/^www\./, "")` — www 제거, 도메인만 노출
+  - `ExternalLink` 아이콘은 도메인 텍스트 뒤에 배치
+- **우측: 복사 버튼** — `Copy` 아이콘만 표시. 클릭 시 원본 URL을 `navigator.clipboard.writeText`로 복사
+  - 복사 완료 시 아이콘이 `Check`으로 변경 (2초 후 원복)
+- 레이아웃: `flex, justify-between`
 
 ### 썸네일 섹션 (조건부)
 - `bookmark.thumbnail`이 존재할 때만 표시
