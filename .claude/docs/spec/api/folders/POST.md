@@ -1,55 +1,44 @@
 # POST /api/folders
 
-폴더 생성
+## 개요
 
-## Request Body
+새 폴더를 생성합니다.
 
-```json
-{
-  "name": "개발"
-}
-```
+## 요청
+
+### Request Body
 
 | 필드 | 타입 | 필수 | 설명 |
-|-----|------|------|------|
-| `name` | string | ✓ | 폴더 이름 |
+|------|------|------|------|
+| `name` | string | **필수** | 폴더명 |
 
-## Response 201
+## 응답
+
+### 201 Created
 
 ```json
 {
   "data": {
     "id": "uuid",
-    "name": "개발",
+    "name": "새 폴더",
     "user_id": "uuid",
-    "created_at": "2025-01-01T00:00:00Z",
-    "updated_at": "2025-01-01T00:00:00Z"
+    "is_favorite": false,
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "updated_at": "2024-01-01T00:00:00.000Z"
   }
 }
 ```
 
-## Error Responses
+> **참고**: 생성 응답에는 `bookmark_count`가 포함되지 않습니다 (`folderWithoutCountSchema` 사용).
 
 ### 400 Bad Request
 
-필수 필드 누락:
 ```json
-{
-  "error": "Missing required fields: name"
-}
+{ "error": "Missing required fields: name" }
 ```
 
 ### 409 Conflict
 
-중복된 폴더 이름 (같은 사용자의 동일 이름 폴더가 있는 경우):
 ```json
-{
-  "error": "Folder already exists"
-}
+{ "error": "Folder already exists" }
 ```
-
-## 특징
-
-- `user_id`는 자동으로 현재 사용자 ID로 설정
-- `created_at`, `updated_at`은 자동 생성
-- 폴더 이름은 중복 가능 (별도 Unique 제약이 없다면)

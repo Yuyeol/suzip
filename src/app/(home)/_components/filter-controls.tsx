@@ -1,6 +1,6 @@
 "use client";
 
-import DropdownSelect from "@/shared/components/dropdown/dropdown-select";
+import Dropdown from "@/shared/components/dropdown";
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
 import { useQueryParam } from "@/shared/hooks/useQueryParam";
 import { useSetQueryParams } from "@/shared/hooks/useSetQueryParams";
@@ -22,9 +22,9 @@ export default function FilterControls() {
   const isFavoriteFilter = useQueryParam(
     "is_favorite",
     undefined,
-    parseAsBoolean
+    parseAsBoolean,
   );
-  const setParams = useSetQueryParams(["sort", "folder_id", "is_favorite"]);
+  const setParams = useSetQueryParams();
 
   const sortOptions = [
     { value: "latest" as SortType, label: "최신순" },
@@ -67,13 +67,13 @@ export default function FilterControls() {
 
   return (
     <div className="pb-4 flex items-center gap-2">
-      <DropdownSelect
+      <Dropdown
         options={sortOptions}
         value={currentSort}
         onChange={handleSortChange}
       />
       {activeView === "all" && (
-        <DropdownSelect
+        <Dropdown
           options={folderOptions}
           value={currentFolderId}
           onChange={handleFolderChange}

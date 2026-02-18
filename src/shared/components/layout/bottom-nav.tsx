@@ -11,7 +11,7 @@ export default function BottomNav() {
 
   return (
     <>
-      <nav className="max-w-2xl fixed bottom-0 w-full left-1/2 -translate-x-1/2 bg-background border-t border-border-light z-50">
+      <nav className="max-w-2xl fixed bottom-0 w-full left-1/2 -translate-x-1/2 bg-background border-t border-border-light">
         <div className="flex items-center justify-around h-16 px-4">
           {/* 저장목록 */}
           <button

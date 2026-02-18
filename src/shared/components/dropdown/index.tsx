@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import Overlay from "./overlay";
-import DropdownContent from "./dropdown-content";
-import SelectOption from "./select-option";
+import Overlay from "@/shared/components/overlay";
+import SelectOption from "@/shared/components/dropdown/select-option";
 
 interface Option<T> {
   value: T;
@@ -23,7 +22,7 @@ interface Props<T> {
   renderLabel?: (option?: Option<T>) => React.ReactNode;
 }
 
-export default function DropdownSelect<T>({
+export default function Dropdown<T>({
   options,
   value,
   onChange,
@@ -35,7 +34,6 @@ export default function DropdownSelect<T>({
   renderLabel,
 }: Props<T>) {
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
 
@@ -45,9 +43,8 @@ export default function DropdownSelect<T>({
   };
 
   return (
-    <div className={`relative ${fullWidth ? "w-full" : "w-fit"}`}>
+    <div className={fullWidth ? "w-full" : "w-fit"}>
       <button
-        ref={triggerRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center justify-between gap-2 px-3 py-2 border rounded-lg bg-background text-foreground transition-colors ${
@@ -63,15 +60,9 @@ export default function DropdownSelect<T>({
       </button>
 
       {isOpen && (
-        <>
-          <Overlay onClose={() => setIsOpen(false)} />
-          <DropdownContent
-            triggerRef={triggerRef}
-            onClickOutside={() => setIsOpen(false)}
-          >
-            <div
-              className={`py-2 min-w-[160px] max-h-[300px] overflow-y-auto ${contentClassName}`}
-            >
+        <Overlay onClose={() => setIsOpen(false)}>
+          <div className="bg-background border border-border-light rounded-lg shadow-lg py-2 w-full max-h-[300px]">
+            <div className={` overflow-y-auto ${contentClassName}`}>
               {options.map((option, idx) => (
                 <SelectOption
                   key={
@@ -85,8 +76,8 @@ export default function DropdownSelect<T>({
                 />
               ))}
             </div>
-          </DropdownContent>
-        </>
+          </div>
+        </Overlay>
       )}
     </div>
   );

@@ -15,10 +15,6 @@
 
 [.claude/docs/progress/master.md](.claude/docs/progress/master.md)
 
-## Skills
-
-**중요**: 작업 수행 전에 `.claude/skills/`에 관련 스킬이 있는지 확인하세요. 스킬의 frontmatter를 읽고 해당되는 경우 반드시 적절한 스킬을 사용하세요.
-
 ## Reference
 
 - **[Communication](.claude/docs/communication.md)** - 응답 스타일 및 코드 표현
@@ -27,6 +23,8 @@
 - **[State Management](.claude/docs/state-management.md)** - React Query, useState, Zustand, searchParams
 - **[Backend Guidelines](.claude/docs/backend-guidelines.md)** - API Routes 작성 규칙
 - **[UI Guidelines](.claude/docs/ui-guidelines.md)** - UI 구현 규칙
+- **[Component Guidelines](.claude/docs/component-guidelines.md)** - 컴포넌트 위치 및 작성 규칙
+- **[API Layer Guidelines](.claude/docs/api-layer-guidelines.md)** - API 3-Layer 패턴 (Schema → API → Hook)
 
 ## Project Specifications
 

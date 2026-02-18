@@ -1,36 +1,42 @@
 # Text
 
+타이포그래피 컴포넌트
+
 ## Props
 
 ```typescript
-variant?: 'title-1' | 'title-2' | 'title-3' | 'title-4' | 'body-1' | 'body-2' | 'body-3' | 'body-4'
-color?: 'normal' | 'primary' | 'danger' | 'light'
+interface TextProps extends HTMLAttributes<HTMLSpanElement> {
+  variant?: TextVariant;
+  color?: TextColor;
+  children: ReactNode;
+  className?: string;
+}
 ```
 
 ## Variants
 
-### Title
-- **title-1**: 가장 큰 제목 (2xl, bold)
-- **title-2**: 큰 제목 (xl, bold)
-- **title-3**: 중간 제목 (lg, semibold)
-- **title-4**: 작은 제목 (base, semibold)
-
-### Body
-- **body-1**: 기본 본문 (base, normal)
-- **body-2**: 작은 본문 (sm, normal)
-- **body-3**: 더 작은 본문 (xs, normal)
-- **body-4**: 작은 본문 강조 (xs, medium)
+| Variant | 스타일 |
+|---------|--------|
+| `title-1` | `text-2xl font-bold` |
+| `title-2` | `text-xl font-bold` |
+| `title-3` | `text-lg font-semibold` |
+| `title-4` | `text-base font-semibold` |
+| `body-1` | `text-base` |
+| `body-2` (기본) | `text-sm` |
+| `body-3` | `text-xs` |
+| `body-4` | `text-[11px]` |
 
 ## Colors
 
-- **normal**: 기본 텍스트 색상
-- **primary**: 주요 색상
-- **danger**: 경고/삭제 색상
-- **light**: 연한 회색
+| Color | 스타일 |
+|-------|--------|
+| `normal` (기본) | `text-foreground` |
+| `light` | `text-muted` |
+| `primary` | `text-primary` |
+| `danger` | `text-danger` |
 
-## Usage
+## 특징
 
-```tsx
-<Text variant="title-1">페이지 제목</Text>
-<Text variant="body-2" color="light">부가 설명</Text>
-```
+- `<span>` 태그 렌더링
+- `HTMLAttributes<HTMLSpanElement>` 전체 확장
+- 외부 `className` 전달 가능 (기본 스타일 위에 추가)

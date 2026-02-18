@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Copy, Check } from "lucide-react";
+import { useState } from "react";
 import Text from "@/shared/components/core/text";
 import { useGetBookmark } from "@/shared/hooks/queries/bookmarks/useGetBookmark";
 import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
@@ -12,6 +12,7 @@ import MoreButton from "@/shared/components/more-button";
 import dynamic from "next/dynamic";
 
 function BookmarkDetailPage() {
+  const [isCopied, setIsCopied] = useState(false);
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
@@ -90,15 +91,29 @@ function BookmarkDetailPage() {
           <Text variant="body-3" className="text-muted">
             URL
           </Text>
-          <Link
-            href={bookmark.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 text-primary"
-          >
-            <Text variant="body-2">{bookmark.url}</Text>
-            <ExternalLink size={16} />
-          </Link>
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              className="flex items-center gap-1 text-primary"
+              onClick={() => window.open(bookmark.url, "_blank")}
+            >
+              <Text variant="body-2">
+                {new URL(bookmark.url).hostname.replace(/^www\./, "")}
+              </Text>
+              <ExternalLink size={16} />
+            </button>
+            <button
+              type="button"
+              className="text-primary"
+              onClick={() => {
+                navigator.clipboard.writeText(bookmark.url);
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+              }}
+            >
+              {isCopied ? <Check size={16} /> : <Copy size={16} />}
+            </button>
+          </div>
         </div>
 
         {/* 썸네일 */}

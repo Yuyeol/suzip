@@ -1,82 +1,37 @@
-# bookmarks
+# bookmarks 테이블
 
-북마크(링크) 저장 테이블
+## 스키마
 
-## 필드
-- `id`: UUID (PK, 자동 생성)
-- `title`: 북마크 제목 (필수, OG 자동 추출)
-- `url`: 링크 URL (필수)
-- `description`: 설명 (선택, OG 자동 추출)
-- `memo`: 사용자 메모 (선택)
-- `thumbnail`: OG 이미지 URL (선택, OG 자동 추출)
-- `folder_id`: 폴더 ID (선택, FK → folders.id)
-- `is_favorite`: 즐겨찾기 여부 (기본값: false)
-- `user_id`: 사용자 ID (필수)
-- `created_at`: 생성 시간 (자동)
-- `updated_at`: 수정 시간 (자동)
+| 컬럼 | 타입 | 제약조건 | 설명 |
+|------|------|----------|------|
+| `id` | UUID | PK, default: gen_random_uuid() | 고유 ID |
+| `title` | TEXT | NOT NULL | 북마크 제목 |
+| `url` | TEXT | NOT NULL | 북마크 URL |
+| `description` | TEXT | NULLABLE | 설명 (OG 메타데이터 또는 사용자 입력) |
+| `memo` | TEXT | NULLABLE | 사용자 메모 |
+| `thumbnail` | TEXT | NULLABLE | 썸네일 URL (OG 메타데이터) |
+| `folder_id` | UUID | FK → folders.id, ON DELETE SET NULL, NULLABLE | 소속 폴더 |
+| `is_favorite` | BOOLEAN | NOT NULL, default: false | 즐겨찾기 여부 |
+| `user_id` | UUID | NOT NULL, FK → auth.users.id | 소유 사용자 |
+| `created_at` | TIMESTAMPTZ | default: now() | 생성 시각 |
+| `updated_at` | TIMESTAMPTZ | default: now() | 수정 시각 |
 
-## 설정
-- `folder_id`: 폴더 삭제 시 NULL로 변경 (ON DELETE SET NULL)
-- `updated_at`: 수정 시 자동 업데이트 (트리거)
-- RLS: 사용자는 본인 데이터만 CRUD 가능
-- 인덱스: user_id, folder_id, created_at (성능 최적화)
+## RLS 정책
 
-```sql
-CREATE TABLE bookmarks (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  title TEXT NOT NULL,
-  url TEXT NOT NULL,
-  description TEXT,
-  memo TEXT,
-  thumbnail TEXT,
-  folder_id UUID REFERENCES folders(id) ON DELETE SET NULL,
-  is_favorite BOOLEAN DEFAULT false,
-  user_id UUID NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now(),
-  updated_at TIMESTAMPTZ DEFAULT now()
-);
+- 사용자는 자신의 북마크만 CRUD 가능
+- `user_id = auth.uid()` 조건 적용
 
-CREATE INDEX idx_bookmarks_user_id ON bookmarks(user_id);
-CREATE INDEX idx_bookmarks_folder_id ON bookmarks(folder_id);
-CREATE INDEX idx_bookmarks_created_at ON bookmarks(created_at DESC);
+## Zod 스키마
 
-CREATE TRIGGER update_bookmarks_updated_at
-  BEFORE UPDATE ON bookmarks
-  FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+```typescript
+// Entity
+bookmarkSchema: { id, title, url, description, folder_id, is_favorite, thumbnail, memo, user_id, created_at, updated_at }
 
-ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Users can view their own bookmarks"
-  ON bookmarks FOR SELECT
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can insert their own bookmarks"
-  ON bookmarks FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can update their own bookmarks"
-  ON bookmarks FOR UPDATE
-  USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can delete their own bookmarks"
-  ON bookmarks FOR DELETE
-  USING (auth.uid() = user_id);
+// POST Request: title(필수), url(필수), description, folder_id, is_favorite, thumbnail, memo
+// PATCH Request: title, url, description, folder_id(nullable), is_favorite, memo
 ```
 
-## 필드 구분
+## 인덱스
 
-### OG 자동 추출 필드
-북마크 생성 시 URL에서 자동으로 추출됩니다.
-- `title`: og:title → twitter:title → HTML title
-- `description`: og:description → twitter:description → meta description
-- `thumbnail`: og:image → twitter:image
-
-### 사용자 입력 필드
-- `memo`: 사용자가 직접 작성하는 메모
-
-### 처리 방식
-1. URL blur 시 POST /api/og-metadata 호출
-2. title, description, thumbnail 자동 채우기
-3. 사용자가 수정 가능
-4. memo는 순수 사용자 입력
+- `user_id` (RLS 필터링 최적화)
+- `folder_id` (폴더별 조회 최적화)

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Search, X } from "lucide-react";
 import Input from "@/shared/components/core/input";
-import DropdownSelect from "@/shared/components/dropdown/dropdown-select";
+import Dropdown from "@/shared/components/dropdown";
 import Button from "@/shared/components/core/button";
 import { useQueryParam } from "@/shared/hooks/useQueryParam";
 import { useSetQueryParams } from "@/shared/hooks/useSetQueryParams";
@@ -22,10 +22,10 @@ export default function SearchBar() {
 
   const [searchValue, setSearchValue] = useState(searchParam);
   const [searchMode, setSearchMode] = useState<SearchMode>(
-    modeParam as SearchMode
+    modeParam as SearchMode,
   );
 
-  const setParams = useSetQueryParams(["search", "mode"]);
+  const setParams = useSetQueryParams();
 
   const searchModeOptions = [
     { value: "all" as SearchMode, label: "전체" },
@@ -62,7 +62,7 @@ export default function SearchBar() {
         {/* Search Bar */}
         <div className="relative flex items-center gap-2">
           {/* Mode Selector */}
-          <DropdownSelect
+          <Dropdown
             options={searchModeOptions}
             value={searchMode}
             onChange={handleModeChange}

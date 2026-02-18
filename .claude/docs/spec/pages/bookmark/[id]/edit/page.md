@@ -1,60 +1,68 @@
-# 북마크 수정 페이지
+# Bookmark Edit Page
 
-## 라우트
+## 개요
+
+기존 북마크를 수정하는 페이지. `BookmarkForm` 공통 컴포넌트를 `edit` 모드로 사용합니다.
+
+---
+
+## 경로
+
 `/bookmark/[id]/edit`
 
-## 레이아웃
+---
+
+## 페이지 구조
 
 ```
 ┌────────────────────────────────────────────┐
-│ ← 링크 수정                                  │
+│ 링크 수정                                  │
 ├────────────────────────────────────────────┤
-│                                            │
-│ URL                                        │
-│ [https://example.com                     ] │
-│                                            │
-│ 제목                                        │
-│ [Next.js 공식 문서                        ] │
-│                                            │
-│ 설명                                        │
-│ [The React Framework...                  ] │
-│                                            │
-│ 폴더                                        │
-│ [📁 개발 자료                         ▼]   │
-│                                            │
-│ [+ 새 폴더 만들기]                          │
-│                                            │
-│                         [취소] [수정]       │
+│ [URL Input]              [확인]            │
+│ [썸네일 미리보기]                           │
+│ [제목 Input - 기존값]                      │
+│ [설명 Textarea - 기존값]                   │
+│ [메모 Textarea - 기존값]                   │
+│ [폴더 Selector ▼ - 기존값]                 │
+│   [FolderForm - 인라인 생성]               │
+│   [새 폴더 만들기 / 닫기]                  │
+├────────────────────────────────────────────┤
+│              [취소]  [수정]                 │
 └────────────────────────────────────────────┘
 ```
 
-## 기능
+---
 
-### 데이터 로딩
-- URL params에서 id 추출
-- API로 북마크 데이터 fetch
-- form defaultValues에 설정
+## 핵심 컴포넌트
+
+**[BookmarkForm](../../components/shared/bookmark-form.md)** (`mode="edit"`)
+- `initialData`로 기존 데이터 prefill
+- URL, 제목, 설명, 메모, 폴더 선택, 썸네일 미리보기
+
+---
+
+## 동작
 
 ### 수정
-- URL, 제목, 설명, 폴더 모두 수정 가능
-- "수정" 버튼 클릭 시 PUT/PATCH 요청
+- `usePatchBookmark` 훅으로 API 호출
+- 전송 필드: `url`, `title`, `description`, `folder_id`, `memo`
+- 성공 시: `router.replace(/bookmark/${id})` (상세 페이지로 이동)
+- 실패 시: alert("북마크 수정에 실패했습니다.")
 
-### Validation
-- URL: 필수
-- 제목: 필수
-- 설명: 선택
-- 폴더: 필수
+### 취소
+- `router.back()` (이전 페이지로 이동)
 
-## 차이점 (생성 페이지 대비)
+### 중복 제출 방지
+- `isPending` 상태에 따라 수정 버튼 disabled
 
-- 제목: "링크 추가" → "링크 수정"
-- 버튼: "저장" → "수정"
-- defaultValues: 빈 값 → 기존 데이터
+### 로딩/에러 상태
+- 로딩 중: "로딩 중..." 텍스트 표시
+- 북마크 없음: "북마크를 찾을 수 없습니다." 텍스트 표시
 
-## 컴포넌트 재사용
+---
 
-- FormInput ✅ (코어)
-- FormTextarea ✅ (코어)
-- FolderSelector ✅ (`bookmark/_components/`)
-- CreateFolderButton ✅ (`bookmark/_components/`)
-- Button ✅
+## 기술적 특징
+
+- SSR 비활성화
+- `useGetBookmark` 훅으로 기존 데이터 로드
+- `initialData` prop으로 BookmarkForm에 전달 → `useEffect`에서 `reset()`으로 폼 초기화

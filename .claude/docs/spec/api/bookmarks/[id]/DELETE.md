@@ -1,38 +1,25 @@
 # DELETE /api/bookmarks/[id]
 
-북마크 삭제
+## 개요
 
-## Path Parameters
+북마크를 영구 삭제합니다.
 
-- `id` (string, required) - 북마크 UUID
+## 요청
 
-## Request Example
+### Path Parameters
 
-```bash
-DELETE /api/bookmarks/123e4567-e89b-12d3-a456-426614174000
-```
+| 파라미터 | 타입 | 설명 |
+|----------|------|------|
+| `id` | string (UUID) | 북마크 ID |
 
-## Response 200
+## 응답
+
+### 200 OK
 
 ```json
-{
-  "message": "Bookmark deleted successfully"
-}
+{ "message": "Bookmark deleted successfully" }
 ```
 
-## Error Responses
+### 에러
 
-### 404 Not Found
-
-북마크가 존재하지 않거나 다른 사용자의 북마크:
-```json
-{
-  "error": "Bookmark not found"
-}
-```
-
-## 특징
-
-- user_id로 자동 필터링되어 본인의 북마크만 삭제 가능
-- 영구 삭제 (복구 불가)
-- 관련된 폴더 관계는 자동으로 해제됨
+- Supabase 에러 발생 시 `handleSupabaseError`로 처리

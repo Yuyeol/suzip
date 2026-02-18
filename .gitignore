@@ -18,6 +18,9 @@
 
 # misc
 .DS_Store
+
+# omc
+.omc/
 *.pem
 
 # debug

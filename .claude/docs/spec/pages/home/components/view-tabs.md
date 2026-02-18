@@ -12,27 +12,28 @@
 
 **전체보기 탭**
 - 모든 북마크 카드 표시
-- 검색바 + 정렬바 + 폴더 필터 활성화
-- URL: `/` (view 파라미터 없음)
+- FilterControls에서 정렬 + 폴더 필터 + 즐겨찾기 필터 활성화
+- URL: `?view=all` (기본값)
 
 **폴더보기 탭**
-- 폴더 카드 그리드 (2-column)
-- 검색바, 정렬바, 폴더 필터 모두 표시 (동작은 동일)
-- URL: `/?view=folders`
+- 폴더 리스트 (1-column)
+- FilterControls에서 정렬 + 즐겨찾기 필터 활성화 (폴더 필터 숨김)
+- URL: `?view=folders`
 
 ## 구현
 
-- **Props 없음**: 자체적으로 `useSearchParams`로 URL 읽기
-- **자체 URL 관리**: 탭 클릭 시 직접 `router.push()` 호출
+- **Props 없음**: 자체적으로 `useQueryParam`으로 URL 읽기
+- **URL 관리**: `useSetQueryParams` 훅으로 URL 업데이트
 - **기본값**: view 파라미터가 없으면 "all" (전체보기)
+- **탭 전환 시 필터 초기화**: `search`, `folder_id`, `is_favorite`, `sort`를 모두 null로 초기화
 
 ## 특징
 
-- 탭 전환 시 URL state 변경 (`?view=folders`, 기본값은 view 파라미터 없음)
-- 선택된 탭은 primary 색상 + 밑줄
-- 비선택 탭은 muted 색상
-- width: 100%
-- 기존 URL 파라미터 유지 (검색어, 정렬 등)
+- 탭 전환 시 모든 필터/검색 상태 초기화 (깨끗한 상태로 전환)
+- 선택된 탭: `text-primary` + `border-primary` 밑줄
+- 비선택 탭: `text-muted` + `border-transparent`
+- `w-full` 컨테이너, 내부 `flex gap-6` 레이아웃
+- `border-b border-border-light`로 하단 구분선
 
 ## 상태 관리
 
