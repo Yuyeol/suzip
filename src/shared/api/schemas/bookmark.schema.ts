@@ -37,7 +37,12 @@ export const bookmarkPatchRequestSchema = z.object({
 
 // Response Schemas
 export const bookmarksGetResponse = z.object({
-  data: z.array(bookmarkSchema),
+  data: z.object({
+    items: z.array(bookmarkSchema),
+    total: z.number(),
+    page: z.number(),
+    limit: z.number(),
+  }),
 });
 
 export const bookmarkGetResponse = z.object({
@@ -56,3 +61,4 @@ export const bookmarkPatchResponse = z.object({
 export type Bookmark = z.infer<typeof bookmarkSchema>;
 export type BookmarkPostRequest = z.infer<typeof bookmarkPostRequestSchema>;
 export type BookmarkPatchRequest = z.infer<typeof bookmarkPatchRequestSchema>;
+export type BookmarksGetResponse = z.infer<typeof bookmarksGetResponse>;

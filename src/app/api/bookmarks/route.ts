@@ -17,9 +17,15 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   const order = searchParams.get("order") || "desc";
   const folderId = searchParams.get("folder_id");
   const isFavorite = searchParams.get("is_favorite");
+  const page = parseInt(searchParams.get("page") || "1");
+  const limit = parseInt(searchParams.get("limit") || "10");
+  const offset = (page - 1) * limit;
 
   // 기본 쿼리 시작
-  let query = supabase.from("bookmarks").select("*").eq("user_id", userId);
+  let query = supabase
+    .from("bookmarks")
+    .select("*", { count: "exact" })
+    .eq("user_id", userId);
 
   // 검색 필터 (title, description, url)
   if (search) {
@@ -46,16 +52,23 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   const isAscending = order === "asc";
   query = query.order(sort, { ascending: isAscending });
 
-  const { data, error } = await query;
+  // 페이지네이션
+  query = query.range(offset, offset + limit - 1);
+
+  const { data, error, count } = await query;
 
   if (error) {
     return handleSupabaseError(error, "Bookmarks");
   }
 
   // ETag 생성 (배열의 최신 updated_at 기반)
-  const etag = generateArrayETag(data);
+  const etag = generateArrayETag(data ?? []);
 
-  return successResponse(data, 200, { request, etag });
+  return successResponse(
+    { items: data ?? [], total: count ?? 0, page, limit },
+    200,
+    { request, etag }
+  );
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {

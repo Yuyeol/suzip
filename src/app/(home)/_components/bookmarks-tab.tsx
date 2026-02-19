@@ -1,5 +1,6 @@
 "use client";
 
+import { useInView } from "react-intersection-observer";
 import BookmarkCard from "@/app/(home)/_components/bookmark-card";
 import { useGetBookmarks } from "@/shared/hooks/queries/bookmarks/useGetBookmarks";
 import { useQueryParam } from "@/shared/hooks/useQueryParam";
@@ -12,7 +13,6 @@ export default function BookmarksTab() {
   const sort = useQueryParam("sort");
   const isFavorite = useQueryParam("is_favorite", undefined, parseAsBoolean);
 
-  // Sort 값에 따라 sort, order 파라미터 결정
   const getSortParams = () => {
     switch (sort) {
       case "latest":
@@ -28,7 +28,7 @@ export default function BookmarksTab() {
 
   const sortParams = getSortParams();
 
-  const { data: bookmarks = [], isLoading: isBookmarksLoading } =
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
     useGetBookmarks({
       search,
       folder_id: folderId,
@@ -37,35 +37,51 @@ export default function BookmarksTab() {
       is_favorite: isFavorite,
     });
 
+  const { ref } = useInView({
+    threshold: 0.1,
+    onChange: (inView) => {
+      if (inView && hasNextPage) fetchNextPage();
+    },
+  });
+
+  const bookmarks = (data?.pages ?? []).flatMap((page) => page.items);
+
   return (
     <div className="space-y-3">
-      {isBookmarksLoading ? (
+      {isLoading ? (
         <div className="flex justify-center py-20">
           <PulseLoader color="var(--color-primary)" size={10} />
         </div>
       ) : bookmarks.length === 0 ? (
         <p className="text-center text-muted">북마크가 없습니다</p>
       ) : (
-        bookmarks.map((bookmark) => (
-          <BookmarkCard
-            key={bookmark.id}
-            id={bookmark.id}
-            title={bookmark.title}
-            url={bookmark.url}
-            description={bookmark.description || ""}
-            createdAt={new Date(bookmark.created_at)
-              .toLocaleDateString("ko-KR", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })
-              .replace(/\. /g, ".")
-              .replace(/\.$/, "")}
-            platform={new URL(bookmark.url).hostname}
-            thumbnail={bookmark.thumbnail || undefined}
-            isFavorite={bookmark.is_favorite}
-          />
-        ))
+        <>
+          {bookmarks.map((bookmark) => (
+            <BookmarkCard
+              key={bookmark.id}
+              id={bookmark.id}
+              title={bookmark.title}
+              url={bookmark.url}
+              description={bookmark.description || ""}
+              createdAt={new Date(bookmark.created_at)
+                .toLocaleDateString("ko-KR", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+                .replace(/\. /g, ".")
+                .replace(/\.$/, "")}
+              platform={new URL(bookmark.url).hostname}
+              thumbnail={bookmark.thumbnail || undefined}
+              isFavorite={bookmark.is_favorite}
+            />
+          ))}
+          <div ref={ref} className="py-4 flex justify-center">
+            {isFetchingNextPage && (
+              <PulseLoader color="var(--color-primary)" size={10} />
+            )}
+          </div>
+        </>
       )}
     </div>
   );

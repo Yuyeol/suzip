@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getBookmarks } from "@/shared/api/bookmarks";
 import { bookmarkKeys } from "@/shared/utils/queryKeyFactory";
 import { QUERY_CONFIG } from "@/shared/constants/queryConfig";
@@ -10,9 +10,15 @@ export function useGetBookmarks(params: {
   folder_id: string | null;
   is_favorite: boolean | null;
 }) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: bookmarkKeys.list(params),
-    queryFn: () => getBookmarks(params),
+    queryFn: ({ pageParam }) =>
+      getBookmarks({ ...params, page: pageParam as number }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const { page, limit, total } = lastPage;
+      return page * limit < total ? page + 1 : undefined;
+    },
     ...QUERY_CONFIG.BOOKMARKS,
   });
 }

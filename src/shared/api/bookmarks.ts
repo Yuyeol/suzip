@@ -6,6 +6,7 @@ import {
   bookmarkPostResponse,
   bookmarkPatchResponse,
   type Bookmark,
+  type BookmarksGetResponse,
   type BookmarkPostRequest,
   type BookmarkPatchRequest,
 } from "@/shared/api/schemas/bookmark.schema";
@@ -19,7 +20,8 @@ export async function getBookmarks(params: {
   order: "asc" | "desc" | null;
   folder_id: string | null;
   is_favorite: boolean | null;
-}): Promise<Bookmark[]> {
+  page: number;
+}): Promise<BookmarksGetResponse["data"]> {
   const url = buildUrlWithParams("/api/bookmarks", params);
   const response = await fetcher(url, bookmarksGetResponse);
   return response.data;
@@ -34,7 +36,7 @@ export async function getBookmark(id: string): Promise<Bookmark> {
 
 // POST /api/bookmarks (생성)
 export async function postBookmark(
-  request: BookmarkPostRequest
+  request: BookmarkPostRequest,
 ): Promise<Bookmark> {
   const validated = bookmarkPostRequestSchema.parse(request);
 
@@ -51,7 +53,7 @@ export async function postBookmark(
 // PATCH /api/bookmarks/[id] (수정)
 export async function patchBookmark(
   id: string,
-  request: BookmarkPatchRequest
+  request: BookmarkPatchRequest,
 ): Promise<Bookmark> {
   const validated = bookmarkPatchRequestSchema.parse(request);
 
