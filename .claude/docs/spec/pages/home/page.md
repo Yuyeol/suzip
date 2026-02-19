@@ -128,3 +128,7 @@
 - 검색 버튼 방식 (Enter 키 지원)
 - DropdownSelect 컴포넌트로 필터/정렬 통일
 - 낙관적 UI 업데이트 (즐겨찾기, 삭제 등)
+- 무한 스크롤 페이지네이션 (`useInfiniteQuery` + `react-intersection-observer`)
+  - 페이지당 10개 로드
+  - 하단 sentinel 요소가 뷰포트에 진입하면 자동으로 다음 페이지 fetch
+  - 필터/정렬 변경 시 1페이지부터 재시작

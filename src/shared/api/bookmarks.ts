@@ -1,3 +1,4 @@
+import { InfiniteData } from "@tanstack/react-query";
 import {
   bookmarkPostRequestSchema,
   bookmarkPatchRequestSchema,
@@ -12,6 +13,8 @@ import {
 } from "@/shared/api/schemas/bookmark.schema";
 import { fetcher } from "@/shared/utils/api/fetcher";
 import { buildUrlWithParams } from "@/shared/utils/buildUrlWithParams";
+
+export type InfiniteBookmarks = InfiniteData<BookmarksGetResponse["data"]>;
 
 // GET /api/bookmarks (목록 조회, 검색/필터 지원)
 export async function getBookmarks(params: {

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postFavorite, type Bookmark } from "@/shared/api/bookmarks";
+import { postFavorite, type Bookmark, type InfiniteBookmarks } from "@/shared/api/bookmarks";
 import { bookmarkKeys } from "@/shared/utils/queryKeyFactory";
 
 export function usePostFavorite() {
@@ -12,15 +12,22 @@ export function usePostFavorite() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: listKey });
 
-      const prevLists = queryClient.getQueriesData<Bookmark[]>({ queryKey: listKey });
+      const prevLists = queryClient.getQueriesData<InfiniteBookmarks>({ queryKey: listKey });
       const prevDetail = queryClient.getQueryData<Bookmark>(bookmarkKeys.detail(id));
 
-      // 목록 캐시 업데이트
-      queryClient.setQueriesData<Bookmark[]>({ queryKey: listKey }, (old) =>
-        old?.map((b) => (b.id === id ? { ...b, is_favorite: !b.is_favorite } : b)),
-      );
+      queryClient.setQueriesData<InfiniteBookmarks>({ queryKey: listKey }, (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            items: page.items.map((b) =>
+              b.id === id ? { ...b, is_favorite: !b.is_favorite } : b,
+            ),
+          })),
+        };
+      });
 
-      // 상세 캐시 업데이트
       if (prevDetail) {
         queryClient.setQueryData(bookmarkKeys.detail(id), {
           ...prevDetail,

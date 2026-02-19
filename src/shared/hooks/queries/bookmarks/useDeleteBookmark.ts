@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteBookmark, type Bookmark } from "@/shared/api/bookmarks";
+import { deleteBookmark, type InfiniteBookmarks } from "@/shared/api/bookmarks";
 import { bookmarkKeys, folderKeys } from "@/shared/utils/queryKeyFactory";
 
 export function useDeleteBookmark() {
@@ -13,13 +13,20 @@ export function useDeleteBookmark() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: listKey });
 
-      const prevLists = queryClient.getQueriesData<Bookmark[]>({
+      const prevLists = queryClient.getQueriesData<InfiniteBookmarks>({
         queryKey: listKey,
       });
 
-      queryClient.setQueriesData<Bookmark[]>({ queryKey: listKey }, (old) =>
-        old?.filter((b) => b.id !== id),
-      );
+      queryClient.setQueriesData<InfiniteBookmarks>({ queryKey: listKey }, (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            items: page.items.filter((b) => b.id !== id),
+          })),
+        };
+      });
 
       return { prevLists };
     },
@@ -31,9 +38,8 @@ export function useDeleteBookmark() {
     },
 
     onSuccess: (_, id) => {
-      // 상세 캐시 즉시 제거 (유령 데이터 방지)
       queryClient.removeQueries({ queryKey: bookmarkKeys.detail(id) });
-      // 폴더에 속한 북마크 갯수 갱신을 위해 무효화 필요
+      queryClient.invalidateQueries({ queryKey: listKey });
       queryClient.invalidateQueries({ queryKey: folderListKey });
     },
   });

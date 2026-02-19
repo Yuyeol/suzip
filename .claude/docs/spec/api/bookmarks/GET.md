@@ -15,6 +15,8 @@
 | `order` | `"asc"` \| `"desc"` | `"desc"` | 정렬 방향 |
 | `folder_id` | string | - | 폴더 ID 필터. `"null"` 문자열이면 미분류(folder_id IS NULL) 북마크 조회 |
 | `is_favorite` | `"true"` | - | `"true"`이면 즐겨찾기만 필터링 |
+| `page` | number | `1` | 페이지 번호 |
+| `limit` | number | `10` | 페이지당 항목 수 |
 
 ## 응답
 
@@ -22,21 +24,26 @@
 
 ```json
 {
-  "data": [
-    {
-      "id": "uuid",
-      "title": "Example",
-      "url": "https://example.com",
-      "description": "설명",
-      "memo": "메모",
-      "thumbnail": "https://example.com/image.png",
-      "folder_id": "uuid",
-      "is_favorite": false,
-      "user_id": "uuid",
-      "created_at": "2024-01-01T00:00:00.000Z",
-      "updated_at": "2024-01-01T00:00:00.000Z"
-    }
-  ]
+  "data": {
+    "items": [
+      {
+        "id": "uuid",
+        "title": "Example",
+        "url": "https://example.com",
+        "description": "설명",
+        "memo": "메모",
+        "thumbnail": "https://example.com/image.png",
+        "folder_id": "uuid",
+        "is_favorite": false,
+        "user_id": "uuid",
+        "created_at": "2024-01-01T00:00:00.000Z",
+        "updated_at": "2024-01-01T00:00:00.000Z"
+      }
+    ],
+    "total": 42,
+    "page": 1,
+    "limit": 10
+  }
 }
 ```
 
