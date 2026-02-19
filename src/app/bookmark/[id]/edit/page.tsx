@@ -7,6 +7,7 @@ import BookmarkForm, {
   BookmarkFormData,
 } from "@/app/bookmark/_components/bookmark-form";
 import dynamic from "next/dynamic";
+import { PulseLoader } from "react-spinners";
 
 function BookmarkEditPage() {
   const router = useRouter();
@@ -42,8 +43,8 @@ function BookmarkEditPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-20">
-        <p className="text-muted">로딩 중...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <PulseLoader color="var(--color-primary)" size={10} />
       </div>
     );
   }

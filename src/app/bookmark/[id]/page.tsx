@@ -10,6 +10,7 @@ import { useGetFolders } from "@/shared/hooks/queries/folders/useGetFolders";
 import FavoriteButton from "@/shared/components/favorite-button";
 import MoreButton from "@/shared/components/more-button";
 import dynamic from "next/dynamic";
+import { PulseLoader } from "react-spinners";
 
 function BookmarkDetailPage() {
   const [isCopied, setIsCopied] = useState(false);
@@ -27,8 +28,8 @@ function BookmarkDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center">
-        <p className="text-muted">로딩 중...</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <PulseLoader color="var(--color-primary)" size={10} className="mb-16" />
       </div>
     );
   }

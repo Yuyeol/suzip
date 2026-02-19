@@ -4,6 +4,7 @@ import BookmarkCard from "@/app/(home)/_components/bookmark-card";
 import { useGetBookmarks } from "@/shared/hooks/queries/bookmarks/useGetBookmarks";
 import { useQueryParam } from "@/shared/hooks/useQueryParam";
 import { parseAsBoolean } from "@/shared/utils/queryStateParsers";
+import { PulseLoader } from "react-spinners";
 
 export default function BookmarksTab() {
   const search = useQueryParam("search");
@@ -39,7 +40,9 @@ export default function BookmarksTab() {
   return (
     <div className="space-y-3">
       {isBookmarksLoading ? (
-        <p className="text-center text-muted">로딩 중...</p>
+        <div className="flex justify-center py-20">
+          <PulseLoader color="var(--color-primary)" size={10} />
+        </div>
       ) : bookmarks.length === 0 ? (
         <p className="text-center text-muted">북마크가 없습니다</p>
       ) : (

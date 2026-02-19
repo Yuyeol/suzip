@@ -6,7 +6,8 @@ import { parseAsBoolean } from "@/shared/utils/queryStateParsers";
 import { useState } from "react";
 import { useDeleteFolder } from "@/shared/hooks/queries/folders/useDeleteFolder";
 import FolderForm from "@/shared/components/folder/folder-form";
-import FolderListItem from "./folder-card";
+import FolderListItem from "@/app/(home)/_components/folders-tab/folder-card";
+import { PulseLoader } from "react-spinners";
 
 export default function FoldersTab() {
   const search = useQueryParam("search");
@@ -62,7 +63,11 @@ export default function FoldersTab() {
   };
 
   if (isFoldersLoading) {
-    return <p className="text-center text-muted py-8">로딩 중...</p>;
+    return (
+      <div className="flex justify-center py-20">
+        <PulseLoader color="var(--color-primary)" size={10} />
+      </div>
+    );
   }
 
   return (
