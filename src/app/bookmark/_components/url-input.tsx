@@ -48,10 +48,10 @@ export default function UrlInput<T extends FieldValues>({
         onSuccess: (data) => {
           onMetadataFetched(data);
         },
-        onError: (error) => {
-          console.error("Failed to fetch metadata:", error);
+        onError: () => {
+          alert("올바른 URL 형식이 아닙니다 (http:// 또는 https://)");
         },
-      }
+      },
     );
   };
 
@@ -63,7 +63,6 @@ export default function UrlInput<T extends FieldValues>({
       type="url"
       placeholder="https://example.com"
       rules={{
-        required: "URL을 입력해주세요",
         pattern: {
           value: /^https?:\/\/.+/,
           message: "올바른 URL 형식이 아닙니다 (http:// 또는 https://)",
