@@ -31,6 +31,7 @@ export function usePatchBookmark() {
         bookmarkKeys.detail(id),
       );
       const hasFolderChange = request.folder_id !== undefined;
+      const hasThumbnailChange = request.thumbnail !== undefined;
 
       queryClient.setQueriesData<InfiniteBookmarks>({ queryKey: listKey }, (old) => {
         if (!old) return old;
@@ -52,7 +53,7 @@ export function usePatchBookmark() {
         });
       }
 
-      return { prevLists, prevDetail, id, hasFolderChange };
+      return { prevLists, prevDetail, id, hasFolderChange, hasThumbnailChange };
     },
 
     onError: (_, __, ctx) => {
@@ -67,6 +68,8 @@ export function usePatchBookmark() {
     onSuccess: (_, __, ctx) => {
       if (ctx?.hasFolderChange) {
         queryClient.invalidateQueries({ queryKey: folderListKey });
+        queryClient.invalidateQueries({ queryKey: listKey });
+      } else if (ctx?.hasThumbnailChange) {
         queryClient.invalidateQueries({ queryKey: listKey });
       }
     },

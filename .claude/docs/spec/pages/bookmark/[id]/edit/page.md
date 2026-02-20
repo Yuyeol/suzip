@@ -45,7 +45,8 @@
 
 ### 수정
 - `usePatchBookmark` 훅으로 API 호출
-- 전송 필드: `url`, `title`, `description`, `folder_id`, `memo`
+- 전송 필드: `url`, `title`, `description`, `folder_id`, `thumbnail`, `memo`
+- 재크롤 후 변경된 썸네일은 Storage에 업로드 후 DB 반영
 - 성공 시: `router.replace(/bookmark/${id})` (상세 페이지로 이동)
 - 실패 시: alert("북마크 수정에 실패했습니다.")
 

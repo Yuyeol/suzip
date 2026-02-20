@@ -17,7 +17,7 @@ function BookmarkEditPage() {
   const { data: bookmark, isLoading } = useGetBookmark({ id: bookmarkId });
   const patchBookmark = usePatchBookmark();
 
-  const onSubmit = async (data: BookmarkFormData) => {
+  const onSubmit = async (data: BookmarkFormData & { thumbnail: string | null }) => {
     patchBookmark.mutate(
       {
         id: bookmarkId,
@@ -26,6 +26,7 @@ function BookmarkEditPage() {
           title: data.title,
           description: data.description,
           folder_id: data.folderId || null,
+          thumbnail: data.thumbnail,
           memo: data.memo || undefined,
         },
       },

@@ -15,7 +15,7 @@
 | `description` | string | 선택 | 설명 |
 | `folder_id` | string | 선택 | 폴더 ID |
 | `is_favorite` | boolean | 선택 | 즐겨찾기 (기본: false) |
-| `thumbnail` | string | 선택 | 썸네일 URL (OG 메타데이터) |
+| `thumbnail` | string | 선택 | 썸네일 외부 URL (OG 메타데이터) — Supabase Storage에 200px webp로 변환 저장됨 |
 | `memo` | string | 선택 | 사용자 메모 |
 
 ## 응답

@@ -32,6 +32,7 @@ export const bookmarkPatchRequestSchema = z.object({
   description: z.string().optional(),
   folder_id: z.string().nullable().optional(),
   is_favorite: z.boolean().optional(),
+  thumbnail: z.string().nullable().optional(),
   memo: z.string().optional(),
 });
 

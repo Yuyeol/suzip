@@ -5,6 +5,7 @@ import { successResponse, generateArrayETag } from "@/app/api/_utils/response";
 import { handleSupabaseError } from "@/app/api/_utils/supabase-errors";
 import { withErrorHandler } from "@/app/api/_utils/api-handler";
 import { validateRequired } from "@/app/api/_utils/validation";
+import { uploadThumbnail } from "@/shared/lib/supabase/upload-thumbnail";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const supabase = await createClient();
@@ -83,6 +84,11 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   const validation = validateRequired(body, ["title", "url"]);
   if (validation) return validation;
 
+  // 썸네일을 Supabase Storage에 업로드 (실패해도 북마크 생성 계속)
+  const storedThumbnail = thumbnail
+    ? await uploadThumbnail(supabase, thumbnail, userId)
+    : null;
+
   // 북마크 생성
   const { data, error } = await supabase
     .from("bookmarks")
@@ -92,7 +98,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
       description: description || null,
       folder_id: folder_id || null,
       is_favorite: is_favorite || false,
-      thumbnail: thumbnail || null,
+      thumbnail: storedThumbnail,
       memo: memo || null,
       user_id: userId,
     })

@@ -21,6 +21,7 @@
 | `description` | string | 설명 |
 | `folder_id` | string \| null | 폴더 ID (null이면 미분류) |
 | `is_favorite` | boolean | 즐겨찾기 |
+| `thumbnail` | string \| null | 썸네일 외부 URL — Supabase Storage에 200px webp로 변환 저장됨 |
 | `memo` | string | 메모 |
 
 ## 응답

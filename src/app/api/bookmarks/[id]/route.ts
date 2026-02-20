@@ -4,6 +4,7 @@ import { getUserId } from "@/app/api/_utils/get-user-id";
 import { successResponse, messageResponse, errorResponse } from "@/app/api/_utils/response";
 import { handleSupabaseError } from "@/app/api/_utils/supabase-errors";
 import { withErrorHandler } from "@/app/api/_utils/api-handler";
+import { uploadThumbnail, isStorageUrl } from "@/shared/lib/supabase/upload-thumbnail";
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -37,7 +38,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, context?: Rou
   const { id } = await context!.params;
   const body = await request.json();
 
-  const { title, url, description, folder_id, is_favorite, memo } = body;
+  const { title, url, description, folder_id, is_favorite, memo, thumbnail } = body;
 
   // 업데이트할 필드만 포함
   const updateData: Record<string, unknown> = {};
@@ -47,6 +48,15 @@ export const PATCH = withErrorHandler(async (request: NextRequest, context?: Rou
   if (folder_id !== undefined) updateData.folder_id = folder_id;
   if (is_favorite !== undefined) updateData.is_favorite = is_favorite;
   if (memo !== undefined) updateData.memo = memo;
+  if (thumbnail !== undefined) {
+    if (!thumbnail) {
+      updateData.thumbnail = null;
+    } else if (isStorageUrl(thumbnail)) {
+      updateData.thumbnail = thumbnail;
+    } else {
+      updateData.thumbnail = await uploadThumbnail(supabase, thumbnail, userId);
+    }
+  }
 
   // 업데이트할 내용이 없으면 에러
   if (Object.keys(updateData).length === 0) {
